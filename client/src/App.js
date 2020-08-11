@@ -4,6 +4,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 
 import { theme } from "./themes/theme";
 import LandingPage from "./pages/Landing";
+import GoogleBtn from "./components/GoogleBtn";
 
 import "./App.css";
 
@@ -12,6 +13,10 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <Route path="/" component={LandingPage} />
+        
+        {/* demonstration purpose only, can be removed later */}
+        <GoogleBtn />
+
       </BrowserRouter>
     </MuiThemeProvider>
   );
