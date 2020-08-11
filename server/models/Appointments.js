@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const AppointmentSchema = mongoose.Schema({
+  meetingId: {
+    type: String,
+    require: true,
+  },
   name: {
     type: String,
     require: true,
