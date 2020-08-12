@@ -1,7 +1,8 @@
 import React from "react";
 import { GoogleLogout } from "react-google-login";
 
-function Logout(props) {
+
+function LogoutBtn(props) {
   function logout(response) {
     //removing for now, can keep it for future use
     localStorage.removeItem("googleAvatarUrl");
@@ -13,10 +14,11 @@ function Logout(props) {
   function handleLogoutFailure(response) {
     alert("Failed to log out");
   }
+  let clientID = "871373961261-rjej65g97dc3o6jiuflq6s2gp5v9ptut.apps.googleusercontent.com"
 
   return (
     <GoogleLogout
-      clientId={props.clientID}
+      clientId={clientID}
       buttonText={props.logOutText}
       onLogoutSuccess={logout}
       onFailure={handleLogoutFailure}
@@ -24,4 +26,4 @@ function Logout(props) {
   );
 }
 
-export default Logout;
+export default LogoutBtn;
