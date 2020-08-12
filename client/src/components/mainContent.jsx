@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
@@ -25,12 +25,22 @@ const MainContent = () => {
           My CalendApp
         </Typography>
         <Typography>
-          <Link to="/" className={classes.link}>
+          <NavLink
+            to="/eventtypes"
+            activeClassName="selected"
+            activeStyle={{ color: "#F78104" }}
+            className={classes.link}
+          >
             EVENT TYPES
-          </Link>
-          <Link to="/" className={classes.link}>
+          </NavLink>
+          <NavLink
+            to="/scheduledevents"
+            activeClassName="selected"
+            activeStyle={{ color: "#F78104" }}
+            className={classes.link}
+          >
             SCHEDULED EVENTS
-          </Link>
+          </NavLink>
         </Typography>
       </Container>
       <Container maxWidth="md" component="main" className={classes.container}>
@@ -91,6 +101,7 @@ const useStyles = makeStyles((theme) => ({
     borderColor: "#F78104",
     "&:hover": {
       color: "#F78104",
+      borderBottom: "3px solid rgb(212, 212, 212)",
     },
   },
   title: {
