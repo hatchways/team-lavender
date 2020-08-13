@@ -30,19 +30,16 @@ const userSchema = new Schema(
     // =====================================
     timeZone: {
       type: String,
-      enum: [
-        "UTC-3 ADT",
-        "UTC-4 EDT",
-        "UTC-5 CDT",
-        "UTC-6 MDT",
-        "UTC-7 PDT"
-      ],
       required: true,
     },
-    //not decided on available hour yet
-    availableHours: {
+    availableHoursFrom: {
       type: String,
-      default:"9:00,17:00",
+      default:"9:00",
+      required:true
+    },
+    availableHoursTo: {
+      type: String,
+      default:"17:00",
       required:true
     },
     availableDays:{
