@@ -43,7 +43,7 @@ const userSchema = new Schema(
       required:true
     },
     availableDays:{
-      type:[string],
+      type:[String],
       required:true,
       default:["Mondays","Tuesdays","Wednesdays","Thursdays","Fridays"]
     },
@@ -52,7 +52,7 @@ const userSchema = new Schema(
     //calendy Link : can be created by the method provided below
     // =====================================
     calendarUrl:{
-      type:"string",
+      type:String,
       required:true
     }
 
