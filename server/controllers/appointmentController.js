@@ -11,6 +11,18 @@ exports.getLoggedInUserAppointments = async function (req, res) {
   }
 };
 
-var query = { meetingId: "50" };
-const appointmentList = Appointments.find(query);
-console.log(appointmentList);
+exports.createAppointment = async function (req, res) {
+
+  const newAppointment = new Appointments ( {
+      meetingId: req.body.meetingId,
+      name: req.body.name,
+      email: req.body.email,
+      time: Date.parse(req.body.time),
+      timezone: req.body.timezone,
+    });
+    try {
+      newAppointment.save()
+      return res.json("Appointment added");
+    } catch (err) {
+      return res.status(400).json({ massage: err });
+    }
