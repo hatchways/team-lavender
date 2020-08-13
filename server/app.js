@@ -5,12 +5,19 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
-const pingRouter = require("./routes/ping");
 
-// DB connection
-const connectDB = require("./middleware/database");
-// Start the DB
-connectDB;
+
+//================================
+//mocking google calendar response
+//================================
+const googleCalendarRouter = require("./routes/mockGoogleApiServer");
+app.use("/api/googleCalendar/", googleCalendarRouter);
+
+
+// // DB connection
+// const connectDB = require("./middleware/database");
+// // Start the DB
+// connectDB;
 
 const { json, urlencoded } = express;
 
@@ -22,8 +29,9 @@ app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
+//api routes
 app.use("/", indexRouter);
-app.use("/ping", pingRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
