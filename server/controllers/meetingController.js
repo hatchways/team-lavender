@@ -7,42 +7,58 @@ const {
 
 exports.createMeeting = async function (req, res) {
   // Validate a request
-  const { isValid, existUser, message } = await validateCreateNewMeetingReq(
-    req
-  );
+  const {
+    isValid,
+    message,
+    existUserAndMeeting,
+  } = await validateCreateNewMeetingReq(req);
 
   if (!isValid) {
     return res.status(400).json({ massage: message });
   }
 
+  let condition = "";
+  let updateData = "";
   const userId = req.body.id;
-  newMeeting = { meetingId: req.body.meetingId, duration: req.body.duration };
 
-  // Create new meeting
-  if (!existUser) {
-    const meeting = new Meetings({
-      _id: userId,
-      duration: newMeeting,
-    });
-    try {
-      await meeting.save();
-      return res.status(200).json({ massage: "new Meeting Created" });
-    } catch (err) {
-      return res.status(400).json({ massage: err });
-    }
+  // Create new meeting for logged in user
+  if (!existUserAndMeeting) {
+    condition = {
+      _id: mongoose.Types.ObjectId(userId),
+    };
+
+    updateData = {
+      duration: {
+        meetingId: req.body.meetingId,
+        duration: req.body.duration,
+        appointment: [req.body.appointmentId],
+      },
+    };
+
+    // Add new appointment to exist user's meeting schedule
+  } else {
+    condition = {
+      _id: mongoose.Types.ObjectId(userId),
+      "duration.meetingId": req.body.meetingId,
+    };
+
+    updateData = {
+      "duration.$.appointment": req.body.appointmentId,
+    };
   }
 
-  // Add a new meeting to an existing user
+  // Create new meeting
   try {
     Meetings.collection.updateOne(
+      condition,
       {
-        _id: mongoose.Types.ObjectId(userId),
+        $addToSet: updateData,
       },
-      { $push: { duration: newMeeting } }
+      {
+        upsert: true,
+      }
     );
-    return res
-      .status(200)
-      .json({ massage: "new Meeting Created to exist user" });
+    return res.status(200).json({ massage: "new Meeting Created" });
   } catch (err) {
     return res.status(400).json({ massage: err });
   }
