@@ -15,7 +15,6 @@ function App() {
       <BrowserRouter>
         <NavBar />
         <MainContent />
-        <Route path="/" component={LandingPage} />
       </BrowserRouter>
     </MuiThemeProvider>
   );
