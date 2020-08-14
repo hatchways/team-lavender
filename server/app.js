@@ -8,6 +8,11 @@ const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
 const appointmentRouter = require("./routes/appointments");
 
+// DB connection
+const connectDB = require("./middleware/database");
+// Start the DB
+connectDB;
+
 const { json, urlencoded } = express;
 
 var app = express();

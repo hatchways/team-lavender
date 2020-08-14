@@ -25,8 +25,6 @@ const ConfirmPageStyle = (theme) => ({
         "padding-right" : "50px",
         position : "relative",
         height : "80%",
-        "border-style" : "solid",
-        "border-width" : "1px",
     },
     aboveDivider_firstDiv : {
         position : "relative",

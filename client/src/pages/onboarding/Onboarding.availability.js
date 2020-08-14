@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Button, Divider, TextField, Checkbox, FormControlLabel } from "@material-ui/core";
+import { Button, Divider, TextField, Checkbox, FormControlLabel, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { Route, Link } from "react-router-dom";
 import AvailabilityPageStyle from "../../css/onboarding/Onboarding.availabilityCss"
@@ -59,55 +59,61 @@ function AvailabilityPage (props) {
                                 <FormControlLabel
                                     value="bottom"
                                     control={<Checkbox color="#F78104" />}
-                                    label="Sundays"
+                                    label={<Typography style={{"font-size" : "12px"}}>Sunday</Typography>}
                                     labelPlacement="bottom"
                                 />
                             </div>
+                            <Divider orientation="vertical" flexItem />
                             <div>
                                 <FormControlLabel
                                     value="bottom"
                                     control={<Checkbox color="#F78104" />}
-                                    label="Mondays"
+                                    label={<Typography style={{"font-size" : "12px"}}>Monday</Typography>}
                                     labelPlacement="bottom"
                                 />
                             </div>
+                            <Divider orientation="vertical" flexItem />
                             <div>
                                 <FormControlLabel
                                     value="bottom"
                                     control={<Checkbox color="#F78104" />}
-                                    label="Tuesdays"
+                                    label={<Typography style={{"font-size" : "12px"}}>Tuesday</Typography>}
                                     labelPlacement="bottom"
                                 />
                             </div>
+                            <Divider orientation="vertical" flexItem />
                             <div>
                                 <FormControlLabel
                                     value="bottom"
                                     control={<Checkbox color="#F78104" />}
-                                    label="Wednesdays"
+                                    label={<Typography style={{"font-size" : "12px"}}>Wednesday</Typography>}
                                     labelPlacement="bottom"
                                 />
                             </div>
+                            <Divider orientation="vertical" flexItem />
                             <div>
                                 <FormControlLabel
                                     value="bottom"
                                     control={<Checkbox color="#F78104" />}
-                                    label="Thursdays"
+                                    label={<Typography style={{"font-size" : "12px"}}>Thursday</Typography>}
                                     labelPlacement="bottom"
                                 />
                             </div>
+                            <Divider orientation="vertical" flexItem />
                             <div>
                                 <FormControlLabel
                                     value="bottom"
                                     control={<Checkbox color="#F78104" />}
-                                    label="Fridays"
+                                    label={<Typography style={{"font-size" : "12px"}}>Friday</Typography>}
                                     labelPlacement="bottom"
                                 />
                             </div>
+                            <Divider orientation="vertical" flexItem />
                             <div>
                                 <FormControlLabel
                                     value="Saturdays"
                                     control={<Checkbox color="#F78104" />}
-                                    label="Saturdays"
+                                    label={<Typography style={{"font-size" : "12px"}}>Saturday</Typography>}
                                     labelPlacement="bottom"
                                 />
                             </div>

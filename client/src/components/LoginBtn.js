@@ -8,6 +8,8 @@ function LoginBtn(props) {
       localStorage.setItem("googleAvatarUrl", response.profileObj.imageUrl);
       localStorage.setItem("googleName", response.profileObj.name);
       localStorage.setItem("googleEmail", response.profileObj.email);
+      localStorage.setItem("accessToken", response.tokenObj.access_token);
+      localStorage.setItem("expireAt", response.tokenObj.expires_at);
     }
     //=====================================================
     //redirecting to this page for now, can be changed later
@@ -28,7 +30,7 @@ function LoginBtn(props) {
       onFailure={handleLoginFailure}
       cookiePolicy={"single_host_origin"}
       responseType="code,token"
-      isSignedIn={true}
+      // isSignedIn={true}
       className={props.className}
     />
   );
