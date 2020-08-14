@@ -3,7 +3,7 @@ import React, {useState, useEffect } from "react";
 import { Button, Divider, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import LoginPageStyle from "./LoginCss";
+import LoginPageStyle from "./style";
 import LoginBtn from "../../components/LoginBtn";
 
 function LoginPage(props) {

@@ -3,7 +3,7 @@ import React, { Component, useState } from "react";
 import { Button, Divider, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { Route, Link } from "react-router-dom";
-import ConfirmPageStyle from "./Onboarding.confirmCss"
+import ConfirmPageStyle from "./style"
 
 function ConfirmPage (props) {
     const { classes } = props;
