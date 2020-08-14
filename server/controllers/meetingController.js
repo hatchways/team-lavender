@@ -79,3 +79,39 @@ exports.getLoggedInUserMeetings = async function (req, res) {
     return res.status(400).json({ massage: err });
   }
 };
+
+
+exports.sendConfirmEmail = function (req, res) {
+
+  const sgMail = require('@sendgrid/mail');
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  const msg = {
+    to: 'ANY EMAIL TO SEND',
+    from: 'team.lavender.hatchway@gmail.com', // Use the email address or domain you verified by sendgrid
+    subject: 'Sending with Twilio SendGrid is Fun',
+    text: 'TEST EMAIL',
+    html: '<strong>TEST EMAIL</strong>',
+  };
+  //ES6
+  sgMail
+    .send(msg)
+    .then(() => {}, error => {
+      console.error(error);
+
+      if (error.response) {
+        console.error(error.response.body)
+      }
+    });
+  //ES8
+  (async () => {
+    try {
+      await sgMail.send(msg);
+    } catch (error) {
+      console.error(error);
+
+      if (error.response) {
+        console.error(error.response.body)
+      }
+    }
+  })();
+};
