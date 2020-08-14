@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 exports.getLoggedInUserAppointments = async function (req, res) {
   try {
-    var query = { meetingId: "50" };
+    var query =  {meetingId: req.param.meetingId} ;
     const appointmentList = await Appointments.find(query);
     return res.status(200).json({ appointmentList: appointmentList });
   } catch (err) {
