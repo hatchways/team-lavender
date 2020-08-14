@@ -14,7 +14,7 @@ function LoginBtn(props) {
     //=====================================================
     //redirecting to this page for now, can be changed later
     //=====================================================
-    window.location.href = "/welcome";
+    // window.location.href = "/welcome";
   }
   function handleLoginFailure(response) {
     alert("Failed to log in");
