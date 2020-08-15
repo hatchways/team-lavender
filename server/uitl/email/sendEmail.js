@@ -56,6 +56,8 @@ function sendConfirmEmail (emailType, emailInfo) {
         }
       }
     })();
+
+    return isValid
 }
 
 module.exports = {

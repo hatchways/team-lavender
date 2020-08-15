@@ -4,7 +4,7 @@ const sendEmail = require("../uitl/email/sendEmail")
 const {
   validateCreateNewMeetingReq,
   validateLogedInUserId,
-} = require("../validators/validateMeetingCotroller");
+} = require("../uitl/validateMeetingCotroller");
 
 exports.createMeeting = async function (req, res) {
   // Validate a request
@@ -83,10 +83,12 @@ exports.getLoggedInUserMeetings = async function (req, res) {
 
 
 exports.sendConfirmEmail = function (req,res) {
-  
-  const emailType = sendEmail.EMAIL_TYPE.CONFIRM_EMAIL
+  ///////////// test code //////////////
+  ///// Use email in this way below ////
+  const emailType = sendEmail.EMAIL_TYPE.CONFIRM_EMAIL // set email type between "CONFIRM_EMAIL" and "WELCOME_EMAIL"
   const emailInfo = [{
-    sendTo : "benjaminlee.kr@gmail.com",
+    sendTo : "benjaminlee.kr@gmail.com", // Who you are sending to
   }]
   sendEmail.sendConfirmEmail(emailType, emailInfo);
+  /////////////////////
 }
