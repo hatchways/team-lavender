@@ -5,7 +5,7 @@ function Test(){
 
 
   function handleClick(){
-    API.getEvents().then((res)=> {console.log(res)})
+    API.getEvents().then((res)=> {console.log("frontend",res)})
     
   }
   
