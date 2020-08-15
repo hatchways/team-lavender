@@ -6,6 +6,7 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
+const meetingRouter = require("./routes/meetings")
 
 // DB connection
 const connectDB = require("./middleware/database");
@@ -24,6 +25,8 @@ app.use(express.static(join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/ping", pingRouter);
+app.use("/meeting", meetingRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
