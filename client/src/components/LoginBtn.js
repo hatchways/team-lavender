@@ -29,8 +29,11 @@ function LoginBtn(props) {
       onSuccess={login}
       onFailure={handleLoginFailure}
       cookiePolicy={"single_host_origin"}
-      responseType="code,token"
-      // isSignedIn={true}
+      scope='https://www.googleapis.com/auth/calendar.events'
+      responseType="code"
+      // accessType="offline"
+      prompt='consent'
+      isSignedIn={true}
       className={props.className}
     />
   );

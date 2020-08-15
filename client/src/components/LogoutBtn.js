@@ -8,6 +8,8 @@ function LogoutBtn(props) {
     localStorage.removeItem("googleAvatarUrl");
      localStorage.removeItem("googleName");
      localStorage.removeItem("googleEmail");
+     localStorage.removeItem("accessToken");
+     localStorage.removeItem("expireAt");
     console.log(response);
   }
 

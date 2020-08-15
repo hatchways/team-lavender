@@ -7,11 +7,7 @@ const logger = require("morgan");
 const indexRouter = require("./routes/index");
 
 
-//================================
-//mocking google calendar response
-//================================
-const googleCalendarRouter = require("./routes/mockGoogleApiServer");
-app.use("/api/googleCalendar/", googleCalendarRouter);
+
 
 
 // // DB connection
@@ -31,6 +27,17 @@ app.use(express.static(join(__dirname, "public")));
 
 //api routes
 app.use("/", indexRouter);
+
+
+//================================
+//mocking google calendar response
+const googleCalendarRouter = require("./routes/mockGoogleApiServer");
+app.use("/api/googleCalendar/", googleCalendarRouter);
+//================================
+
+
+
+
 
 
 // catch 404 and forward to error handler

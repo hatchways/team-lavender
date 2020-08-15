@@ -53,7 +53,8 @@ const userSchema = new Schema(
     // =====================================
     calendarUrl:{
       type:String,
-      required:true
+      required:true,
+      unique: true
     }
 
   }
