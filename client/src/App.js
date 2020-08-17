@@ -4,11 +4,11 @@ import { BrowserRouter, Route } from "react-router-dom";
 
 import { theme } from "./themes/theme";
 import LandingPage from "./pages/Landing";
-import Signup from "./pages/Singup";
+import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Timezone from "./pages/onboarding/Onboarding.timezone";
-import Confirm from "./pages/onboarding/Onboarding.confirm";
-import Availability from "./pages/onboarding/Onboarding.availability";
+import Timezone from "./pages/onboarding/timezone";
+import Confirm from "./pages/onboarding/confirm";
+import Availability from "./pages/onboarding/availability";
 import Dashboard from "./pages/Dashboard";
 
 import "./App.css";

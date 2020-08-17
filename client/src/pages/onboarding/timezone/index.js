@@ -3,7 +3,7 @@ import React, { Component, useState } from "react";
 import { Button, Divider, FormControl, Select, InputLabel, MenuItem, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { Route, Link } from "react-router-dom";
-import TimezonePageStyle from "../../css/onboarding/Onboarding.timezoneCss"
+import TimezonePageStyle from "./style"
 
 
 function TimezonePage (props) {

@@ -2,7 +2,7 @@ import React from "react";
 import NavBar from "../components/navbar";
 import MainContent from "../components/mainContent";
 
-function LoginPage() {
+function Dashboard() {
   return (
     <div>
       <NavBar />
@@ -11,4 +11,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default Dashboard;
