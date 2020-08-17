@@ -1,17 +1,20 @@
 import React from "react";
 import API from "../utils/googleAPI"
+import LogoutBtn from "../components/LogoutBtn"
 
 function Test(){
 
 
   function handleClick(){
-    API.getEvents().then((res)=> {console.log("frontend",res)})
+    API.getEvents({user:"mila",availability:"2020-08-10"}).then((res)=> {console.log("frontend",res)})
     
   }
-  
-    
     return (
+      <>
       <button onClick={ handleClick}> here</button>
+      <LogoutBtn />
+
+      </>
     );
 
 }

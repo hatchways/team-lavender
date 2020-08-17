@@ -31,8 +31,8 @@ app.use("/", indexRouter);
 
 //================================
 //mocking google calendar response
-const googleCalendarRouter = require("./routes/mockGoogleApiServer");
-app.use("/api/googleCalendar/", googleCalendarRouter);
+const googleAPI = require("./routes/googleAPI");
+app.use("/api/google/", googleAPI);
 //================================
 
 
