@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Button, Divider, TextField, Checkbox, FormControlLabel, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { Route, Link } from "react-router-dom";
-import AvailabilityPageStyle from "../../css/onboarding/Onboarding.availabilityCss"
+import AvailabilityPageStyle from "./style"
 
 function AvailabilityPage (props) {
     const { classes } = props;
