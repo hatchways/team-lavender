@@ -64,6 +64,7 @@ const AvailabilityPageStyle = (theme) => ({
       position : "relative",
       height: "30%",
       "padding-left" : "50px",
+      "padding-right" : "95px",
       "text-align" : "left"
     }, 
     belowDivider_thirdDiv : {
@@ -92,9 +93,9 @@ const AvailabilityPageStyle = (theme) => ({
     },
     belowDivider_secondDiv_secondDiv : {
       display : "flex",
+      border : "1px solid lightgray",
       "justify_content" : "space-around",
       "& div" : {
-        border : "1px solid lightgray"
       }
     }
 });

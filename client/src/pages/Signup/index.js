@@ -3,8 +3,8 @@ import React, {useState } from "react";
 import { Button, Divider, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import SignupPageStyle from "../css/SignupCss";
-import LoginBtn from "../components/LoginBtn";
+import SignupPageStyle from "./style";
+import LoginBtn from "../../components/LoginBtn";
 
 function SignupPage(props) {
   const [step, setStep] = useState({
