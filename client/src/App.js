@@ -1,8 +1,6 @@
 import React from "react";
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route } from "react-router-dom";
-import NavBar from "./components/navbar";
-import MainContent from "./components/mainContent";
 
 import { theme } from "./themes/theme";
 import LandingPage from "./pages/Landing";

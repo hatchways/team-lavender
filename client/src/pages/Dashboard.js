@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import NavBar from "./components/navbar";
-import MainContent from "./components/mainContent";
+import React from "react";
+import NavBar from "../components/navbar";
+import MainContent from "../components/mainContent";
 
 function LoginPage() {
   return (
