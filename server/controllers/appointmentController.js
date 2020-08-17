@@ -68,7 +68,5 @@ function checkFieldNotEmpty(isValid, fieldName, field, message) {
     message = `${fieldName} shouldn't be empty, Please make sure all field have a value.`;
     return { isValid, message };
   }
-  isValid = isValid;
-  message = message;
   return { isValid, message };
 }
