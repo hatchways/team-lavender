@@ -1,4 +1,4 @@
-const Users = require("../models/Users");
+const Users = require("../models/User");
 const mongoose = require("mongoose");
 const {
   validateUniqueUrl,
