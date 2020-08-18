@@ -15,9 +15,9 @@ import CreateNewEventDialog from "../components/CreateNewEventDialog"
 
 
 const meetings = [
-  { title: "15min", description: "15 minutes meeting", type : 1 },
-  { title: "30min", description: "30 minutes meeting", type : 2 },
-  { title: "60min", description: "60 minutes meeting", type : 3 },
+  { title: "15min", description: "15 minutes meeting"},
+  { title: "30min", description: "30 minutes meeting"},
+  { title: "60min", description: "60 minutes meeting"},
 ];
 
 const MainContent = () => {
