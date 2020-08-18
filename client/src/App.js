@@ -17,12 +17,12 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
-        <Route exact path="/welcome" component={Dashboard} />
         <Route exact path="/" component={Signup} />
         <Route path="/login" component={Login} />
         <Route path="/profile_setting/timezone" component={Timezone} />
         <Route path="/profile_setting/confirm" component={Confirm} />
         <Route path="/profile_setting/availability" component={Availability} />
+        <Route exact path="/welcome" component={Dashboard} />
       </BrowserRouter>
     </MuiThemeProvider>
   );

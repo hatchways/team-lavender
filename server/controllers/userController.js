@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const {
   validateUniqueUrl,
   validateUserInfo,
-} = require("../validators/validateUserController");
+} = require("../uitl/validateUserController");
 
 // Checks if url is unique amongst other users
 exports.checkUniqueUrl = async function (req, res) {

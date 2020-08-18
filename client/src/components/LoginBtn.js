@@ -11,10 +11,12 @@ function LoginBtn(props) {
       localStorage.setItem("accessToken", response.tokenObj.access_token);
       localStorage.setItem("expireAt", response.tokenObj.expires_at);
     }
-    //=====================================================
-    //redirecting to this page for now, can be changed later
-    //=====================================================
-    window.location.href = "/welcome";
+    if (props.source === "Signup") {
+      window.location.href = "/profile_setting/timezone";
+    }
+    if (props.source === "Login") {
+      window.location.href = "/welcome";
+    }
   }
   function handleLoginFailure(response) {
     alert("Failed to log in");

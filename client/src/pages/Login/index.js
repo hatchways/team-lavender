@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Button, Divider, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
@@ -15,7 +15,7 @@ function LoginPage(props) {
   let userEmail;
 
   useEffect(() => {
-      //check localStorage for user email, if exists, move to step 2
+    //check localStorage for user email, if exists, move to step 2
     userEmail = localStorage.getItem("googleEmail");
     if (userEmail)
       setStep({
@@ -72,6 +72,7 @@ function LoginPage(props) {
             <LoginBtn
               className={classes.gmailSignup}
               loginText="Login with Google"
+              source="Login"
             />
           </div>
           <Divider />
