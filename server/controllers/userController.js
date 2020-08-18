@@ -1,9 +1,10 @@
 const Users = require("../models/User");
+const Meetings = require("../models/Meetings");
 const mongoose = require("mongoose");
 const {
   validateUniqueUrl,
   validateUserInfo,
-} = require("../validators/validateUserController");
+} = require("../uitl/validateUserController");
 
 // Checks if url is unique amongst other users
 exports.checkUniqueUrl = async function (req, res) {
@@ -49,4 +50,53 @@ exports.updateUserInfo = async function (req, res) {
   } catch (err) {
     return res.status(400).json({ massage: err });
   }
+};
+
+// Update name, avaterUrl and timeZone
+exports.signUpUser = async function (req, res) {
+  const name = req.body.name;
+  const email = req.body.email;
+  const avatarUrl = req.body.avatarUrl;
+  let userId = "";
+
+  // Check user has account
+
+  const existUser = await Users.find({ email: email }, { email: 1 });
+  if (existUser.length > 1) {
+    return res.status(200).json({ massage: "Aready have account" });
+  }
+
+  try {
+    // Create new User
+    const user = new Users({
+      name: name,
+      email: email,
+      avatarUrl: avatarUrl,
+      timeZone: "America/Toronto", // Default
+      calendarUrl: "",
+    });
+    userId = user._id;
+    user.calendarUrl = user.createUrl();
+    user.save();
+  } catch (err) {
+    return res.status(400).json({ massage: err });
+  }
+
+  // Create default meeting
+  try {
+    // Create new User
+    const meeting = new Meetings({
+      _id: userId,
+      duration: {
+        meetingId: 1, // Default
+        duration: 60, // Default
+        appointment: [],
+      },
+    });
+    meeting.save();
+  } catch (err) {
+    return res.status(400).json({ massage: err });
+  }
+
+  return res.status(200).json({ message: "Created new user" });
 };
