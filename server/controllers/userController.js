@@ -60,10 +60,10 @@ exports.signUpUser = async function (req, res) {
   let userId = "";
 
   // Check user has account
-
   const existUser = await Users.find({ email: email }, { email: 1 });
-  if (existUser.length > 1) {
-    return res.status(200).json({ massage: "Aready have account" });
+  console.log(existUser.length);
+  if (existUser.length > 0) {
+    return res.status(200).json({ massage: "Already Exist User Account" });
   }
 
   try {
