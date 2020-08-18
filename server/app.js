@@ -14,7 +14,6 @@ const googleAPI = require("./routes/googleAPI");
 
 
 
-
 // DB connection
 const connectDB = require("./middleware/database");
 // Start the DB
@@ -33,7 +32,8 @@ app.use(express.static(join(__dirname, "public")));
 //api routes
 app.use("/ping", pingRouter);
 app.use("/appointments", appointmentRouter);
-app.use("/meeting", meetingRouter);
+
+app.use("/meeting", meetingsRouter);
 app.use("/", usersRouter);
 app.use("/api/google/", googleAPI);
 
