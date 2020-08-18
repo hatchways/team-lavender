@@ -11,9 +11,6 @@ const meetingsRouter = require("./routes/meetings");
 const usersRouter = require("./routes/users");
 const googleAPI = require("./routes/googleAPI");
 
-
-
-
 // DB connection
 const connectDB = require("./middleware/database");
 // Start the DB
@@ -32,10 +29,10 @@ app.use(express.static(join(__dirname, "public")));
 //api routes
 app.use("/ping", pingRouter);
 app.use("/appointments", appointmentRouter);
-
 app.use("/meeting", meetingsRouter);
 app.use("/", usersRouter);
 app.use("/api/google/", googleAPI);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

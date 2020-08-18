@@ -25,7 +25,6 @@ function App() {
         <Route path="/profile_setting/timezone" component={Timezone} />
         <Route path="/profile_setting/confirm" component={Confirm} />
         <Route path="/profile_setting/availability" component={Availability} />
-        <Route path="/test" component={Test} />
       </BrowserRouter>
     </MuiThemeProvider>
   );

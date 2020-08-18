@@ -15,10 +15,10 @@ module.exports = {
         oAuth2Client.setCredentials({ token: tokens });
         return oauth2.userinfo.get({ access_token: tokens.access_token });
       })
-      .then((usr_info) => {
+      .then((userInfo) => {
         oAuth2Client.setCredentials({
           token: oAuth2Client.credentials.token,
-          userInfo: usr_info.data,
+          userInfo: userInfo.data,
         });
         res.status(200).json(oAuth2Client.credentials);
       })
