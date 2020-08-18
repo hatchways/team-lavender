@@ -6,16 +6,12 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
-<<<<<<< HEAD
-const meetingRouter = require("./routes/meetings")
-=======
 const appointmentRouter = require("./routes/appointments");
 
 const meetingsRouter = require("./routes/meetings");
 const usersRouter = require("./routes/users");
 
 const appointmentRouter = require("./routes/appointments");
->>>>>>> f82fb35b3b3b60652f91c10bec9d985fe0557b01
 
 // DB connection
 const connectDB = require("./middleware/database");
@@ -36,7 +32,7 @@ app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 app.use("/appointments", appointmentRouter);
 
-app.use("/meeting", meetingRouter);
+app.use("/meeting", meetingsRouter);
 app.use("/", usersRouter);
 
 app.use("/appointments", appointmentRouter);
