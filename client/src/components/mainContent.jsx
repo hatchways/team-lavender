@@ -10,11 +10,8 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import Divider from "@material-ui/core/Divider"
-import Dialog from "@material-ui/core/Dialog"
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import TextField from "@material-ui/core/TextField"
+import CreateNewEventDialog from "../components/CreateNewEventDialog"
+
 
 
 const meetings = [
@@ -25,49 +22,13 @@ const meetings = [
 
 const MainContent = () => {
   const classes = useStyles();
+
   const [open, setOpen] = React.useState(false);
-  const [textURL] = React.useState("Hello World");
-
   const OpenCreateMeetingDialog = async (type) => {
-    let userId = localStorage.getItem("googleEmail");
-    let duration;
-    let appointmentIds = new Array();
-    switch(type) {
-      case 1:
-        duration = 15
-        break;
-      case 2:
-        duration = 30
-        break;
-      case 3:
-        duration = 60
-        break;   
-    }
-    const url = 'http://localhost:3001/meeting';
-    const options = {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8'
-      },
-      body: JSON.stringify({
-        userId : userId,
-        meetingId : type,
-        appointmentId : 12345,
-        duration, duration
-      })
-    };
-
-    fetch(url, options)
-      .then(response => {
-        console.log(response);
-      });
-
-
-    setOpen(true);
+      setOpen(true);
   };
-
   const CloseCreateMeetingDialog = () => {
+    console.log("passing")
     setOpen(false);
   };
 
@@ -121,6 +82,7 @@ const MainContent = () => {
               align="right"
               className={classes.button}
               href="#"
+              onClick={() => OpenCreateMeetingDialog()}
             >
               + New event type
             </Button>
@@ -148,37 +110,9 @@ const MainContent = () => {
                       <Button
                         variant="outlined"
                         className={classes.button}
-                        onClick={() => OpenCreateMeetingDialog(meeting.type)}
                       >
                         CREATE LINK
                       </Button>
-                      <Dialog
-                        open={open}
-                        onClose={() => CloseCreateMeetingDialog()}
-                        maxWidth = "sm"
-                        fullWidth = {true}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                      >
-                        <DialogTitle id="alert-dialog-title">{"COPY THE LINK"}</DialogTitle>
-                        <DialogContent className={classes.DialogContent}>
-                          <TextField
-                            id="createdURL"
-                            fullWidth = {true}
-                            value={textURL}
-                            size="medium"
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                            variant="outlined"
-                          />
-                        </DialogContent>
-                        <DialogActions>
-                          <Button onClick={() => CloseCreateMeetingDialog()} color="primary" autoFocus>
-                            Close
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
                     </div>
                   </CardContent>
                 </Card>
@@ -186,6 +120,10 @@ const MainContent = () => {
             ))}
           </Grid>
         </Container>
+        {open == true && (
+          <CreateNewEventDialog open={open} close={CloseCreateMeetingDialog}/>
+          )
+        }
       </div>
     </React.Fragment>
   );
@@ -247,13 +185,6 @@ const useStyles = makeStyles((theme) => ({
   BelowDividerinCardContent: {
     display : "flex",
   },
-  DialogContent: {
-    display : "flex",
-    "& *" : {
-      "margin-left" : "5px",
-      "margin-right" : "5px"
-    }
-  }
 }));
 
 export default MainContent;
