@@ -9,15 +9,68 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
+import Divider from "@material-ui/core/Divider"
+import Dialog from "@material-ui/core/Dialog"
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import TextField from "@material-ui/core/TextField"
+
 
 const meetings = [
-  { title: "15min", description: "15 minutes meeting" },
-  { title: "30min", description: "30 minutes meeting" },
-  { title: "60min", description: "60 minutes meeting" },
+  { title: "15min", description: "15 minutes meeting", type : 1 },
+  { title: "30min", description: "30 minutes meeting", type : 2 },
+  { title: "60min", description: "60 minutes meeting", type : 3 },
 ];
 
 const MainContent = () => {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [textURL] = React.useState("Hello World");
+
+  const OpenCreateMeetingDialog = async (type) => {
+    let userId = localStorage.getItem("googleEmail");
+    let duration;
+    let appointmentIds = new Array();
+    switch(type) {
+      case 1:
+        duration = 15
+        break;
+      case 2:
+        duration = 30
+        break;
+      case 3:
+        duration = 60
+        break;   
+    }
+    const url = 'http://localhost:3001/meeting';
+    const options = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
+      body: JSON.stringify({
+        userId : userId,
+        meetingId : type,
+        appointmentId : 12345,
+        duration, duration
+      })
+    };
+
+    fetch(url, options)
+      .then(response => {
+        console.log(response);
+      });
+
+
+    setOpen(true);
+  };
+
+  const CloseCreateMeetingDialog = () => {
+    setOpen(false);
+  };
+
   return (
     <React.Fragment>
       <div style={{ background: "#EBF4FA" }}>
@@ -79,7 +132,6 @@ const MainContent = () => {
             {meetings.map((meeting) => (
               <Grid item key={meeting.title} xs={12} sm={6} md={4}>
                 <Card>
-                  <CardHeader title={meeting.title} />
                   <CardContent>
                     <div>
                       <Typography
@@ -89,6 +141,44 @@ const MainContent = () => {
                       >
                         {meeting.description}
                       </Typography>
+                    </div>
+                    <Divider className={classes.DividerInCardContent}/>
+                    <div className={classes.BelowDividerinCardContent}>
+                      <CardHeader title={meeting.title} />
+                      <Button
+                        variant="outlined"
+                        className={classes.button}
+                        onClick={() => OpenCreateMeetingDialog(meeting.type)}
+                      >
+                        CREATE LINK
+                      </Button>
+                      <Dialog
+                        open={open}
+                        onClose={() => CloseCreateMeetingDialog()}
+                        maxWidth = "sm"
+                        fullWidth = {true}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">{"COPY THE LINK"}</DialogTitle>
+                        <DialogContent className={classes.DialogContent}>
+                          <TextField
+                            id="createdURL"
+                            fullWidth = {true}
+                            value={textURL}
+                            size="medium"
+                            InputProps={{
+                              readOnly: true,
+                            }}
+                            variant="outlined"
+                          />
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={() => CloseCreateMeetingDialog()} color="primary" autoFocus>
+                            Close
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
                     </div>
                   </CardContent>
                 </Card>
@@ -120,7 +210,6 @@ const useStyles = makeStyles((theme) => ({
     borderColor: "#F78104",
     "&:hover": {
       color: "#F78104",
-      borderBottom: "3px solid rgb(212, 212, 212)",
     },
   },
   title: {
@@ -151,6 +240,20 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
     color: "black",
   },
+  DividerInCardContent: {
+    "margin-top" : "30px",
+    "margin-bottom" : "30px"
+  },
+  BelowDividerinCardContent: {
+    display : "flex",
+  },
+  DialogContent: {
+    display : "flex",
+    "& *" : {
+      "margin-left" : "5px",
+      "margin-right" : "5px"
+    }
+  }
 }));
 
 export default MainContent;
