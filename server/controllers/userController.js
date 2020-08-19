@@ -25,7 +25,7 @@ exports.updateUserInfo = async function (req, res) {
   const { isValid, message } = await validateUserInfo(req);
 
   if (!isValid) {
-    return res.status(400).json({ massage: message });
+    return res.status(400).json({ message: message });
   }
 
   try {
