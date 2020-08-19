@@ -75,6 +75,7 @@ exports.signUpUser = async function (req, res) {
       timeZone: "America/Toronto", // Default
       calendarUrl: "",
     });
+
     userId = user._id;
     user.calendarUrl = user.createUrl();
     user.save();
@@ -98,5 +99,5 @@ exports.signUpUser = async function (req, res) {
     return res.status(400).json({ massage: err });
   }
 
-  return res.status(200).json({ message: "Created new user" });
+  return res.status(200).json({ message: "Created new user", _id: userId });
 };
