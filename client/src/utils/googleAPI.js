@@ -4,25 +4,24 @@ export default {
     return fetch(`/api/google/authentication?code=${code}`)
       .then((res) => {
         if (res.status === 200) return res.json({});
-        else throw Error("Couldn't connect to the server");
+        else throw Error("Couldn't authenticate user with Google");
       })
       .catch((err) => {
         console.log(err.message);
       });
   },
 
-
-  //TO DO : get events for a specific day
-  // getEvents: function (params) {
-  //   //  console.log(params)
-  //   return fetch(`/api/google/${params.user}/availability?year=2020&month=08`)
-  //     .then((res) => {
-  //       console.log("api.js", res);
-  //       if (res.status === 200) return res.json({});
-  //       else throw Error("Couldn't connect to the server");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.message);
-  //     });
-  // },
+  //get events from google calendar
+  getAvailability: function (params) {
+    return fetch(
+      `/api/google/${params.meetingLength}/availability?${params.availability}`
+    )
+      .then((res) => {
+        if (res.status === 200) return res.json({});
+        else throw Error("Couldn't get user's availability");
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  },
 };
