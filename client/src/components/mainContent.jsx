@@ -28,7 +28,6 @@ const MainContent = () => {
       setOpen(true);
   };
   const CloseCreateMeetingDialog = () => {
-    console.log("passing")
     setOpen(false);
   };
 
@@ -104,8 +103,8 @@ const MainContent = () => {
                         {meeting.description}
                       </Typography>
                     </div>
-                    <Divider className={classes.DividerInCardContent}/>
-                    <div className={classes.BelowDividerinCardContent}>
+                    <Divider className={classes.dividerInCardContent}/>
+                    <div className={classes.belowDividerinCardContent}>
                       <CardHeader title={meeting.title} />
                       <Button
                         variant="outlined"
@@ -120,7 +119,7 @@ const MainContent = () => {
             ))}
           </Grid>
         </Container>
-        {open == true && (
+        {open === true && (
           <CreateNewEventDialog open={open} close={CloseCreateMeetingDialog}/>
           )
         }
@@ -178,9 +177,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
     color: "black",
   },
-  DividerInCardContent: {
-    "margin-top" : "30px",
-    "margin-bottom" : "30px"
+  dividerInCardContent: {
+    marginTop : "30px",
+    marginBottom : "30px"
   },
   BelowDividerinCardContent: {
     display : "flex",
