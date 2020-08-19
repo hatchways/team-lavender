@@ -40,7 +40,7 @@ function TimezonePage(props) {
         console.log(res.data, users.calendarUrl);
       })
       .catch((err) => {
-        console.log("Error: " + err + err.message);
+        console.log("Error: " + err + err.response.data.message);
         e.preventDefault();
         alert("This url is taken, try a new one");
         window.location = "/profile_setting/timezone";
