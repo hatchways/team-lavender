@@ -12,7 +12,6 @@ const meetingsRouter = require("./routes/meetings");
 const usersRouter = require("./routes/users");
 
 const appointmentRouter = require("./routes/appointments");
-app.use(cors());
 
 // DB connection
 const connectDB = require("./middleware/database");
@@ -22,6 +21,7 @@ connectDB;
 const { json, urlencoded } = express;
 
 var app = express();
+app.use(cors());
 
 app.use(logger("dev"));
 app.use(json());

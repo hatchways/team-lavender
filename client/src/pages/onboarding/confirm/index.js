@@ -7,6 +7,10 @@ import ConfirmPageStyle from "./style";
 
 function ConfirmPage(props) {
   const { classes } = props;
+  if (typeof props.location.users === "undefined") {
+    alert("Missing information redirecting");
+    window.location = "/profile_setting/timezone";
+  }
   const [users] = React.useState(props.location.users);
   console.log("Users", users);
 

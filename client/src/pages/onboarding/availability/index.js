@@ -15,6 +15,10 @@ import AvailabilityPageStyle from "./style";
 
 function AvailabilityPage(props) {
   const { classes } = props;
+  if (typeof props.location.users === "undefined") {
+    alert("Missing information redirecting");
+    window.location = "/profile_setting/timezone";
+  }
   const [users, setUsers] = React.useState({
     name: "test",
     email: "test@gmail.com",
@@ -22,12 +26,13 @@ function AvailabilityPage(props) {
     timeZone: props.location.users.timezone,
     availableHoursFrom: "",
     availableHoursTo: "",
-    availableDays: ["Monday", "Thursaday", "Friday"],
-    calendarUrl: props.location.users.url,
+    availableDays: ["Monday", "Tuesday", "Wednesday"],
+    calendarUrl: props.location.users.calendarUrl,
   });
   console.log("Users", users);
 
   function onChangeAvailableHoursFrom(e) {
+    console.log("Users", users.timeZone);
     setUsers({
       name: users.name,
       email: users.email,
@@ -54,23 +59,32 @@ function AvailabilityPage(props) {
     console.log("Users", users);
   }
   function onChangeAvailableDays(e) {
+    console.log(e.target.value);
     setUsers({
       name: users.name,
       email: users.email,
       avatarUrl: users.avatarUrl,
       timeZone: users.timeZone,
-      availableHoursFrom: e.target.value,
+      availableHoursFrom: users.availableHoursFrom,
       availableHoursTo: users.availableHoursTo,
-      availableDays: ["Monday", "Thursaday", "Friday"],
+      availableDays: users.availableDays.push(e.target.value),
       calendarUrl: users.calendarUrl,
     });
+    console.log("Users", users);
   }
 
   function onFinish(e) {
     e.preventDefault();
+    if (users.availableHoursFrom === "" || users.availableHoursTo === "") {
+      alert("Please make sure all fields have a value");
+      window.location = "/profile_setting/timezone";
+    }
     axios
       .put("http://localhost:3001/user/5f3b483975bf92e46e28e1a6", users)
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        console.log(res.data);
+        window.location = "/welcome";
+      })
       .catch((err) => console.log("Error: " + err));
   }
 
@@ -132,7 +146,13 @@ function AvailabilityPage(props) {
               <div>
                 <FormControlLabel
                   value="bottom"
-                  control={<Checkbox color="#F78104" />}
+                  control={
+                    <Checkbox
+                      value="Sunday"
+                      onChange={onChangeAvailableDays}
+                      color="#F78104"
+                    />
+                  }
                   label={
                     <Typography style={{ "font-size": "12px" }}>
                       Sunday
@@ -145,7 +165,13 @@ function AvailabilityPage(props) {
               <div>
                 <FormControlLabel
                   value="bottom"
-                  control={<Checkbox color="#F78104" />}
+                  control={
+                    <Checkbox
+                      value="Monday"
+                      onChange={onChangeAvailableDays}
+                      color="#F78104"
+                    />
+                  }
                   label={
                     <Typography style={{ "font-size": "12px" }}>
                       Monday
@@ -158,7 +184,13 @@ function AvailabilityPage(props) {
               <div>
                 <FormControlLabel
                   value="bottom"
-                  control={<Checkbox color="#F78104" />}
+                  control={
+                    <Checkbox
+                      value="Tuesday"
+                      onChange={onChangeAvailableDays}
+                      color="#F78104"
+                    />
+                  }
                   label={
                     <Typography style={{ "font-size": "12px" }}>
                       Tuesday
@@ -171,7 +203,13 @@ function AvailabilityPage(props) {
               <div>
                 <FormControlLabel
                   value="bottom"
-                  control={<Checkbox color="#F78104" />}
+                  control={
+                    <Checkbox
+                      value="Wednesday"
+                      onChange={onChangeAvailableDays}
+                      color="#F78104"
+                    />
+                  }
                   label={
                     <Typography style={{ "font-size": "12px" }}>
                       Wednesday
@@ -184,7 +222,13 @@ function AvailabilityPage(props) {
               <div>
                 <FormControlLabel
                   value="bottom"
-                  control={<Checkbox color="#F78104" />}
+                  control={
+                    <Checkbox
+                      value="Thursday"
+                      onChange={onChangeAvailableDays}
+                      color="#F78104"
+                    />
+                  }
                   label={
                     <Typography style={{ "font-size": "12px" }}>
                       Thursday
@@ -197,7 +241,13 @@ function AvailabilityPage(props) {
               <div>
                 <FormControlLabel
                   value="bottom"
-                  control={<Checkbox color="#F78104" />}
+                  control={
+                    <Checkbox
+                      value="Friday"
+                      onChange={onChangeAvailableDays}
+                      color="#F78104"
+                    />
+                  }
                   label={
                     <Typography style={{ "font-size": "12px" }}>
                       Friday
@@ -210,7 +260,13 @@ function AvailabilityPage(props) {
               <div>
                 <FormControlLabel
                   value="Saturdays"
-                  control={<Checkbox color="#F78104" />}
+                  control={
+                    <Checkbox
+                      value="Saturday"
+                      onChange={onChangeAvailableDays}
+                      color="#F78104"
+                    />
+                  }
                   label={
                     <Typography style={{ "font-size": "12px" }}>
                       Saturday

@@ -9,7 +9,8 @@ const {
 exports.checkUniqueUrl = async function (req, res) {
   // Task check url is unique in db
 
-  const url = req.query.url;
+  const url = req.query.calendarUrl;
+
   const { isValid, message } = await validateUniqueUrl(url);
   if (!isValid) {
     return res.status(400).json({ massage: message });

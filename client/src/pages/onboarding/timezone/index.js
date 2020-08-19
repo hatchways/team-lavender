@@ -1,4 +1,5 @@
 import React, { Component, useState } from "react";
+import axios from "axios";
 
 import {
   Button,
@@ -15,13 +16,35 @@ import TimezonePageStyle from "./style";
 
 function TimezonePage(props) {
   const { classes } = props;
-  const [users, setUsers] = React.useState({ url: "", timezone: "" });
+  const [users, setUsers] = React.useState({ calendarUrl: "", timezone: "" });
 
   function onChangeUrl(e) {
-    setUsers({ url: e.target.value, timezone: users.timezone });
+    setUsers({ calendarUrl: e.target.value, timezone: users.timezone });
   }
   function onChangeTimezone(e) {
-    setUsers({ url: users.url, timezone: e.target.value });
+    setUsers({ calendarUrl: users.calendarUrl, timezone: e.target.value });
+  }
+  function onContinue(e) {
+    if (users.calendarUrl === "" || users.timezone === "") {
+      e.preventDefault();
+      alert("Please make sure all fields have a value");
+      window.location = "/profile_setting/timezone";
+    }
+    axios
+      .get(`http://localhost:3001/user/is_unique`, {
+        params: {
+          calendarUrl: users.calendarUrl,
+        },
+      })
+      .then((res) => {
+        console.log(res.data, users.calendarUrl);
+      })
+      .catch((err) => {
+        console.log("Error: " + err + err.message);
+        e.preventDefault();
+        alert("This url is taken, try a new one");
+        window.location = "/profile_setting/timezone";
+      });
   }
 
   return (
@@ -98,6 +121,7 @@ function TimezonePage(props) {
           </div>
           <div className={classes.belowDivider_thirdDiv}>
             <Link
+              onClick={onContinue}
               to={{ pathname: "/profile_setting/confirm", users: users }}
               style={{ textDecoration: "none" }}
             >
