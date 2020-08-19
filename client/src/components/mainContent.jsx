@@ -81,7 +81,7 @@ const MainContent = () => {
               align="right"
               className={classes.button}
               href="#"
-              onClick={() => OpenCreateMeetingDialog()}
+              onClick={OpenCreateMeetingDialog}
             >
               + New event type
             </Button>
