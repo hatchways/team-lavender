@@ -178,8 +178,7 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
   },
   dividerInCardContent: {
-    marginTop : "30px",
-    marginBottom : "30px"
+    margin : "30px auto"
   },
   BelowDividerinCardContent: {
     display : "flex",
