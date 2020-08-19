@@ -43,7 +43,6 @@ module.exports = {
         calendarId: "primary",
         timeMin: moment(date).toISOString(),
         timeMax: moment(date).add(1, "days").toISOString(),
-        maxResults: 2,
         singleEvents: true,
         orderBy: "startTime",
       })
