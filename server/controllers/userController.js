@@ -61,9 +61,12 @@ exports.signUpUser = async function (req, res) {
 
   // Check user has account
   const existUser = await Users.find({ email: email }, { email: 1 });
-  console.log(existUser.length);
+
   if (existUser.length > 0) {
-    return res.status(200).json({ massage: "Already Exist User Account" });
+    return res.status(200).json({
+      massage: "Already Exist User Account",
+      _id: existUser[0]["_id"],
+    });
   }
 
   try {
@@ -85,11 +88,8 @@ exports.signUpUser = async function (req, res) {
 
   // Create default meeting
   try {
-    // Create new User
     const meeting = new Meetings({
-      _id: userId,
       duration: {
-        meetingId: 1, // Default
         duration: 60, // Default
         appointment: [],
       },
