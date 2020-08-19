@@ -1,24 +1,36 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
+import API from "../utils/googleAPI";
 
 function LoginBtn(props) {
-  function login(response) {
-    console.log(response);
-    if (response.profileObj) {
-      localStorage.setItem("googleAvatarUrl", response.profileObj.imageUrl);
-      localStorage.setItem("googleName", response.profileObj.name);
-      localStorage.setItem("googleEmail", response.profileObj.email);
-      localStorage.setItem("accessToken", response.tokenObj.access_token);
-      localStorage.setItem("expireAt", response.tokenObj.expires_at);
-    }
-    //=====================================================
-    //redirecting to this page for now, can be changed later
-    //=====================================================
-    window.location.href = "/welcome";
+  async function login(response) {
+      if (response.code) {
+        const result = await API.authenticateUser(response.code);
+        console.log("authentication result", result);
+      } else {
+        throw new Error(response);
+      }
+  
+
+    // if (response.profileObj) {
+    //   localStorage.setItem("googleAvatarUrl", response.profileObj.imageUrl);
+    //   localStorage.setItem("googleName", response.profileObj.name);
+    //   localStorage.setItem("googleEmail", response.profileObj.email);
+    //   localStorage.setItem("accessToken", response.tokenObj.access_token);
+    //   localStorage.setItem("expireAt", response.tokenObj.expires_at);
+    // }
+   
   }
   function handleLoginFailure(response) {
     alert("Failed to log in");
   }
+
+
+  
+  //=====================================================
+  //move to config later
+  //=====================================================
+
   let clientID =
     "871373961261-rjej65g97dc3o6jiuflq6s2gp5v9ptut.apps.googleusercontent.com";
 
@@ -29,7 +41,11 @@ function LoginBtn(props) {
       onSuccess={login}
       onFailure={handleLoginFailure}
       cookiePolicy={"single_host_origin"}
-      responseType="code,token"
+      scope="https://www.googleapis.com/auth/calendar.events"
+      responseType="code"
+      accessType="offline"
+      // prompt='consent'
+      redirectUri="http://localhost:3000"
       // isSignedIn={true}
       className={props.className}
     />

@@ -18,12 +18,22 @@ const ScheduleCalendarStyle = () => ({
     },
     onTheLeftOfDivider : {
         position : "relative",
-        width : "25%"
+        width : "25%",
+        "& *" : {
+            "font-size" : "20px",
+            "margin-top" : "20px",
+            "margin-bottom" : "20px" 
+        }
     }, 
     onTheRightOfDivider : {
         position : "relative",
-        width : "75%"
-    }
+        width : "75%",
+        display : "flex",
+    },
+    duration : {
+        display : "flex",
+        "justify-content" : "center"
+    },
 });
 
 export default ScheduleCalendarStyle;
