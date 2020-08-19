@@ -2,7 +2,7 @@ const Users = require("../models/User");
 const mongoose = require("mongoose");
 const {
   validateUniqueUrl,
-  validateUserInfo,
+  validateUserInfo
 } = require("../uitl/validateUserController");
 
 // Checks if url is unique amongst other users
@@ -13,10 +13,10 @@ exports.checkUniqueUrl = async function (req, res) {
 
   const { isValid, message } = await validateUniqueUrl(url);
   if (!isValid) {
-    return res.status(400).json({ massage: message });
+    return res.status(400).json({ message: message });
   }
 
-  return res.status(200).json({ massage: message });
+  return res.status(200).json({ message: message });
 };
 
 // Update name, avaterUrl and timeZone
@@ -32,7 +32,7 @@ exports.updateUserInfo = async function (req, res) {
     // update
     Users.collection.updateOne(
       {
-        _id: mongoose.Types.ObjectId(userId),
+        _id: mongoose.Types.ObjectId(userId)
       },
       {
         $set: {
@@ -42,8 +42,8 @@ exports.updateUserInfo = async function (req, res) {
           availableHoursFrom: req.body.availableHoursFrom,
           availableHoursTo: req.body.availableHoursTo,
           availableDays: req.body.availableDays,
-          calendarUrl: req.body.calendarUrl,
-        },
+          calendarUrl: req.body.calendarUrl
+        }
       }
     );
     return res.status(200).json({ massage: "Update" });
