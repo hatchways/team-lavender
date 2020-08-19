@@ -27,7 +27,7 @@ const MainContent = () => {
   const OpenCreateMeetingDialog = async (type) => {
       setOpen(true);
   };
-  const CloseCreateMeetingDialog = () => {
+  const closeCreateMeetingDialog = () => {
     console.log("passing")
     setOpen(false);
   };
