@@ -1,8 +1,9 @@
 const Users = require("../models/User");
+const Meetings = require("../models/Meetings");
 const mongoose = require("mongoose");
 const {
   validateUniqueUrl,
-  validateUserInfo
+  validateUserInfo,
 } = require("../uitl/validateUserController");
 
 // Checks if url is unique amongst other users
@@ -32,7 +33,7 @@ exports.updateUserInfo = async function (req, res) {
     // update
     Users.collection.updateOne(
       {
-        _id: mongoose.Types.ObjectId(userId)
+        _id: mongoose.Types.ObjectId(userId),
       },
       {
         $set: {
@@ -42,12 +43,62 @@ exports.updateUserInfo = async function (req, res) {
           availableHoursFrom: req.body.availableHoursFrom,
           availableHoursTo: req.body.availableHoursTo,
           availableDays: req.body.availableDays,
-          calendarUrl: req.body.calendarUrl
-        }
+          calendarUrl: req.body.calendarUrl,
+        },
       }
     );
     return res.status(200).json({ massage: "Update" });
   } catch (err) {
     return res.status(400).json({ massage: err });
   }
+};
+
+// Update name, avaterUrl and timeZone
+exports.signUpUser = async function (req, res) {
+  const name = req.body.name;
+  const email = req.body.email;
+  const avatarUrl = req.body.avatarUrl;
+  let userId = "";
+
+  // Check user has account
+  const existUser = await Users.find({ email: email }, { email: 1 });
+
+  if (existUser.length > 0) {
+    return res.status(200).json({
+      massage: "Already Exist User Account",
+      _id: existUser[0]["_id"],
+    });
+  }
+
+  try {
+    // Create new User
+    const user = new Users({
+      name: name,
+      email: email,
+      avatarUrl: avatarUrl,
+      timeZone: "America/Toronto", // Default
+      calendarUrl: "",
+    });
+
+    userId = user._id;
+    user.calendarUrl = user.createUrl();
+    user.save();
+  } catch (err) {
+    return res.status(400).json({ massage: err });
+  }
+
+  // Create default meeting
+  try {
+    const meeting = new Meetings({
+      duration: {
+        duration: 60, // Default
+        appointment: [],
+      },
+    });
+    meeting.save();
+  } catch (err) {
+    return res.status(400).json({ massage: err });
+  }
+
+  return res.status(200).json({ message: "Created new user", _id: userId });
 };
