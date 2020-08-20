@@ -59,14 +59,19 @@ exports.signUpUser = async function (req, res) {
   const email = req.body.email;
   const avatarUrl = req.body.avatarUrl;
   let userId = "";
+  let calendarUrl = "";
 
   // Check user has account
-  const existUser = await Users.find({ email: email }, { email: 1 });
+  const existUser = await Users.find(
+    { email: email },
+    { email: 1, calendarUrl: 1 }
+  );
 
   if (existUser.length > 0) {
     return res.status(200).json({
-      massage: "Already Exist User Account",
+      message: "Already Exist User Account",
       _id: existUser[0]["_id"],
+      calendarUrl: existUser[0]["calendarUrl"],
     });
   }
 
@@ -82,6 +87,8 @@ exports.signUpUser = async function (req, res) {
 
     userId = user._id;
     user.calendarUrl = user.createUrl();
+    calendarUrl = user.calendarUrl;
+    console.log(calendarUrl);
     user.save();
   } catch (err) {
     return res.status(400).json({ massage: err });
@@ -100,5 +107,9 @@ exports.signUpUser = async function (req, res) {
     return res.status(400).json({ massage: err });
   }
 
-  return res.status(200).json({ message: "Created new user", _id: userId });
+  return res.status(200).json({
+    message: "Created new user",
+    _id: userId,
+    calendarUrl: calendarUrl,
+  });
 };
