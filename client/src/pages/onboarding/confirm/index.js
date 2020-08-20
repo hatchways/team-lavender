@@ -7,9 +7,13 @@ import ConfirmPageStyle from "./style";
 
 function ConfirmPage(props) {
   const { classes } = props;
+  const [url, setUrl] = React.useState({
+    next: window.location.pathname.replace("confirm", "availability"),
+    prev: window.location.pathname.replace("confirm", "timezone"),
+  });
   if (typeof props.location.users === "undefined") {
     alert("Missing information redirecting");
-    window.location = "/profile_setting/timezone";
+    window.location = url.prev;
   }
   const [users] = React.useState(props.location.users);
   console.log("Users", users);
@@ -60,7 +64,7 @@ function ConfirmPage(props) {
           <Divider />
           <div className={classes.belowDivider_fourthDiv}>
             <Link
-              to={{ pathname: "/profile_setting/availability", users: users }}
+              to={{ pathname: url.next, users: users }}
               style={{ textDecoration: "none" }}
             >
               <Button className={classes.belowDivider_fourthDiv_continueButton}>

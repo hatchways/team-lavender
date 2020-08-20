@@ -17,6 +17,9 @@ import TimezonePageStyle from "./style";
 function TimezonePage(props) {
   const { classes } = props;
   const [users, setUsers] = React.useState({ calendarUrl: "", timezone: "" });
+  const [nextUrl, setUrl] = React.useState(
+    window.location.pathname.replace("timezone", "confirm")
+  );
 
   function onChangeUrl(e) {
     setUsers({ calendarUrl: e.target.value, timezone: users.timezone });
@@ -28,7 +31,7 @@ function TimezonePage(props) {
     if (users.calendarUrl === "" || users.timezone === "") {
       e.preventDefault();
       alert("Please make sure all fields have a value");
-      window.location = "/profile_setting/timezone";
+      window.location.reload();
     }
     axios
       .get(`http://localhost:3001/user/is_unique`, {
@@ -44,10 +47,10 @@ function TimezonePage(props) {
         if (err.response.data.message == "this url is not unique") {
           console.log(err.response.data.message);
           alert("This url is taken, try a new one");
-          window.location = "/profile_setting/timezone";
+          window.location.reload();
         } else {
           alert("Something went wrong");
-          window.location = "/profile_setting/timezone";
+          window.location.reload();
         }
       });
   }
@@ -127,7 +130,10 @@ function TimezonePage(props) {
           <div className={classes.belowDivider_thirdDiv}>
             <Link
               onClick={onContinue}
-              to={{ pathname: "/profile_setting/confirm", users: users }}
+              to={{
+                pathname: nextUrl,
+                users: users,
+              }}
               style={{ textDecoration: "none" }}
             >
               <Button className={classes.belowDivider_thirdDiv_continueButton}>

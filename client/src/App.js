@@ -20,18 +20,18 @@ function App() {
         <Route exact path="/" component={Signup} />
         <Route path="/login" component={Login} />
         <Route
-          path=":calendarUrl/profile_setting/timezone"
+          path="/:calendarUrl/profile_setting/timezone"
           component={Timezone}
         />
         <Route
-          path=":calendarUrl/profile_setting/confirm"
+          path="/:calendarUrl/profile_setting/confirm"
           component={Confirm}
         />
         <Route
-          path=":calendarUrl/profile_setting/availability"
+          path="/:calendarUrl/profile_setting/availability"
           component={Availability}
         />
-        <Route exact path=":calendarUrl/welcome" component={Dashboard} />
+        <Route exact path="/:calendarUrl/welcome" component={Dashboard} />
       </BrowserRouter>
     </MuiThemeProvider>
   );

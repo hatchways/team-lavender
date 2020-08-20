@@ -15,9 +15,17 @@ import AvailabilityPageStyle from "./style";
 
 function AvailabilityPage(props) {
   const { classes } = props;
+
+  const [url, setUrl] = React.useState({
+    prev: window.location.pathname.replace("availability", "timezone"),
+    calendarUrl:
+      window.location.origin +
+      window.location.pathname.replace("/profile_setting/availability", ""),
+  });
+  console.log(url.calendarUrl);
   if (typeof props.location.users === "undefined") {
     alert("Missing information redirecting");
-    window.location = "/profile_setting/timezone";
+    window.location = url.prev;
   }
   const [users, setUsers] = React.useState({
     name: "test",
@@ -29,7 +37,9 @@ function AvailabilityPage(props) {
     availableDays: ["Monday", "Tuesday", "Wednesday"],
     calendarUrl: props.location.users.calendarUrl,
   });
+
   console.log("Users", users);
+  console.log(url.calendarUrl, users.calendarUrl);
 
   function onChangeAvailableHoursFrom(e) {
     console.log("Users", users.timeZone);
@@ -73,19 +83,49 @@ function AvailabilityPage(props) {
     console.log("Users", users);
   }
 
-  function onFinish(e) {
-    e.preventDefault();
-    if (users.availableHoursFrom === "" || users.availableHoursTo === "") {
-      alert("Please make sure all fields have a value");
-      window.location = "/profile_setting/timezone";
-    }
-    axios
-      .put("http://localhost:3001/user/5f3b483975bf92e46e28e1a6", users)
-      .then((res) => {
-        console.log(res.data);
-        window.location = "/welcome";
+  function getCurrentUserId() {
+    console.log("getCUId");
+    return axios
+      .get(`http://localhost:3001/user/is_unique`, {
+        params: {
+          calendarUrl: url.calendarUrl,
+        },
       })
-      .catch((err) => console.log("Error: " + err));
+      .then((res) => {
+        console.log(res.data, users.calendarUrl);
+      })
+      .catch((err) => {
+        if (err.response.data.message == "this url is not unique") {
+          console.log(
+            err.response.data.message,
+            err.response.data,
+            err.response.data.id
+          );
+          return err.response.data.id;
+        } else {
+          alert("Something went wrong");
+          window.location.reload();
+        }
+      });
+  }
+
+  function onFinish(e) {
+    getCurrentUserId().then((data) => {
+      console.log(data);
+      e.preventDefault();
+      if (users.availableHoursFrom === "" || users.availableHoursTo === "") {
+        alert("Please make sure all fields have a value");
+        window.location = url.prev;
+      }
+      axios
+        .put(`http://localhost:3001/user/${data}`, users)
+        .then((res) => {
+          console.log(res.data);
+          console.log(url.calendarUrl, users.calendarUrl);
+          window.location = "/" + users.calendarUrl + "/welcome";
+        })
+        .catch((err) => console.log("Error: " + err));
+    });
   }
 
   return (
@@ -281,7 +321,6 @@ function AvailabilityPage(props) {
             <Button
               onClick={onFinish}
               className={classes.belowDivider_thirdDiv_continueButton}
-              href="/welcome"
             >
               Finish
             </Button>
