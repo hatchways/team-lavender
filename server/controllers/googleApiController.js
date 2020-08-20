@@ -34,15 +34,18 @@ module.exports = {
   },
 
   getAvailability: function (req, res) {
-    const date = `${req.query.year}-${req.query.month}-${req.query.date}`; // 2020-08-20
+    const {query} = req;
+    const date = `${query.year}-${query.month}-${query.date}` ; // 2020-08-20
     const meetingLength = parseInt(req.params.meetingLength); // "30min" => 30
-    //cheking if user is logged in
+    //cheking if user is logged in, will be removed later
     console.log(oAuth2Client.credentials);
 
-    //TO DO:get user available time from database, needs userController
+    //TO DO =====================================================
+    //get user available time from database, needs userController
     // Current: use default values
     const availableHoursFrom = "9:00";
     const availableHoursTo = "17:30";
+    //===========================================================
 
     //create time availability range based on user availability preference
     const availabilityStart = moment(`${date} ${availableHoursFrom}`);
