@@ -5,13 +5,11 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 
-const indexRouter = require("./routes/index");
-const pingRouter = require("./routes/ping");
-
+const appointmentRouter = require("./routes/appointments");
 const meetingsRouter = require("./routes/meetings");
 const usersRouter = require("./routes/users");
+const googleAPI = require("./routes/googleAPI");
 
-const appointmentRouter = require("./routes/appointments");
 
 // DB connection
 const connectDB = require("./middleware/database");
@@ -29,13 +27,14 @@ app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/ping", pingRouter);
-
-app.use("/meeting", meetingsRouter);
-app.use("/user", usersRouter);
+//api routes
 
 app.use("/appointments", appointmentRouter);
+app.use("/meeting", meetingsRouter);
+app.use("/", usersRouter);
+app.use("/api/google/", googleAPI);
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
