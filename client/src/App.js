@@ -10,6 +10,7 @@ import Timezone from "./pages/onboarding/timezone";
 import Confirm from "./pages/onboarding/confirm";
 import Availability from "./pages/onboarding/availability";
 import Dashboard from "./pages/Dashboard";
+import Test from "./pages/Test";
 
 import "./App.css";
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/profile_setting/timezone" component={Timezone} />
         <Route path="/profile_setting/confirm" component={Confirm} />
         <Route path="/profile_setting/availability" component={Availability} />
+        <Route path="/test" component={Test} />
       </BrowserRouter>
     </MuiThemeProvider>
   );
