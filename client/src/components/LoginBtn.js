@@ -23,7 +23,7 @@ function LoginBtn(props) {
         timeZone: "America/Toronto",
       };
       axios
-        .post("http://localhost:3001/user/signup", user)
+        .post("/user/signup", user)
         .then((res) => {
           if (res.data.message == "Created new user") {
             window.location = `${res.data.calendarUrl}/profile_setting/timezone`;

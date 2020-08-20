@@ -28,10 +28,9 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
 //api routes
-
 app.use("/appointments", appointmentRouter);
 app.use("/meeting", meetingsRouter);
-app.use("/", usersRouter);
+app.use("/user", usersRouter);
 app.use("/api/google/", googleAPI);
 
 
