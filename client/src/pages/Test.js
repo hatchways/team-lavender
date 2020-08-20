@@ -4,7 +4,7 @@ import API from "../utils/googleAPI";
 
 function Test() {
   function handleClick() {
-    API.getAvailability({ availability: "year=2020&month=08&date=21",meetingLength:"30mins" }).then((res) => {
+    API.getAvailability({ availability: "year=2020&month=08&date=20",meetingLength:"30mins" }).then((res) => {
       console.log(res);
     });
   }
