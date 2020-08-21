@@ -15,8 +15,8 @@ const Calendar = (props) => {
             <ReactCalendar
               className={classes.reactCalendar}
               navigationLabel={false}
-              tileDisabled={({date, view }) => 
-                date.getMonth()=== 7 || date.getMonth()=== 9}
+              // tileDisabled={({date, view }) => 
+              //   date.getMonth()=== 7 || date.getMonth()=== 9}
             />
           </div>
           <div className={classes.timePickerWrapper}>

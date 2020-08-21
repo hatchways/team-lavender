@@ -3,13 +3,13 @@ const express = require("express");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const cors = require("cors");
 
-const indexRouter = require("./routes/index");
-const pingRouter = require("./routes/ping");
 const appointmentRouter = require("./routes/appointments");
 const meetingsRouter = require("./routes/meetings");
 const usersRouter = require("./routes/users");
 const googleAPI = require("./routes/googleAPI");
+
 
 // DB connection
 const connectDB = require("./middleware/database");
@@ -19,6 +19,7 @@ connectDB;
 const { json, urlencoded } = express;
 
 var app = express();
+app.use(cors());
 
 app.use(logger("dev"));
 app.use(json());
@@ -27,11 +28,11 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
 //api routes
-app.use("/ping", pingRouter);
 app.use("/appointments", appointmentRouter);
 app.use("/meeting", meetingsRouter);
-app.use("/", usersRouter);
+app.use("/user", usersRouter);
 app.use("/api/google/", googleAPI);
+
 
 
 // catch 404 and forward to error handler

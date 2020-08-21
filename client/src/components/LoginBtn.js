@@ -1,26 +1,49 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
+import axios from "axios";
 import API from "../utils/googleAPI";
 
-function LoginBtn(props) {
-  async function login(response) {
-      if (response.code) {
-        const result = await API.authenticateUser(response.code);
-        console.log("authentication result", result);
-      } else {
-        throw new Error(response);
-      }
-  
 
-    // if (response.profileObj) {
-    //   localStorage.setItem("googleAvatarUrl", response.profileObj.imageUrl);
-    //   localStorage.setItem("googleName", response.profileObj.name);
-    //   localStorage.setItem("googleEmail", response.profileObj.email);
-    //   localStorage.setItem("accessToken", response.tokenObj.access_token);
-    //   localStorage.setItem("expireAt", response.tokenObj.expires_at);
-    // }
-   
-  }
+function LoginBtn(props) {
+  async function login(res) {
+      if (res.code) {
+      const response = await API.authenticateUser(res.code);
+        
+      //save user info into local storage for future use
+      localStorage.setItem("googleAvatarUrl", response.picture);
+      localStorage.setItem("googleName", response.name);
+      localStorage.setItem("googleEmail", response.email);
+      localStorage.setItem("accessToken", response.access_token);
+      localStorage.setItem("expireAt", response.expires_at);
+      
+      let user = {
+        name: response.name,
+        email: response.email,
+        avatarUrl: response.picture,
+        timeZone: "America/Toronto",
+      };
+      axios
+        .post("/user/signup", user)
+        .then((res) => {
+          if (res.data.message == "Created new user") {
+            window.location = `${res.data.calendarUrl}/profile_setting/timezone`;
+          }
+          if (res.data.message == "Already Exist User Account") {
+            window.location = `${res.data.calendarUrl}/welcome`;
+          }
+        })
+        .catch((err) => console.log("Error: " + err));
+        
+        
+      } else {
+        throw new Error(res);
+      }
+      
+  
+    }
+
+
+
   function handleLoginFailure(response) {
     alert("Failed to log in");
   }

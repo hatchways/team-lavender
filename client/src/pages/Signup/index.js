@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 
 import { Button, Divider, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
@@ -63,6 +63,7 @@ function SignupPage(props) {
             <LoginBtn
               className={classes.gmailSignup}
               loginText="Sign up with Google"
+              source="Signup"
             />
           </div>
           <Divider />
@@ -70,7 +71,7 @@ function SignupPage(props) {
             Prefer to create an account with a password?
             <Button
               className={classes.buttonbelowDividerStepTwo}
-              onClick={() => setStep({step:1,email:""})}
+              onClick={() => setStep({ step: 1, email: "" })}
             >
               Click here
             </Button>
