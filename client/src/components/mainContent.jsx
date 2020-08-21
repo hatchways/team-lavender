@@ -9,15 +9,37 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
+import Divider from "@material-ui/core/Divider"
+import CreateNewEventDialog from "../components/CreateNewEventDialog"
+
+
 
 const meetings = [
-  { title: "15min", description: "15 minutes meeting" },
-  { title: "30min", description: "30 minutes meeting" },
-  { title: "60min", description: "60 minutes meeting" },
+  { title: "15min", description: "15 minutes meeting"},
+  { title: "30min", description: "30 minutes meeting"},
+  { title: "60min", description: "60 minutes meeting"},
 ];
 
 const MainContent = () => {
   const classes = useStyles();
+
+  const [open, setOpen] = React.useState(false);
+  const OpenCreateMeetingDialog = async (type) => {
+      setOpen(true);
+  };
+  const CloseCreateMeetingDialog = () => {
+    setOpen(false);
+  };
+  const CreateMeeting = (duration, name, type, url) => {
+    console.log(duration);
+    console.log(name);
+    console.log(type);
+    console.log(url);
+
+    console.log("An event is created")
+    setOpen(false);
+  };
+
   return (
     <React.Fragment>
       <div style={{ background: "#EBF4FA" }}>
@@ -68,6 +90,7 @@ const MainContent = () => {
               align="right"
               className={classes.button}
               href="#"
+              onClick={OpenCreateMeetingDialog}
             >
               + New event type
             </Button>
@@ -79,7 +102,6 @@ const MainContent = () => {
             {meetings.map((meeting) => (
               <Grid item key={meeting.title} xs={12} sm={6} md={4}>
                 <Card>
-                  <CardHeader title={meeting.title} />
                   <CardContent>
                     <div>
                       <Typography
@@ -90,12 +112,26 @@ const MainContent = () => {
                         {meeting.description}
                       </Typography>
                     </div>
+                    <Divider className={classes.dividerInCardContent}/>
+                    <div className={classes.belowDividerinCardContent}>
+                      <CardHeader title={meeting.title} />
+                      <Button
+                        variant="outlined"
+                        className={classes.button}
+                      >
+                        CREATE LINK
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               </Grid>
             ))}
           </Grid>
         </Container>
+        {open === true && (
+          <CreateNewEventDialog open={open} close={CloseCreateMeetingDialog} create={CreateMeeting}/>
+          )
+        }
       </div>
     </React.Fragment>
   );
@@ -120,7 +156,6 @@ const useStyles = makeStyles((theme) => ({
     borderColor: "#F78104",
     "&:hover": {
       color: "#F78104",
-      borderBottom: "3px solid rgb(212, 212, 212)",
     },
   },
   title: {
@@ -150,6 +185,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 15,
     fontWeight: 500,
     color: "black",
+  },
+  dividerInCardContent: {
+    margin : "30px auto"
+  },
+  BelowDividerinCardContent: {
+    display : "flex",
   },
 }));
 

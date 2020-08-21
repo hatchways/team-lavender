@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import axios from "axios";
 
 import {
@@ -10,7 +10,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { Route, Link } from "react-router-dom";
 import AvailabilityPageStyle from "./style";
 
 function AvailabilityPage(props) {

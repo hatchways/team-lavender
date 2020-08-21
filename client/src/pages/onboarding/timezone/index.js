@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React from "react";
 import axios from "axios";
 
 import {
@@ -11,7 +11,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import TimezonePageStyle from "./style";
 
 function TimezonePage(props) {
