@@ -12,6 +12,15 @@ import Button from "@material-ui/core/Button";
 
 function CreateNewEventDialog(props) {
     const classes = useStyles();
+    const [duration, setDuration] = React.useState(15); // 0 : 15min, 1 : 30min, 2 : 60min
+    const [eventName, setEventName] = React.useState("");
+    const [description, setDescription] = React.useState(""); 
+    const [eventURL, setEventURL] = React.useState("");
+
+    function durationButtonClicked(duration) {
+        setDuration(duration);
+    }
+    
 
     return (
         <Dialog 
@@ -21,10 +30,10 @@ function CreateNewEventDialog(props) {
         >
             <DialogTitle id="form-dialog-title">Create Event</DialogTitle>
             <DialogContent>
-                <ButtonGroup>
-                    <Button>15 min</Button>
-                    <Button>30 min</Button>
-                    <Button>60 min</Button>
+                <ButtonGroup className={classes.buttonGroup}>
+                    <Button className={duration === 15 ? classes.buttonClicked : null} onClick={() => durationButtonClicked(15)}>15 min</Button>
+                    <Button className={duration === 30 ? classes.buttonClicked : null} onClick={() => durationButtonClicked(30)}>30 min</Button>
+                    <Button className={duration === 60 ? classes.buttonClicked : null} onClick={() => durationButtonClicked(60)}>60 min</Button>
                 </ButtonGroup>
                 <TextField
                     label="Event Name"
@@ -33,6 +42,10 @@ function CreateNewEventDialog(props) {
                     size="medium"
                     fullWidth
                     variant="outlined"
+                    onChange = {event => {
+                        const { value } = event.target;
+                        setEventName(value)
+                    }}
                 />
                 <TextField
                     label="Description"
@@ -43,6 +56,10 @@ function CreateNewEventDialog(props) {
                     variant="outlined"
                     multiline
                     rows={4}
+                    onChange = {event => {
+                        const { value } = event.target;
+                        setDescription(value)
+                    }}
                 />
                 <div className={classes.meetingURL}>
                     <p>
@@ -52,11 +69,15 @@ function CreateNewEventDialog(props) {
                         id="url"
                         margin="dense"
                         variant="outlined"
+                        onChange = {event => {
+                            const { value } = event.target;
+                            setEventURL(value)
+                        }}
                     />
                 </div>
             </DialogContent>
             <DialogActions>
-                <Button onClick={props.close} color="blue">
+                <Button onClick={() => {props.create(duration, eventName, description, eventURL)}}>
                     Create
                 </Button>
                 <Button onClick={props.close} color="primary">
@@ -79,6 +100,13 @@ const useStyles = makeStyles((theme) => ({
         "& p" : {
             "font-size" : "15px",
             "margin-right" : "10px"
+        }
+    }, buttonClicked : {
+        backgroundColor : "#C4C4C4"
+    },
+    buttonGroup : {
+        "& button:hover" : {
+            backgroundColor : "#C4C4C4"
         }
     }
 }));

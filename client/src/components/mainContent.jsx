@@ -30,6 +30,15 @@ const MainContent = () => {
   const CloseCreateMeetingDialog = () => {
     setOpen(false);
   };
+  const CreateMeeting = (duration, name, type, url) => {
+    console.log(duration);
+    console.log(name);
+    console.log(type);
+    console.log(url);
+
+    console.log("An event is created")
+    setOpen(false);
+  };
 
   return (
     <React.Fragment>
@@ -120,7 +129,7 @@ const MainContent = () => {
           </Grid>
         </Container>
         {open === true && (
-          <CreateNewEventDialog open={open} close={CloseCreateMeetingDialog}/>
+          <CreateNewEventDialog open={open} close={CloseCreateMeetingDialog} create={CreateMeeting}/>
           )
         }
       </div>
