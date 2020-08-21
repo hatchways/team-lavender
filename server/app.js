@@ -10,7 +10,6 @@ const meetingsRouter = require("./routes/meetings");
 const usersRouter = require("./routes/users");
 const googleAPI = require("./routes/googleAPI");
 
-
 // DB connection
 const connectDB = require("./middleware/database");
 // Start the DB
@@ -28,6 +27,9 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
+
+
+app.use(cors())
 
 //api routes
 app.use("/appointments", appointmentRouter);
