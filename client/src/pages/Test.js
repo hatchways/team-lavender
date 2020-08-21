@@ -4,7 +4,16 @@ import API from "../utils/googleAPI";
 
 function Test() {
   function handleClick() {
-    API.getAvailability({ availability: "year=2020&month=08&date=20",meetingLength:"30mins" }).then((res) => {
+    const data = {
+      year:"2020", // collected from the date user clicked on 
+      month:"08",
+      date:"20",
+      availableFrom: "9:00",// from database 
+      availableTo: "17:00",
+      meetingLength: "30mins", //from the calendar type
+      timeZone: "America/Toronto", // use moment to get time zone
+    };
+    API.getAvailability(data).then((res) => {
       console.log(res);
     });
   }
