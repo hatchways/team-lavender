@@ -13,8 +13,10 @@ export default {
 
   //get events from google calendar
   getAvailability: function (params) {
+    const qs = Object.keys(params).map(key => `${key}=${params[key]}`).join('&');
+
     return fetch(
-      `/api/google/${params.meetingLength}/availability?${params.availability}`
+      `/api/google/availability?${qs}`
     )
       .then((res) => {
         if (res.status === 200) return res.json({});
