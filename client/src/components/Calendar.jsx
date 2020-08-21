@@ -14,9 +14,9 @@ const Calendar = (props) => {
           <div className={classes.calendarWrapper}>
             <ReactCalendar
               className={classes.reactCalendar}
-              // defaultValue={new Date()}
               navigationLabel={false}
-              defaultView="month"
+              tileDisabled={({date, view }) => 
+                date.getMonth()=== 7 || date.getMonth()=== 9}
             />
           </div>
           <div className={classes.timePickerWrapper}>
@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "none",
       width: "36px",
       height: "24px",
-      borderRadius: "50%",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",

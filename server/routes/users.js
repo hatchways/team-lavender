@@ -6,4 +6,5 @@ router.get("/user/:id/is_unique", userController.checkUniqueUrl);
 
 router.put("/user/:id", userController.updateUserInfo);
 
+
 module.exports = router;
