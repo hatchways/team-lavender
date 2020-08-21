@@ -1,6 +1,6 @@
-import React, { Component, useState } from "react";
+import React from "react";
 
-import { Button, Divider, TextField } from "@material-ui/core";
+import { Button, Divider } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { Route, Link } from "react-router-dom";
 import ConfirmPageStyle from "./style";

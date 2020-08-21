@@ -4,7 +4,7 @@ const controller = require("../controllers/googleApiController")
 
 router.get("/authentication", controller.authenticateUser)
 
-router.get("/:meetingLength/availability",controller.getAvailability)
+router.get("/availability",controller.getAvailability)
 
 
 module.exports = router;

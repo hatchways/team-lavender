@@ -14,10 +14,11 @@ exports.createMeeting = async function (req, res) {
     existUserAndMeeting,
   } = await validateCreateNewMeetingReq(req);
 
+  console.log(message)
   if (!isValid) {
     return res.status(400).json({ massage: message });
   }
-
+  
   let condition = "";
   let updateData = "";
   const userId = req.body.id;
@@ -47,7 +48,6 @@ exports.createMeeting = async function (req, res) {
       "duration.$.appointment": req.body.appointmentId,
     };
   }
-
   // Create new meeting
   try {
     Meetings.collection.updateOne(
