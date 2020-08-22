@@ -21,15 +21,10 @@ function getGoogleUserInfo(access_token) {
 }
 
 function getGoogleCalendarApi(oAuth2Client, tokens) {
-  console.log(tokens);
   oAuth2Client.setCredentials(tokens);
-  console.log(oAuth2Client.credentials);
   return google.calendar({ version: "v3", auth: oAuth2Client });
 }
 
-function getNewTokensFromRefreshToken() {
-  console.log("here");
-}
 
 function filterUnavailableSlot(events, timeSlot) {
   for (let event of events) {
@@ -88,12 +83,7 @@ function getAvailability(req, res) {
 
   //get refresh_token from database
   let tokens = {
-    access_token: 'ya29.a0AfH6SMAONkxgT08NCtjQzumVWsRx08QYFreyacRA94YNUDx6jI09QcuW0IqKeqCw6B1FKNRHJqzDiCL5djwe2OR9TYFTPogBvPzv47wWfDYmjt-oB9RhdtBuHyhUn2UNABPSbZsKzQ3EQuCfRkJaXrElAXomJiYro0U',
-    refresh_token: '1//04KgH-NyTji37CgYIARAAGAQSNwF-L9Ira_HcF8o2spVVtcw3AMZr9yGWYzGSIF4k0VXBauzag8-ur_jqC5Jy4tPpykk6Dh8yafk',
-    scope: 'https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid',
-    token_type: 'Bearer',
-    id_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZiYzYzZTlmMThkNTYxYjM0ZjU2NjhmODhhZTI3ZDQ4ODc2ZDgwNzMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI4NzEzNzM5NjEyNjEtcmplajY1Zzk3ZGMzbzZqaXVmbHE2czJncDV2OXB0dXQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI4NzEzNzM5NjEyNjEtcmplajY1Zzk3ZGMzbzZqaXVmbHE2czJncDV2OXB0dXQuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTcxNTAxOTUwMjM4MzI4MjIyMTYiLCJlbWFpbCI6InJhaG1hbi5rZGRAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJqd1J5SVdGWDh0NUFLS0t5b2dOMVJ3IiwibmFtZSI6IlJvbiBLYWRpZXJkaW5nIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdoeGpMUTRXZU9lU2ZGNlU2UlR4MFZmVElGWEFoSFUzX2tiVENEWUdfVT1zOTYtYyIsImdpdmVuX25hbWUiOiJSb24iLCJmYW1pbHlfbmFtZSI6IkthZGllcmRpbmciLCJsb2NhbGUiOiJlbiIsImlhdCI6MTU5ODA1NTI5MiwiZXhwIjoxNTk4MDU4ODkyfQ.D_0vvGJ8IqlDAoP92kRAlJ2uJK-i_bScG6GxaLSChQtmHsey1Q3TKWfU-2efRGkUHf1eBAfKsgvX4NtD8zlZ859rPwZMMm_psfr9AZ6b1V6m0fndlfaSQoiS_CRpJhTALlzECnft1CWPvMq_z-rZyCdhJRe6HnbpSVfN_IZC6JpwPSDisYDsMm08cDh9vbxbgo7mYS--lTTmFTaqs0v4VXA632YLVOE_H7YTGq2vrkeZ43ioZGOKziSeLWDRIC7Mz9sWf1tLFg8YEzWWjYADzIZTsCdF1x_5SQMuyBgyuHh3hzAhc_XG0g4xWQ8gPallRcaIvxhCMSQEJ4tQ1Ubt0g',
-    expiry_date: 1598058890933
+    refresh_token: '1//04iEjINizE_ycCgYIARAAGAQSNwF-L9IrwqcMhXTfbv1LnyUdr8-cbJDPdF3A1-wNeBnpaHKOj7hI9y5WfOJBX5ZjwCwZToRN9Yw'
   };
 
   const oAuth2Client = createConnection();
