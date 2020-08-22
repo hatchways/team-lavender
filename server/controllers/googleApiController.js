@@ -75,20 +75,22 @@ function getAvailability(req, res) {
   const availabilityStart = moment(`${date} ${availableFrom}`);
   const availabilityEnd = moment(`${date} ${availableTo}`);
   const range = moment.range(availabilityStart, availabilityEnd);
+
   //slice the range by meetinglength into different slots
   let timeSlot = Array.from(range.by("minutes", { step: meetingLength }));
-  //remove the last one from options, as it is the end of user availability time range
   timeSlot.pop();
 
 
+  //TO DO: ================================================
   //get refresh_token from database
+  //=======================================================
   let tokens = {
     refresh_token: '1//04iEjINizE_ycCgYIARAAGAQSNwF-L9IrwqcMhXTfbv1LnyUdr8-cbJDPdF3A1-wNeBnpaHKOj7hI9y5WfOJBX5ZjwCwZToRN9Yw'
   };
 
+  //create connection to google calendar, and retrieve events
   const oAuth2Client = createConnection();
   const calendar = getGoogleCalendarApi(oAuth2Client, tokens);
-
   calendar.events
     .list({
       calendarId: "primary",
