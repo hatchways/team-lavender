@@ -18,9 +18,9 @@ function AvailabilityPage(props) {
 
   const [url, setUrl] = React.useState({
     prev: window.location.pathname.replace("availability", "timezone"),
-    calendarUrl:
-      window.location.origin +
-      window.location.pathname.replace("/profile_setting/availability", ""),
+    calendarUrl: window.location.pathname
+      .replace("/profile_setting/availability", "")
+      .replace("/", ""),
   });
   console.log(url.calendarUrl);
   if (typeof props.location.users === "undefined") {
