@@ -73,7 +73,7 @@ const userSchema = new Schema({
 userSchema.methods.createUrl = function () {
   // not sure why calendy replaced "." with "-", but doing the same for now
   // eg: mila.windsor@gmail.com  => url: https://calendly.com/mila-windsor
-  return "http://localhost:3000/" + this.email.split("@")[0].replace(".", "-");
+  return this.email.split("@")[0].replace(".", "-");
 };
 const User = mongoose.model("User", userSchema);
 
