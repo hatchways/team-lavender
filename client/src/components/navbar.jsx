@@ -37,7 +37,7 @@ const NavBar = () => {
               Integration
             </NavLink>
             <NavLink
-              to="/updateaccount"
+              to="/upgrade"
               activeClassName="selected"
               activeStyle={{ color: "#F78104" }}
               className={classes.link}
