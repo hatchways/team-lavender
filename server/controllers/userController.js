@@ -38,8 +38,6 @@ exports.updateUserInfo = async function (req, res) {
       },
       {
         $set: {
-          name: req.body.name,
-          avatarUrl: req.body.avatarUrl,
           timeZone: req.body.timeZone,
           availableHoursFrom: req.body.availableHoursFrom,
           availableHoursTo: req.body.availableHoursTo,
