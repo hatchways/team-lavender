@@ -4,7 +4,7 @@ const MomentRange = require("moment-range");
 const moment = MomentRange.extendMoment(Moment);
 
 function createConnection() {
-  console.log("create connection ---------------------------------")
+  console.log("create connection ---------------------------------");
   return new google.auth.OAuth2(
     process.env.client_id,
     process.env.client_secret,
@@ -26,6 +26,22 @@ function getGoogleCalendarApi(oAuth2Client, tokens) {
   return google.calendar({ version: "v3", auth: oAuth2Client });
 }
 
+function getEvents(calendar, availabilityStart, availabilityEnd) {
+  return calendar.events.list({
+    calendarId: "primary",
+    timeMin: availabilityStart.toISOString(),
+    timeMax: availabilityEnd.toISOString(),
+    singleEvents: true,
+    orderBy: "startTime",
+  });
+}
+function createTimeSlot(availabilityStart, availabilityEnd, meetingLength) {
+  const range = moment.range(availabilityStart, availabilityEnd);
+  //slice the range by meetinglength into different slots
+  let timeSlot = Array.from(range.by("minutes", { step: meetingLength }));
+  timeSlot.pop();
+  return timeSlot;
+}
 
 function filterUnavailableSlot(events, timeSlot) {
   for (let event of events) {
@@ -50,7 +66,7 @@ function filterUnavailableSlot(events, timeSlot) {
   return timeSlot;
 }
 
-let oAuth2Client = createConnection()
+let oAuth2Client = createConnection();
 function authenticateUser(req, res) {
   let user = {};
   getTokenFromCode(oAuth2Client, req.query.code)
@@ -75,30 +91,24 @@ function getAvailability(req, res) {
   //create time availability range based on user availability preference
   const availabilityStart = moment(`${date} ${availableFrom}`);
   const availabilityEnd = moment(`${date} ${availableTo}`);
-  const range = moment.range(availabilityStart, availabilityEnd);
-
-  //slice the range by meetinglength into different slots
-  let timeSlot = Array.from(range.by("minutes", { step: meetingLength }));
-  timeSlot.pop();
-
+  let timeSlot = createTimeSlot(
+    availabilityStart,
+    availabilityEnd,
+    meetingLength
+  );
 
   //TO DO: ================================================
   //get refresh_token from database
   //=======================================================
   let tokens = {
-    refresh_token: '1//04_ZIKYvcn2LOCgYIARAAGAQSNwF-L9Ir-x_TcEaoH93ZbHi-BFl334mhzcedu6jsgXCMCAUH_H8CqF_IIIfRXiR32v7tiCt2OvM',
+    refresh_token:
+      "1//04_ZIKYvcn2LOCgYIARAAGAQSNwF-L9Ir-x_TcEaoH93ZbHi-BFl334mhzcedu6jsgXCMCAUH_H8CqF_IIIfRXiR32v7tiCt2OvM",
   };
 
   //create connection to google calendar, and retrieve events
   const calendar = getGoogleCalendarApi(oAuth2Client, tokens);
-  calendar.events
-    .list({
-      calendarId: "primary",
-      timeMin: availabilityStart.toISOString(),
-      timeMax: availabilityEnd.toISOString(),
-      singleEvents: true,
-      orderBy: "startTime",
-    })
+
+  getEvents(calendar, availabilityStart, availabilityEnd)
     .then((response) => {
       const events = response.data.items;
       if (events.length) {
