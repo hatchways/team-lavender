@@ -4,6 +4,7 @@ import API from "../utils/googleAPI";
 
 function Test() {
   function handleClick() {
+    
     const data = {
       year:"2020", // collected from the date user clicked on 
       month:"08",

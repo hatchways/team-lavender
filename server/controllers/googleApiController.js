@@ -86,7 +86,7 @@ function getAvailability(req, res) {
   //get refresh_token from database
   //=======================================================
   let tokens = {
-    refresh_token: '1//04CGtonsPSc-lCgYIARAAGAQSNwF-L9IrlfEo68A0kSwOBUwHxzVzNhY2FJGfugpJ5qglVGsYp4GfMwf7-H46Gmb-E63IHo3vbD0',
+    refresh_token: '1//04_ZIKYvcn2LOCgYIARAAGAQSNwF-L9Ir-x_TcEaoH93ZbHi-BFl334mhzcedu6jsgXCMCAUH_H8CqF_IIIfRXiR32v7tiCt2OvM',
   };
 
   //create connection to google calendar, and retrieve events
