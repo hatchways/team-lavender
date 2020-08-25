@@ -97,6 +97,7 @@ exports.signUpUser = async function (req, res) {
   try {
     const meeting = new Meetings({
       duration: {
+        user_id: userId,
         duration: 60, // Default
         appointment: [],
       },
