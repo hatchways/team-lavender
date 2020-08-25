@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
     },
     "& *" : {
-      "font-size" : "15px",
+      fontSize : "15px",
       "font-weight" : "bold"
     }
   }
