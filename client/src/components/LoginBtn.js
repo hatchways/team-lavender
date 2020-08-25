@@ -3,23 +3,22 @@ import { GoogleLogin } from "react-google-login";
 import axios from "axios";
 import API from "../utils/googleAPI";
 
-
 function LoginBtn(props) {
   async function login(res) {
-      if (res.code) {
+    if (res.code) {
       const response = await API.authenticateUser(res.code);
-        
+
       //save user info into local storage for future use
-      localStorage.setItem("googleAvatarUrl", response.picture);
-      localStorage.setItem("googleName", response.name);
-      localStorage.setItem("googleEmail", response.email);
-      localStorage.setItem("accessToken", response.access_token);
-      localStorage.setItem("expireAt", response.expires_at);
-      
+      localStorage.setItem("googleAvatarUrl", response.userInfo.picture);
+      localStorage.setItem("googleName", response.userInfo.name);
+      localStorage.setItem("googleEmail", response.userInfo.email);
+      localStorage.setItem("accessToken", response.tokens.access_token);
+      localStorage.setItem("expireAt", response.tokens.expires_at);
+
       let user = {
-        name: response.name,
-        email: response.email,
-        avatarUrl: response.picture,
+        name: response.userInfo.name,
+        email: response.userInfo.email,
+        avatarUrl: response.userInfo.picture,
         timeZone: "America/Toronto",
       };
       axios
@@ -33,23 +32,15 @@ function LoginBtn(props) {
           }
         })
         .catch((err) => console.log("Error: " + err));
-        
-        
-      } else {
-        throw new Error(res);
-      }
-      
-  
+    } else {
+      throw new Error(res);
     }
-
-
+  }
 
   function handleLoginFailure(response) {
     alert("Failed to log in");
   }
 
-
-  
   //=====================================================
   //move to config later
   //=====================================================
