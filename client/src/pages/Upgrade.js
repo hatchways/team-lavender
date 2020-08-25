@@ -13,7 +13,7 @@ function Upgrade() {
       product,
     };
     axios
-      .post("http://localhost:3001/upgrade/payments", body)
+      .post("http://localhost:3001/upgrade/payment", body)
       .then((response) => console.log("Response", response))
       .catch((err) => console.log("Error: " + err));
   };
