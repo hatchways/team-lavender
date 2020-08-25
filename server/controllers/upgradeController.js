@@ -18,7 +18,6 @@ exports.payment = async function (req, res) {
         customer: customer.id,
         receipt_email: token.email,
         description: product.name,
-        recurring: true,
       });
     })
     .then((result) => {
