@@ -3,7 +3,7 @@ const LoginPageStyle = (theme) => ({
       title : {
         display : "flex",
         "font-size" : "20px",
-        "font-weight" : "bold",
+        fontWeight : "bold",
         "justify-content" : "center",
         "margin" : "50px"
       },
@@ -13,7 +13,7 @@ const LoginPageStyle = (theme) => ({
         height : "480px",
         "-webkit-box-shadow" : "1px 1px 10px 3px rgba(196,196,196,1)",
         font : "Arial, Helvetica, sans-serif",
-        "font-weight" : "bold",     
+        fontWeight : "bold",     
         "text-align" : "center"
       },
       aboveDivider : {
@@ -45,7 +45,7 @@ const LoginPageStyle = (theme) => ({
         "width" : "30%",
         "font-size" : "13px",
         "position" : "relative",
-        "font-weight" : "bold",
+        fontWeight : "bold",
         "top" : "130px",
         "background-color" : "#F78104",
         "color" : "white",
@@ -61,7 +61,7 @@ const LoginPageStyle = (theme) => ({
         "width" : "50%",
         "font-size" : "13px",
         "position" : "relative",
-        "font-weight" : "bold",
+        fontWeight : "bold",
         "top" : "130px",
         "background-color" : "#F78104",
         "color" : "white",

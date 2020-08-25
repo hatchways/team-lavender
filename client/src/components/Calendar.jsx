@@ -9,21 +9,19 @@ const Calendar = (props) => {
 
 
     return (
-      <React.Fragment>
-        <div className={classes.container}>
-          <div className={classes.calendarWrapper}>
-            <ReactCalendar
-              className={classes.reactCalendar}
-              navigationLabel={false}
-              // tileDisabled={({date, view }) => 
-              //   date.getMonth()=== 7 || date.getMonth()=== 9}
-            />
-          </div>
-          <div className={classes.timePickerWrapper}>
-            <TimePicker />
-          </div>
+      <div className={classes.container}>
+        <div className={classes.calendarWrapper}>
+          <ReactCalendar
+            className={classes.reactCalendar}
+            navigationLabel={false}
+            // tileDisabled={({date, view }) => 
+            //   date.getMonth()=== 7 || date.getMonth()=== 9}
+          />
         </div>
-      </React.Fragment>
+        <div className={classes.timePickerWrapper}>
+          <TimePicker />
+        </div>
+      </div>
     );
 };
 
@@ -54,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     },
     "& *" : {
       fontSize : "15px",
-      "font-weight" : "bold"
+      fontWeight : "bold"
     }
   }
 }));
