@@ -89,7 +89,7 @@ function authenticateUser(req, res) {
     .catch((err) => res.status(422).json(err));
 }
 
-async function getAvailability(req, res) {
+function getAvailability(req, res) {
   const { query } = req;
   const date = `${query.year}/${query.month}/${query.date}`; // 2020-08-20
   const meetingLength = parseInt(query.meetingLength); // "30min" => 30
