@@ -1,7 +1,7 @@
 const ConfirmPageStyle = (theme) => ({
     title : {
         display : "flex",
-        "font-size" : "20px",
+        fontSize : "20px",
         fontWeight : "bold",
         "justify-content" : "center",
         "margin" : "50px"
@@ -99,7 +99,7 @@ const ConfirmPageStyle = (theme) => ({
     },
     belowDivider_fourthDiv_continueButton : {
         "width" : "30%",
-        "font-size" : "13px",
+        fontSize : "13px",
         "position" : "relative",
         fontWeight : "bold",
         "top" : "80px",

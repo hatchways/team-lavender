@@ -11,7 +11,7 @@ const ScheduleCalendarStyle = () => ({
     },
     title : {
         display : "flex",
-        "font-size" : "20px",
+        fontSize : "20px",
         fontWeight : "bold",
         "justify-content" : "center",
         "margin" : "50px"
@@ -20,7 +20,7 @@ const ScheduleCalendarStyle = () => ({
         position : "relative",
         width : "25%",
         "& *" : {
-            "font-size" : "20px",
+            fontSize : "20px",
             "margin-top" : "20px",
             "margin-bottom" : "20px" 
         }

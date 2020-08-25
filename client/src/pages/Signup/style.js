@@ -20,7 +20,7 @@ const SignupPageStyle = () => ({
       textField : {
       },
       firstDivAboveDivider : {
-        "font-size" : "20px",
+        fontSize : "20px",
         "position" : "relative",
         "top" : "40px"
       },
@@ -29,7 +29,7 @@ const SignupPageStyle = () => ({
         "top" : "70px"
       },
       firstDivOfSecondDivAboveDivider : {
-        "font-size" : "12px",
+        fontSize : "12px",
         "margin-top" : "30px",
         "margin-bottom" : "10px"
       },
@@ -38,7 +38,7 @@ const SignupPageStyle = () => ({
       },
       startButton : {
         "width" : "30%",
-        "font-size" : "13px",
+        fontSize : "13px",
         "position" : "relative",
         fontWeight : "bold",
         "top" : "130px",
@@ -52,7 +52,7 @@ const SignupPageStyle = () => ({
       },
       title : {
         display : "flex",
-        "font-size" : "20px",
+        fontSize : "20px",
         fontWeight : "bold",
         "justify-content" : "center",
         "margin" : "50px"
@@ -66,11 +66,11 @@ const SignupPageStyle = () => ({
         "padding-left" : "60px",
         fontWeight : "normal",
         "color" : "#808080",
-        "font-size" : "13px"
+        fontSize : "13px"
       },
       gmailSignup : {
         "width" : "50%",
-        "font-size" : "13px",
+        fontSize : "13px",
         "position" : "relative",
         fontWeight : "bold",
         "top" : "130px",
