@@ -3,8 +3,10 @@ const Moment = require("moment");
 const MomentRange = require("moment-range");
 const moment = MomentRange.extendMoment(Moment);
 
+const Users = require("../models/User");
+const mongoose = require("mongoose");
+
 function createConnection() {
-  console.log("create connection ---------------------------------")
   return new google.auth.OAuth2(
     process.env.client_id,
     process.env.client_secret,
@@ -26,6 +28,27 @@ function getGoogleCalendarApi(oAuth2Client, tokens) {
   return google.calendar({ version: "v3", auth: oAuth2Client });
 }
 
+function getEvents(calendar, availabilityStart, availabilityEnd) {
+  return calendar.events.list({
+    calendarId: "primary",
+    timeMin: availabilityStart.toISOString(),
+    timeMax: availabilityEnd.toISOString(),
+    singleEvents: true,
+    orderBy: "startTime",
+  });
+}
+
+function findUserByUrl(calendarUrl) {
+  return Users.findOne({ calendarUrl: calendarUrl });
+}
+
+function createTimeSlot(availabilityStart, availabilityEnd, meetingLength) {
+  const range = moment.range(availabilityStart, availabilityEnd);
+  //slice the range by meetinglength into different slots
+  let timeSlot = Array.from(range.by("minutes", { step: meetingLength }));
+  timeSlot.pop();
+  return timeSlot;
+}
 
 function filterUnavailableSlot(events, timeSlot) {
   for (let event of events) {
@@ -50,7 +73,7 @@ function filterUnavailableSlot(events, timeSlot) {
   return timeSlot;
 }
 
-let oAuth2Client = createConnection()
+let oAuth2Client = createConnection();
 function authenticateUser(req, res) {
   let user = {};
   getTokenFromCode(oAuth2Client, req.query.code)
@@ -66,44 +89,38 @@ function authenticateUser(req, res) {
     .catch((err) => res.status(422).json(err));
 }
 
-function getAvailability(req, res) {
+async function getAvailability(req, res) {
   const { query } = req;
   const date = `${query.year}/${query.month}/${query.date}`; // 2020-08-20
   const meetingLength = parseInt(query.meetingLength); // "30min" => 30
-  const { availableFrom, availableTo, timeZone } = query;
+  const { timeZone, calendarUrl } = query;
+  let user;
 
-  //create time availability range based on user availability preference
-  const availabilityStart = moment(`${date} ${availableFrom}`);
-  const availabilityEnd = moment(`${date} ${availableTo}`);
-  const range = moment.range(availabilityStart, availabilityEnd);
+  findUserByUrl(calendarUrl)
+    .then((dbModel) => {
+      user = dbModel;
+      user.availabilityStart = moment(`${date} ${user.availableHoursFrom}`);
+      user.availabilityEnd = moment(`${date} ${user.availableHoursTo}`);
+      // ===================================
+      //For now, hard code the refresh_token
+      return getGoogleCalendarApi(oAuth2Client, {
+        refresh_token:
+          "1//04_ZIKYvcn2LOCgYIARAAGAQSNwF-L9Ir-x_TcEaoH93ZbHi-BFl334mhzcedu6jsgXCMCAUH_H8CqF_IIIfRXiR32v7tiCt2OvM",
+      });
 
-  //slice the range by meetinglength into different slots
-  let timeSlot = Array.from(range.by("minutes", { step: meetingLength }));
-  timeSlot.pop();
-
-
-  //TO DO: ================================================
-  //get refresh_token from database
-  //=======================================================
-  let tokens = {
-    refresh_token: '1//04_ZIKYvcn2LOCgYIARAAGAQSNwF-L9Ir-x_TcEaoH93ZbHi-BFl334mhzcedu6jsgXCMCAUH_H8CqF_IIIfRXiR32v7tiCt2OvM',
-  };
-
-  //create connection to google calendar, and retrieve events
-  const calendar = getGoogleCalendarApi(oAuth2Client, tokens);
-  calendar.events
-    .list({
-      calendarId: "primary",
-      timeMin: availabilityStart.toISOString(),
-      timeMax: availabilityEnd.toISOString(),
-      singleEvents: true,
-      orderBy: "startTime",
+      // ====================================
+      // when the database is ready: use the refresh.token retrieved from database
+      // return getGoogleCalendarApi(oAuth2Client, {refresh_token:user.refresh_token});
+    })
+    .then((calendar) => {
+      return getEvents(calendar, user.availabilityStart, user.availabilityEnd);
     })
     .then((response) => {
       const events = response.data.items;
-      if (events.length) {
-        timeSlot = filterUnavailableSlot(events, timeSlot);
-      }
+
+      //split the user available hours by the meeting length
+      timeSlot = createTimeSlot(user.availabilityStart,user.availabilityEnd,meetingLength);
+      if (events.length) timeSlot = filterUnavailableSlot(events, timeSlot);
       return res.status(200).json(timeSlot.map((t) => t.format("HH:mm")));
     })
     .catch((err) => {
