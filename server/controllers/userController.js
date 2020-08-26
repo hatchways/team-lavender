@@ -114,3 +114,11 @@ exports.signUpUser = async function (req, res) {
     calendarUrl: calendarUrl,
   });
 };
+
+
+//for client side, calendar page fetching user data
+exports.findByUrl = function (req,res) {
+   Users.findOne(req.query)
+   .then((dbModel) => res.json(dbModel))
+    .catch((err) => res.status(422).json(err));
+}
