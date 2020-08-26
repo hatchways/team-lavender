@@ -94,7 +94,7 @@ function AvailabilityPage(props) {
         console.log(res.data, users.calendarUrl);
       })
       .catch((err) => {
-        if (err.response.data.message == "this url is not unique") {
+        if (err.response.data.message === "this url is not unique") {
           console.log(
             err.response.data.message,
             err.response.data,

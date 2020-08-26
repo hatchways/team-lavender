@@ -25,10 +25,10 @@ function LoginBtn(props) {
       axios
         .post("/user/signup", user)
         .then((res) => {
-          if (res.data.message == "Created new user") {
+          if (res.data.message === "Created new user") {
             window.location = `${res.data.calendarUrl}/profile_setting/timezone`;
           }
-          if (res.data.message == "Already Exist User Account") {
+          if (res.data.message === "Already Exist User Account") {
             window.location = `${res.data.calendarUrl}/welcome`;
           }
         })
