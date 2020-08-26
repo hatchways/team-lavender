@@ -4,13 +4,16 @@ import API from "../utils/googleAPI";
 
 function Test() {
   function handleClick() {
+
+  // get calendar url from the window url
+  //eg: user visited "calendly/mila-windsor/30min"
+  // calendarUrl: mila-windsor
     
     const data = {
+      calendarUrl:"mila-windsor",
       year:"2020", // collected from the date user clicked on 
       month:"08",
       date:"20",
-      availableFrom: "09:00",// from database 
-      availableTo: "17:00",
       meetingLength: "30mins", //from the calendar type
       timeZone: "America/Toronto", // use moment to get time zone
     };

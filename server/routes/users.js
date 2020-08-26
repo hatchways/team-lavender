@@ -9,10 +9,9 @@ router.put("/:id", userController.updateUserInfo);
 
 router.post("/signup", userController.signUpUser);
 
-router.post("/email", function(req,res) {
-    console.log("passing")
-    sendEmail.sendConfirmEmail("welcome", "benjaminlee.kr@gmail.com")
-});
+
+//send it fetch request as (user/findUser?calendarUrl=${calendarUrl})
+router.get("/findUser", userController.findByUrl);
 
 
 module.exports = router;

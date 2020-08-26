@@ -5,6 +5,7 @@ import API from "../utils/googleAPI";
 
 function LoginBtn(props) {
   async function login(res) {
+    //if logged in for first time, will return a authorization code only
     if (res.code) {
       const response = await API.authenticateUser(res.code);
 
@@ -33,7 +34,8 @@ function LoginBtn(props) {
         })
         .catch((err) => console.log("Error: " + err));
     } else {
-      throw new Error(res);
+      //if user is already signed in, will return GoogleUser automatically
+      console.log(res)
     }
   }
 
@@ -58,9 +60,9 @@ function LoginBtn(props) {
       scope="https://www.googleapis.com/auth/calendar.events"
       responseType="code"
       accessType="offline"
-      // prompt='consent'
       redirectUri="http://localhost:3000"
-      // isSignedIn={true}
+      //automatically return GoogleUser if user is signed in 
+      isSignedIn={true}
       className={props.className}
     />
   );
