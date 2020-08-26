@@ -5,7 +5,7 @@ import { Button, Box, Typography, Tab, Tabs } from "@material-ui/core"
 
 const TimePicker = (props) => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(10);
+  const [value, setValue] = React.useState(5);
 
   let button = <Tab label={<Button className={classes.button} variant="outlined" size="large">Time</Button>} />
   let items = []
@@ -18,20 +18,18 @@ const TimePicker = (props) => {
   };
 
   return (
-    <React.Fragment>
-      <div className={classes.root}>
-        <Tabs
-          orientation="vertical"
-          variant="scrollable"
-          value={value}
-          onChange={handleChange}
-          aria-label="Vertical tabs example"
-          className={classes.tabs}
-        >
-          { items }
-        </Tabs>
-      </div>
-    </React.Fragment>
+    <div className={classes.root}>
+      <Tabs
+        orientation="vertical"
+        variant="scrollable"
+        value={value}
+        onChange={handleChange}
+        aria-label="Vertical tabs example"
+        className={classes.tabs}
+      >
+        { items }
+      </Tabs>
+    </div>
   );
 };
 

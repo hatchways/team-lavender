@@ -6,6 +6,9 @@ import 'react-calendar/dist/Calendar.css';
 
 const Calendar = (props) => {
     const classes = useStyles();
+    const [year, setYear] = React.useState("");
+    const [month, setMonth] = React.useState(""); 
+    const [date, setDate] = React.useState("");
 
 
     return (
@@ -13,9 +16,11 @@ const Calendar = (props) => {
         <div className={classes.calendarWrapper}>
           <ReactCalendar
             className={classes.reactCalendar}
-            navigationLabel={false}
             tileDisabled={({date, view }) => 
             date.getMonth()=== 7 || date.getMonth()=== 9}
+            // onClickDay={(value, event) => alert('Clicked day: ', value)}
+            // onClickMonth={(value, event) => alert('Clicked month: ', value)}
+            // onClickYear={(value, event) => alert('Clicked year: ', value)}
           />
         </div>
         <div className={classes.timePickerWrapper}>
