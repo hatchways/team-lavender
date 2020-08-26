@@ -8,4 +8,7 @@ router.put("/:id", userController.updateUserInfo);
 
 router.post("/signup", userController.signUpUser);
 
+//send it fetch request as (user/findUser?calendarUrl=${calendarUrl})
+router.get("/findUser", userController.findByUrl);
+
 module.exports = router;
