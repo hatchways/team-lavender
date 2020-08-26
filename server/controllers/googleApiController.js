@@ -42,7 +42,7 @@ function findUserByUrl(calendarUrl) {
   return Users.findOne({ calendarUrl: calendarUrl });
 }
 
-async function refreshUserToken(oAuth2Client, user) {
+function refreshUserToken(oAuth2Client, user) {
   oAuth2Client.setCredentials({ refresh_token: user.refreshToken });
   // refresh access token with oauth 
   return oAuth2Client.refreshAccessToken()
