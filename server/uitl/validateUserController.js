@@ -26,26 +26,12 @@ exports.validateUserInfo = async function (req) {
   //init
   let isValid = false;
   let message = "";
-  const name = req.body.name;
-  const avatarUrl = req.body.avatarUrl;
   const timeZone = req.body.timeZone;
   const availableHoursFrom = req.body.availableHoursFrom;
   const availableHoursTo = req.body.availableHoursTo;
   const availableDays = req.body.availableDays;
   const calendarUrl = req.body.calendarUrl;
 
-  // Check that name is not null
-  if (!name) {
-    isValid = false;
-    message = "name shouldn't be an empty";
-    return { isValid, message };
-  }
-  // Check that is not null
-  if (!avatarUrl) {
-    isValid = false;
-    message = "avatarUrl shouldn't be an empty";
-    return { isValid, message };
-  }
   // Check that timeZone is not null
   if (!timeZone) {
     isValid = false;

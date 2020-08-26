@@ -38,8 +38,6 @@ exports.updateUserInfo = async function (req, res) {
       },
       {
         $set: {
-          name: req.body.name,
-          avatarUrl: req.body.avatarUrl,
           timeZone: req.body.timeZone,
           availableHoursFrom: req.body.availableHoursFrom,
           availableHoursTo: req.body.availableHoursTo,
@@ -99,6 +97,7 @@ exports.signUpUser = async function (req, res) {
   try {
     const meeting = new Meetings({
       duration: {
+        user_id: userId,
         duration: 60, // Default
         appointment: [],
       },
