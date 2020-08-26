@@ -11,14 +11,20 @@ exports.payment = async function (req, res) {
       source: token.id,
     })
     .then((customer) => {
-      console.log(customer);
-      stripe.charges.create({
-        amount: product.price * 100,
-        currency: "usd",
-        customer: customer.id,
-        receipt_email: token.email,
-        description: product.name,
-      });
+      console.log("customer", customer);
+      stripe.subscriptions
+        .create({
+          customer: customer.id,
+          items: [
+            {
+              price: "price_1HJrcVB2HY6qlBJzcULTCZMk",
+              quantity: 1,
+            },
+          ],
+        })
+        .then((res) => {
+          console.log("subscription");
+        });
     })
     .then((result) => {
       return res.status(200).json(result);
