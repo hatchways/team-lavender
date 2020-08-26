@@ -19,7 +19,7 @@ export default {
       `/api/google/availability?${qs}`
     )
       .then((res) => {
-        if (res.status === 200) return res.json({});
+        if (res.status === 200 || res.status === 404) return res.json({});
         else throw Error("Couldn't get user's availability");
       })
       .catch((err) => {

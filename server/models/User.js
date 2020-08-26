@@ -30,8 +30,8 @@ const userSchema = new Schema({
   refreshToken: {
     type: String,
   },
-  expireAt: {
-    type: String,
+  expiryDate: {
+    type: Number,
   },
 
   // =====================================

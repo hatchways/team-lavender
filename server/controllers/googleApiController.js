@@ -42,6 +42,23 @@ function findUserByUrl(calendarUrl) {
   return Users.findOne({ calendarUrl: calendarUrl });
 }
 
+async function refreshUserToken(oAuth2Client, user) {
+  oAuth2Client.setCredentials({ refresh_token: user.refreshToken });
+  // refresh access token with oauth 
+  return oAuth2Client.refreshAccessToken()
+  .then((tokens) => {
+    //update the access Token and expire date in the database, and return updated user
+    return Users.findOneAndUpdate(
+      { _id: user._id },
+      {
+        accessToken: tokens.credentials.access_token,
+        expiryDate: tokens.credentials.expiry_date,
+      },
+      {new: true}
+    );
+  });
+}
+
 function createTimeSlot(availabilityStart, availabilityEnd, meetingLength) {
   const range = moment.range(availabilityStart, availabilityEnd);
   //slice the range by meetinglength into different slots
@@ -61,7 +78,7 @@ function filterUnavailableSlot(events, timeSlot) {
         timeSlot[i].isSameOrBefore(startTime) &&
         timeSlot[i + 1].isAfter(startTime)
       ) {
-        //check if the meeting lasts till the next slot, if yes,increse the number os slots to remove
+        //check if the meeting lasts till the next slot, if yes,increase the number os slots to remove
         while (endTime.isAfter(timeSlot[i + n])) {
           n++;
         }
@@ -78,7 +95,6 @@ function authenticateUser(req, res) {
   let user = {};
   getTokenFromCode(oAuth2Client, req.query.code)
     .then(({ tokens }) => {
-      console.log(tokens);
       user.tokens = tokens;
       return getGoogleUserInfo(tokens.access_token);
     })
@@ -91,38 +107,49 @@ function authenticateUser(req, res) {
 
 function getAvailability(req, res) {
   const { query } = req;
-  const date = `${query.year}/${query.month}/${query.date}`; // 2020-08-20
+  const date = `${query.year}-${query.month}-${query.date}`; // 2020-08-20
   const meetingLength = parseInt(query.meetingLength); // "30min" => 30
   const { timeZone, calendarUrl } = query;
-  let user;
+  let user, availabilityStart, availabilityEnd;
 
   findUserByUrl(calendarUrl)
-    .then((dbModel) => {
-      user = dbModel;
-      user.availabilityStart = moment(`${date} ${user.availableHoursFrom}`);
-      user.availabilityEnd = moment(`${date} ${user.availableHoursTo}`);
-      // ===================================
-      //For now, hard code the refresh_token
-      return getGoogleCalendarApi(oAuth2Client, {
-        refresh_token:
-          "1//04_ZIKYvcn2LOCgYIARAAGAQSNwF-L9Ir-x_TcEaoH93ZbHi-BFl334mhzcedu6jsgXCMCAUH_H8CqF_IIIfRXiR32v7tiCt2OvM",
-      });
+    .then(async (dbModel) => {
+      //if user doesn't exist, break the chain, return response
+      if (!dbModel) return res.status(404).json("User doesn't exist");
+      // if user exists, get user calendar events, calculate time slot, return available slots
+      else {
+        user = dbModel;
+      
+        //check is access_token is expired and refresh if it is
+        const isExpired = moment(parseInt(user.expiryDate)) < moment();
+        if (isExpired) user = await refreshUserToken(oAuth2Client, user);
 
-      // ====================================
-      // when the database is ready: use the refresh.token retrieved from database
-      // return getGoogleCalendarApi(oAuth2Client, {refresh_token:user.refresh_token});
-    })
-    .then((calendar) => {
-      return getEvents(calendar, user.availabilityStart, user.availabilityEnd);
-    })
-    .then((response) => {
-      const events = response.data.items;
+        //load google calendar library with valid access_token
+        let calendar = getGoogleCalendarApi(oAuth2Client, {
+          access_token: user.accessToken,
+        });
 
-      //split the user available hours by the meeting length
-      timeSlot = createTimeSlot(user.availabilityStart,user.availabilityEnd,meetingLength);
-      if (events.length) timeSlot = filterUnavailableSlot(events, timeSlot);
-      return res.status(200).json(timeSlot.map((t) => t.format("HH:mm")));
+        //get events from google calendar that scheduled within users available time range
+        availabilityStart = moment(`${date} ${user.availableHoursFrom}`);
+        availabilityEnd = moment(`${date} ${user.availableHoursTo}`);
+        getEvents(calendar, availabilityStart, availabilityEnd)
+        .then(
+          (response) => {
+            const events = response.data.items;
+            //split the user available hours by the meeting length
+            timeSlot = createTimeSlot(
+              availabilityStart,
+              availabilityEnd,
+              meetingLength
+            );
+
+            if (events.length) timeSlot = filterUnavailableSlot(events, timeSlot);
+            return res.status(200).json(timeSlot.map((t) => t.format("HH:mm")));
+          }
+        );
+      }
     })
+
     .catch((err) => {
       console.log("API request failed: ", err);
       return res.status(422).json(err);
