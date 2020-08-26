@@ -35,7 +35,7 @@ function App() {
           component={Availability}
         />
         <Route exact path="/:calendarUrl/welcome" component={Dashboard} />
-        <Route path="/upgrade" component={Upgrade} />
+        <Route path="/:calendarUrl/upgrade" component={Upgrade} />
 
         <Route path="/test" component={Test} />
       </BrowserRouter>
