@@ -1,29 +1,52 @@
-import React, {PropTypes} from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core";
-import { Button, Box, Typography, Tab, Tabs } from "@material-ui/core"
+import { Button, Tab, Tabs } from "@material-ui/core"
 
+
+
+const DivInTabs = ({ className, onClick, children }) => {
+  return <div className={className} onClick={onClick} children={children} />;
+};
 
 const TimePicker = (props) => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(5);
+  const [clickedTime, setClickedTime] = React.useState("");
+  const [clickedTimeIndex, setClickedTimeIndex] = React.useState();
+  const [showTab, setShowTab] = React.useState(false);
 
-  let button = <Tab label={<Button className={classes.button} variant="outlined" size="large">Time</Button>} />
+  function onChoose(index, time) {
+    setClickedTimeIndex(index);
+    setClickedTime(time)
+  }
+
+
   let items = []
   let i;
-  for (i = 0; i < 10; i++) {
-    items.push(button);
+
+  for (i = 0; i < props.availability.length; i++) {
+    const index = i;
+    const time = props.availability[i];
+    if (clickedTimeIndex === index) {
+      items.push(<DivInTabs onClick={() => setShowTab(true)}  key={i}>
+                  <Tab className={classes.tabClicked} onClick={() => onChoose(index)} key={i} label={props.availability[i]} />
+                  <Button key={i + 100} className={classes.confirmButtonActive} onClick={()=> props.confirmAppointment(clickedTime)}>Confirm
+                  </Button>
+                </DivInTabs>);
+    } else {
+      items.push(<DivInTabs onClick={() => setShowTab(true)}  key={i}>
+                  <Tab className={classes.tabNotClicked} onClick={() => onChoose(index, time)} key={i} label={props.availability[i]} />
+                  <Button key={i + 100} className={classes.confirmButtonNotActive}>
+                  </Button>
+                </DivInTabs>);
+    }
   }
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   return (
     <div className={classes.root}>
       <Tabs
+        value={false}
         orientation="vertical"
         variant="scrollable"
-        value={value}
-        onChange={handleChange}
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
@@ -41,7 +64,6 @@ const useStyles = makeStyles((theme) => ({
         "font-size" : "18px"
       },
       "border-color" : "#F77102",
-      "font-color" : "#F77102"
     },
     root: {
       flexGrow: 1,
@@ -51,8 +73,46 @@ const useStyles = makeStyles((theme) => ({
       width: "100%"
     },
     tabs: {
-      width: "100%"
+      width: "100%",
     },
+    tabNotClicked: {
+      width: "100%",
+      margin: "5px",
+      fontSize: "20px",
+      border : "1px solid #F77102",
+      color : "#F77102",
+      "border-radius" : "5px",
+      "transition": "width 0.3s"
+    },
+    tabClicked: {
+      "margin-left" :"0px",
+      width: "60%",
+      margin: "5px",
+      fontSize: "20px",
+      border : "1px solid gray",
+      color : "white",
+      "border-radius" : "5px",
+      backgroundColor : "gray",
+      "transition": "width 0.3s"
+    },
+    confirmButtonActive : {
+      border : "1px solid #F77102",
+      backgroundColor : "#F77102",
+      fontSize : "15px",
+      width : "35%",
+      height : "100%",
+      padding : "11px",
+      color : "white",
+      "&:hover" : {
+        border: "1px solid #F79000",
+        backgroundColor : "#F79000"
+      },
+      "transition": "width 0.3s"
+    },
+    confirmButtonNotActive : {
+      width:"0px",
+      "transition": "width 0.3s"
+    }
 }));
   
 export default TimePicker;

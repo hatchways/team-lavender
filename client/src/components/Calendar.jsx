@@ -3,13 +3,50 @@ import { makeStyles } from "@material-ui/core/styles";
 import TimePicker from "./TimePicker";
 import ReactCalendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import API from "../utils/googleAPI";
+import Create from "../utils/createAppointment"
 
 const Calendar = (props) => {
     const classes = useStyles();
-    const [year, setYear] = React.useState("");
-    const [month, setMonth] = React.useState(""); 
-    const [date, setDate] = React.useState("");
+    const [availability, setAvailability] = React.useState(Object);
+    const [pickedDate, setPickedDate] = React.useState();
+    
+    
 
+    async function getAvailableTime(pickedDate) {
+      const p = new Date(pickedDate);
+      setPickedDate(p);
+      let year = (p.getYear() + 1900).toString();
+      let month = (p.getMonth() + 1).toString();
+      let date = p.getDate().toString()
+
+      const data = {
+        year:year, // collected from the date user clicked on 
+        month:month,
+        date:date,
+        availableFrom: "09:00",// from database 
+        availableTo: "17:00",
+        meetingLength: "30mins", //from the calendar type
+        timezone: "America/Toronto", // use moment to get time zone
+      };
+      API.getAvailability(data).then((res) => {
+        setAvailability(res)
+      });
+      
+    }
+
+    function confirmAppointment(clickedTime) {
+      const data = {
+        meetingId : "testMeetingId",
+        name : "testName",
+        email : "testEmail",
+        time : pickedDate, // temporary value to pass a test for creating appointments
+        time2 : clickedTime, // time clicked in the time list
+        timezone: "America/Toronto"
+      };
+  
+      Create.createAppointment(data)
+    }
 
     return (
       <div className={classes.container}>
@@ -17,14 +54,12 @@ const Calendar = (props) => {
           <ReactCalendar
             className={classes.reactCalendar}
             tileDisabled={({date, view }) => 
-            date.getMonth()=== 7 || date.getMonth()=== 9}
-            // onClickDay={(value, event) => alert('Clicked day: ', value)}
-            // onClickMonth={(value, event) => alert('Clicked month: ', value)}
-            // onClickYear={(value, event) => alert('Clicked year: ', value)}
+            date.getMonth()=== 6 || date.getMonth()=== 9}
+            onChange={getAvailableTime}
           />
         </div>
         <div className={classes.timePickerWrapper}>
-          <TimePicker />
+          <TimePicker availability={availability} confirmAppointment={confirmAppointment}/>
         </div>
       </div>
     );

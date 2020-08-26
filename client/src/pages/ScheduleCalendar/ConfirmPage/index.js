@@ -1,14 +1,14 @@
 import React from "react";
-import { Divider } from "@material-ui/core"
+import { Divider, TextField } from "@material-ui/core"
 import { withStyles } from "@material-ui/core/styles";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import MeetingConfirm from "../../../components/MeetingConfirm"
 
-import Calendar from "../../components/Calendar"
+import AppointmentConfirmStyle from "./style";
 
-import ScheduleCalendarStyle from "./style";
-
-function ScheduleCalendarPage(props) {
+function AppointmentConfirmPage(props) {
     const { classes } = props;
+    console.log("passing")
     return(
         <div>
             <div className={classes.title}>
@@ -22,14 +22,16 @@ function ScheduleCalendarPage(props) {
                         <AccessTimeIcon />
                         <div>30 min</div>
                     </div>
+                    <div>--time info--</div>
+                    <div>--timezone info--</div>
                 </div>
                 <Divider orientation="vertical" flexItem />
                 <div className={classes.onTheRightOfDivider}>
-                    <Calendar></Calendar>
+                    <MeetingConfirm></MeetingConfirm>
                 </div>
             </div>
         </div>
     );
 }
 
-export default withStyles(ScheduleCalendarStyle)(ScheduleCalendarPage);
+export default withStyles(AppointmentConfirmStyle)(AppointmentConfirmPage);

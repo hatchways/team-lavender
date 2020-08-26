@@ -23,6 +23,7 @@ exports.createAppointment = async function (req, res) {
   let time = req.body.time;
   let timezone = req.body.timezone;
 
+  console.log(timezone)
   //Check if all fields are not empty
   let result = checkFieldNotEmpty(isValid, "meetingId", meetingId, message);
   result = checkFieldNotEmpty(result.isValid, "name", name, result.message);
@@ -34,7 +35,9 @@ exports.createAppointment = async function (req, res) {
     timezone,
     result.message
   );
+  console.log(result.isValid)
   isValid = result.isValid;
+  console.log(result.isValid)
   message = result.message;
   // runs only when all fields are not empty
   if (isValid) {
@@ -63,6 +66,7 @@ exports.createAppointment = async function (req, res) {
 };
 
 function checkFieldNotEmpty(isValid, fieldName, field, message) {
+  console.log(field)
   if (!field) {
     isValid = false;
     message = `${fieldName} shouldn't be empty, Please make sure all field have a value.`;
