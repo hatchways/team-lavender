@@ -3,6 +3,6 @@ const router = express.Router();
 const upgradeController = require("../controllers/upgradeController");
 
 router.post("/payment", upgradeController.payment);
-router.delete("/delete", upgradeController.delete);
+router.post("/delete", upgradeController.delete);
 
 module.exports = router;

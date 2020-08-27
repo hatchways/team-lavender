@@ -50,9 +50,30 @@ exports.payment = async function (req, res) {
 };
 
 exports.delete = async function (req, res) {
-  //get req.url-> get subID and delete from db
-  await stripe.subscriptions.del("SubscriptionId");
+  url = req.body.url;
+  try {
+    const user = await Users.find({ calendarUrl: url }, { subscriptionId: 1 });
+    await Users.collection.updateOne(
+      {
+        calendarUrl: url,
+      },
+      {
+        $unset: {
+          subscriptionId: "",
+        },
+      }
+    );
+    console.log(user[0]["subscriptionId"]);
+    await stripe.subscriptions.del(user[0]["subscriptionId"]);
+  } catch (err) {
+    return res.status(400).json({ massage: err });
+  }
+  return res.status(200).json({
+    message: "Subscription cancelled",
+  });
 };
+
+//No route to this yet can be used to check if subscription id valid
 exports.retrieve = async function (req, res) {
   await stripe.subscriptions.retrieve("SubscriptionId");
 };

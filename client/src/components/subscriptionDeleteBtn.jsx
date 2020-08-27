@@ -4,11 +4,14 @@ import Button from "@material-ui/core/Button";
 
 function SubcribeDeleteBtn() {
   const [url, setUrl] = useState(
-    window.location.pathname.replace("/upgrade", "")
+    window.location.pathname.replace("/upgrade", "").replace("/", "")
   );
+  const body = {
+    url,
+  };
   function handleCancelation() {
     axios
-      .delete("http://localhost:3001/upgrade/delete")
+      .post("http://localhost:3001/upgrade/delete", body)
       .then((response) => console.log("Response", response))
       .catch((err) => console.log("Error: " + err));
   }

@@ -70,8 +70,6 @@ const userSchema = new Schema({
   },
   subscriptionId: {
     type: String,
-    required: true,
-    default: "test",
   },
 });
 
