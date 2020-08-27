@@ -13,7 +13,7 @@ function SubcribeBtn(props) {
   }
 
   const [url, setUrl] = useState(
-    window.location.pathname.replace("/upgrade", "")
+    window.location.pathname.replace("/upgrade", "").replace("/", "")
   );
 
   const [product, setProduct] = useState({

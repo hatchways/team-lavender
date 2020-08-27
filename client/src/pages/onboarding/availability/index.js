@@ -110,7 +110,6 @@ function AvailabilityPage(props) {
 
   function onFinish(e) {
     getCurrentUserId().then((data) => {
-      console.log(data);
       e.preventDefault();
       if (users.availableHoursFrom === "" || users.availableHoursTo === "") {
         alert("Please make sure all fields have a value");

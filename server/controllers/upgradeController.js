@@ -1,6 +1,7 @@
 const stripe = require("stripe")(process.env.STRIPE_SK);
 const uuid = require("uuid");
 const Users = require("../models/User");
+const mongoose = require("mongoose");
 
 exports.payment = async function (req, res) {
   const { product, token } = req.body;
@@ -23,8 +24,23 @@ exports.payment = async function (req, res) {
             },
           ],
         })
-        .then((res) => {
-          console.log("subscription", "SubscriptionId", res.id);
+        .then((response) => {
+          // add subscription id to the user maybe move to a different function
+          try {
+            // update
+            Users.collection.updateOne(
+              {
+                calendarUrl: product.calendUrl,
+              },
+              {
+                $set: {
+                  subscriptionId: response.id,
+                },
+              }
+            );
+          } catch (err) {
+            console.log(err);
+          }
         });
     })
     .then((result) => {
@@ -34,5 +50,9 @@ exports.payment = async function (req, res) {
 };
 
 exports.delete = async function (req, res) {
-  stripe.subscriptions.del("SubscriptionId");
+  //get req.url-> get subID and delete from db
+  await stripe.subscriptions.del("SubscriptionId");
+};
+exports.retrieve = async function (req, res) {
+  await stripe.subscriptions.retrieve("SubscriptionId");
 };
