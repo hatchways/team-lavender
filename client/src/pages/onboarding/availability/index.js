@@ -21,7 +21,6 @@ function AvailabilityPage(props) {
       .replace("/profile_setting/availability", "")
       .replace("/", ""),
   });
-  console.log(url.calendarUrl);
   if (typeof props.location.users === "undefined") {
     alert("Missing information redirecting");
     window.location = url.prev;
@@ -33,9 +32,6 @@ function AvailabilityPage(props) {
     availableDays: [],
     calendarUrl: props.location.users.calendarUrl,
   });
-
-  console.log("Users", users);
-  console.log(url.calendarUrl, users.calendarUrl);
 
   function onChangeAvailableHoursFrom(e) {
     console.log("Users", users.timeZone);
@@ -56,7 +52,6 @@ function AvailabilityPage(props) {
       availableDays: users.availableDays,
       calendarUrl: users.calendarUrl,
     });
-    console.log("Users", users);
   }
   function onChangeAvailableDays(e) {
     console.log(e.target.value);
@@ -67,7 +62,6 @@ function AvailabilityPage(props) {
       availableDays: addDays(e.target.value),
       calendarUrl: users.calendarUrl,
     });
-    console.log("Users", users);
   }
 
   function addDays(value) {
@@ -77,7 +71,6 @@ function AvailabilityPage(props) {
     } else {
       users.availableDays.push(value);
     }
-    console.log(users.availableDays);
     return users.availableDays;
   }
 

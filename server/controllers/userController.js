@@ -11,7 +11,6 @@ exports.checkUniqueUrl = async function (req, res) {
   // Task check url is unique in db
 
   const url = req.query.calendarUrl;
-  console.log(url);
 
   const { isValid, message, id } = await validateUniqueUrl(url);
   if (!isValid) {
@@ -57,6 +56,9 @@ exports.signUpUser = async function (req, res) {
   const name = req.body.name;
   const email = req.body.email;
   const avatarUrl = req.body.avatarUrl;
+  const accessToken = req.body.accessToken;
+  const refreshToken = req.body.refreshToken;
+  const expiryDate = req.body.expiryDate;
   let userId = "";
   let calendarUrl = "";
 
@@ -82,6 +84,9 @@ exports.signUpUser = async function (req, res) {
       avatarUrl: avatarUrl,
       timeZone: "America/Toronto", // Default
       calendarUrl: "",
+      accessToken,
+      refreshToken,
+      expiryDate,
     });
 
     userId = user._id;
@@ -114,10 +119,9 @@ exports.signUpUser = async function (req, res) {
   });
 };
 
-
 //for client side, calendar page fetching user data
-exports.findByUrl = function (req,res) {
-   Users.findOne(req.query)
-   .then((dbModel) => res.json(dbModel))
+exports.findByUrl = function (req, res) {
+  Users.findOne(req.query)
+    .then((dbModel) => res.json(dbModel))
     .catch((err) => res.status(422).json(err));
-}
+};
