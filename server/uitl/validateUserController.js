@@ -31,6 +31,8 @@ exports.validateUserInfo = async function (req) {
   const availableHoursTo = req.body.availableHoursTo;
   const availableDays = req.body.availableDays;
   const calendarUrl = req.body.calendarUrl;
+  const accessToken = req.body.accessToken;
+  const expiryDate = req.body.expiryDate;
 
   // Check that timeZone is not null
   if (!timeZone) {
@@ -62,7 +64,18 @@ exports.validateUserInfo = async function (req) {
     message = "calendarUrl shouldn't be an empty";
     return { isValid, message };
   }
-
+  // Check that accessToken is not null
+  if (!accessToken) {
+    isValid = false;
+    message = "accessToken not recieved";
+    return { isValid, message };
+  }
+  // Check that expiryDate is not null
+  if (!expiryDate) {
+    isValid = false;
+    message = "expiryDate not recieved";
+    return { isValid, message };
+  }
   // Check that url is unique
   userIdandUrl = await Users.find({ _id: req.params.id }, { calendarUrl: 1 });
   url = userIdandUrl[0]["calendarUrl"];

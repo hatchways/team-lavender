@@ -92,7 +92,6 @@ exports.signUpUser = async function (req, res) {
     userId = user._id;
     user.calendarUrl = user.createUrl();
     calendarUrl = user.calendarUrl;
-    console.log(calendarUrl);
     user.save();
   } catch (err) {
     return res.status(400).json({ massage: err });
