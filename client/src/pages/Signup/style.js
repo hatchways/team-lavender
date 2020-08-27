@@ -6,7 +6,7 @@ const SignupPageStyle = () => ({
         height : "480px",
         "-webkit-box-shadow" : "1px 1px 10px 3px rgba(196,196,196,1)",
         font : "Arial, Helvetica, sans-serif",
-        "font-weight" : "bold",
+        fontWeight : "bold",
         "text-align" : "center"
       },
       aboveDivider : {
@@ -20,7 +20,7 @@ const SignupPageStyle = () => ({
       textField : {
       },
       firstDivAboveDivider : {
-        "font-size" : "20px",
+        fontSize : "20px",
         "position" : "relative",
         "top" : "40px"
       },
@@ -29,7 +29,7 @@ const SignupPageStyle = () => ({
         "top" : "70px"
       },
       firstDivOfSecondDivAboveDivider : {
-        "font-size" : "12px",
+        fontSize : "12px",
         "margin-top" : "30px",
         "margin-bottom" : "10px"
       },
@@ -38,9 +38,9 @@ const SignupPageStyle = () => ({
       },
       startButton : {
         "width" : "30%",
-        "font-size" : "13px",
+        fontSize : "13px",
         "position" : "relative",
-        "font-weight" : "bold",
+        fontWeight : "bold",
         "top" : "130px",
         "background-color" : "#F78104",
         "color" : "white",
@@ -52,8 +52,8 @@ const SignupPageStyle = () => ({
       },
       title : {
         display : "flex",
-        "font-size" : "20px",
-        "font-weight" : "bold",
+        fontSize : "20px",
+        fontWeight : "bold",
         "justify-content" : "center",
         "margin" : "50px"
       },
@@ -64,15 +64,15 @@ const SignupPageStyle = () => ({
         "top" : "70px",
         "padding-right" : "60px",
         "padding-left" : "60px",
-        "font-weight" : "normal",
+        fontWeight : "normal",
         "color" : "#808080",
-        "font-size" : "13px"
+        fontSize : "13px"
       },
       gmailSignup : {
         "width" : "50%",
-        "font-size" : "13px",
+        fontSize : "13px",
         "position" : "relative",
-        "font-weight" : "bold",
+        fontWeight : "bold",
         "top" : "130px",
         "background-color" : "#F78104",
         "color" : "white",

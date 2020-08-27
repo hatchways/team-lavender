@@ -1,8 +1,8 @@
 const ConfirmPageStyle = (theme) => ({
     title : {
         display : "flex",
-        "font-size" : "20px",
-        "font-weight" : "bold",
+        fontSize : "20px",
+        fontWeight : "bold",
         "justify-content" : "center",
         "margin" : "50px"
     },
@@ -12,7 +12,7 @@ const ConfirmPageStyle = (theme) => ({
         height : "480px",
         "-webkit-box-shadow" : "1px 1px 10px 3px rgba(196,196,196,1)",
         font : "Arial, Helvetica, sans-serif",
-        "font-weight" : "bold",     
+        fontWeight : "bold",     
         "text-align" : "center"
     },
     aboveDivder : {
@@ -66,7 +66,7 @@ const ConfirmPageStyle = (theme) => ({
         position : "relative",
         height : "18%",
         '& div' : {
-            "font-weight" : "normal",
+            fontWeight : "normal",
             position : "relative",
             width: "80%",
             "top" : "20px"
@@ -79,7 +79,7 @@ const ConfirmPageStyle = (theme) => ({
         position : "relative",
         height : "18%",
         '& div' : {
-            "font-weight" : "normal",
+            fontWeight : "normal",
             position : "relative",
             width: "80%",
             "top" : "20px"
@@ -99,9 +99,9 @@ const ConfirmPageStyle = (theme) => ({
     },
     belowDivider_fourthDiv_continueButton : {
         "width" : "30%",
-        "font-size" : "13px",
+        fontSize : "13px",
         "position" : "relative",
-        "font-weight" : "bold",
+        fontWeight : "bold",
         "top" : "80px",
         "background-color" : "#F78104",
         "color" : "white",

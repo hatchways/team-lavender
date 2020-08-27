@@ -38,8 +38,6 @@ exports.updateUserInfo = async function (req, res) {
       },
       {
         $set: {
-          name: req.body.name,
-          avatarUrl: req.body.avatarUrl,
           timeZone: req.body.timeZone,
           availableHoursFrom: req.body.availableHoursFrom,
           availableHoursTo: req.body.availableHoursTo,
@@ -99,6 +97,7 @@ exports.signUpUser = async function (req, res) {
   try {
     const meeting = new Meetings({
       duration: {
+        user_id: userId,
         duration: 60, // Default
         appointment: [],
       },
@@ -114,3 +113,11 @@ exports.signUpUser = async function (req, res) {
     calendarUrl: calendarUrl,
   });
 };
+
+
+//for client side, calendar page fetching user data
+exports.findByUrl = function (req,res) {
+   Users.findOne(req.query)
+   .then((dbModel) => res.json(dbModel))
+    .catch((err) => res.status(422).json(err));
+}

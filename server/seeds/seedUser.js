@@ -20,7 +20,7 @@ const userSeed = [
       "Thursdays",
       "Fridays",
     ],
-    calendarUrl: "http://localhost:3000/mila-test1"
+    calendarUrl: "/mila-test1"
   },
   {
     name: "Mila Test2",
@@ -37,7 +37,7 @@ const userSeed = [
       "Thursdays",
       "Fridays",
     ],
-    calendarUrl: "http://localhost:3000/mila-test2"
+    calendarUrl: "/mila-test2"
   },
 ];
 
