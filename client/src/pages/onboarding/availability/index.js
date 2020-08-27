@@ -82,7 +82,6 @@ function AvailabilityPage(props) {
   }
 
   function getCurrentUserId() {
-    console.log("getCUId");
     return axios
       .get(`http://localhost:3001/user/is_unique`, {
         params: {
