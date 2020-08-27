@@ -4,11 +4,11 @@ import axios from "axios";
 
 function SubcribeBtn(props) {
   function setPrice() {
-    if (props.type === "Professional") {
-      return "price_1HJrcVB2HY6qlBJzcULTCZMk";
-    }
-    if (props.type === "Premium") {
-      return "price_1HJrb4B2HY6qlBJzSdpZNoTM";
+    switch (props.type) {
+      case "Professional":
+        return "price_1HJrcVB2HY6qlBJzcULTCZMk";
+      case "Premium":
+        return "price_1HJrb4B2HY6qlBJzSdpZNoTM";
     }
   }
 
@@ -17,7 +17,7 @@ function SubcribeBtn(props) {
   );
 
   const [product, setProduct] = useState({
-    name: "Premium",
+    name: props.type,
     price: setPrice(),
     calendUrl: url,
   });
