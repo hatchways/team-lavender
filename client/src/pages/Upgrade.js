@@ -1,13 +1,12 @@
 import React from "react";
-import SubscribeBtn from "../components/subscriptionBtn";
-import SubscribeDeleteBtn from "../components/subscriptionDeleteBtn";
+import NavBar from "../components/navbar";
+import PaymentOptions from "../components/PaymentOptions";
 
 function Upgrade() {
   return (
     <div>
-      <SubscribeBtn type="Premium" />
-      <SubscribeBtn type="Professional" />
-      <SubscribeDeleteBtn />
+      <NavBar />
+      <PaymentOptions />
     </div>
   );
 }
