@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -8,9 +8,32 @@ import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
 import SubscribeBtn from "../components/subscriptionBtn";
 import SubscribeDeleteBtn from "../components/subscriptionDeleteBtn";
+import axios from "axios";
 
 const PaymentOptions = () => {
   const classes = useStyles();
+  const [url, setUrl] = useState(
+    window.location.pathname.replace("/upgrade", "").replace("/", "")
+  );
+  const [currentPlan, setCurrentPlan] = useState("free basic plan");
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/upgrade/checkSubscription", {
+        params: {
+          calendarUrl: url,
+        },
+      })
+      .then((response) => {
+        console.log("Response", response.data.plan.amount);
+        if (response.data.plan.amount == 1999) {
+          setCurrentPlan("professional plan");
+        }
+        if (response.data.plan.amount == 999) {
+          setCurrentPlan("premium plan");
+        }
+      })
+      .catch((err) => console.log("Error: " + err));
+  });
   return (
     <React.Fragment>
       <div style={{ background: "#EBF4FA" }}>
@@ -25,7 +48,7 @@ const PaymentOptions = () => {
               Upgrade your account
             </Typography>
             <Typography component="h4" variant="h5" color="textPrimary">
-              You are on free basic plan
+              {"You are on " + currentPlan}
             </Typography>
           </div>
           <Grid container spacing={5} alignItems="center" justify="center">
@@ -44,7 +67,13 @@ const PaymentOptions = () => {
                   >
                     $9.99/ Month
                   </Typography>
-                  <SubscribeBtn type="Premium" price="999" />
+                  {currentPlan === "free basic plan" && (
+                    <SubscribeBtn type="Premium" price="999" />
+                  )}
+                  {currentPlan === "premium plan" && <SubscribeDeleteBtn />}
+                  {currentPlan === "professional plan" && (
+                    <div>Cancel professional plan first</div>
+                  )}
                   <Divider className={classes.dividerInCardContent} />
                   <div className={classes.belowDividerinCardContent}>
                     <ul>
@@ -70,7 +99,16 @@ const PaymentOptions = () => {
                   >
                     $19.99/ Month
                   </Typography>
-                  <SubscribeBtn type="Professional" price="1999" />
+                  {currentPlan === "free basic plan" && (
+                    <SubscribeBtn type="Professional" price="1999" />
+                  )}
+                  {currentPlan === "professional plan" && (
+                    <SubscribeDeleteBtn />
+                  )}
+                  {currentPlan === "premium plan" && (
+                    <div>Cancel premium plan first</div>
+                  )}
+
                   <Divider className={classes.dividerInCardContent} />
                   <div className={classes.belowDividerinCardContent}>
                     <ul>
@@ -89,9 +127,7 @@ const PaymentOptions = () => {
           alignItems="center"
           justify="center"
           style={{ marginTop: 30 }}
-        >
-          <SubscribeDeleteBtn />
-        </Grid>
+        ></Grid>
       </div>
     </React.Fragment>
   );

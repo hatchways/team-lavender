@@ -53,9 +53,28 @@ exports.delete = async function (req, res) {
   }
 };
 
-//No route to this yet can be used to check if subscription id valid
 exports.retrieve = async function (req, res) {
-  await stripe.subscriptions.retrieve("SubscriptionId");
+  console.log(req.query.calendarUrl);
+  try {
+    const user = await Users.find(
+      { calendarUrl: req.query.calendarUrl },
+      { subscriptionId: 1 }
+    );
+    if (user.length === 0) {
+      return res.status(404).json("Subscription not found");
+    } else {
+      await stripe.subscriptions
+        .retrieve(user[0]["subscriptionId"])
+        .then((response) => {
+          return res.status(200).json(response);
+        })
+        .catch((err) => {
+          return res.status(400).json(err);
+        });
+    }
+  } catch (err) {
+    return res.status(400).json({ massage: err });
+  }
 };
 
 async function createCustomer(token) {
