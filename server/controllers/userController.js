@@ -71,11 +71,27 @@ exports.signUpUser = async function (req, res) {
   );
 
   if (existUser.length > 0) {
-    return res.status(200).json({
-      message: "Already Exist User Account",
-      _id: existUser[0]["_id"],
-      calendarUrl: existUser[0]["calendarUrl"],
-    });
+    try {
+      // update
+      Users.collection.updateOne(
+        {
+          email: email,
+        },
+        {
+          $set: {
+            accessToken,
+            expiryDate,
+          },
+        }
+      );
+      return res.status(200).json({
+        message: "Already Exist User Account",
+        _id: existUser[0]["_id"],
+        calendarUrl: existUser[0]["calendarUrl"],
+      });
+    } catch (err) {
+      return res.status(400).json({ massage: err });
+    }
   }
 
   try {
