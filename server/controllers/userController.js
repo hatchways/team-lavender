@@ -53,12 +53,14 @@ exports.updateUserInfo = async function (req, res) {
 
 // Update name, avaterUrl and timeZone
 exports.signUpUser = async function (req, res) {
-  const name = req.body.name;
-  const email = req.body.email;
-  const avatarUrl = req.body.avatarUrl;
-  const accessToken = req.body.accessToken;
-  const refreshToken = req.body.refreshToken;
-  const expiryDate = req.body.expiryDate;
+  const {
+    name,
+    email,
+    avatarUrl,
+    accessToken,
+    refreshToken,
+    expiryDate,
+  } = req.body;
   let userId = "";
   let calendarUrl = "";
 
@@ -79,9 +81,9 @@ exports.signUpUser = async function (req, res) {
   try {
     // Create new User
     const user = new Users({
-      name: name,
-      email: email,
-      avatarUrl: avatarUrl,
+      name,
+      email,
+      avatarUrl,
       timeZone: "America/Toronto", // Default
       calendarUrl: "",
       accessToken,

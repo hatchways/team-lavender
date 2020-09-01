@@ -26,13 +26,15 @@ exports.validateUserInfo = async function (req) {
   //init
   let isValid = false;
   let message = "";
-  const timeZone = req.body.timeZone;
-  const availableHoursFrom = req.body.availableHoursFrom;
-  const availableHoursTo = req.body.availableHoursTo;
-  const availableDays = req.body.availableDays;
-  const calendarUrl = req.body.calendarUrl;
-  const accessToken = req.body.accessToken;
-  const expiryDate = req.body.expiryDate;
+  const {
+    timeZone,
+    availableHoursFrom,
+    availableHoursTo,
+    availableDays,
+    calendarUrl,
+    accessToken,
+    expiryDate,
+  } = req.body;
 
   // Check that timeZone is not null
   if (!timeZone) {
