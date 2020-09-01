@@ -14,7 +14,11 @@ function SubcribeDeleteBtn() {
   function handleCancelation() {
     axios
       .post("http://localhost:3001/upgrade/delete", body)
-      .then((response) => console.log("Response", response))
+      .then((response) => {
+        console.log("Response", response);
+        alert(response.data);
+        window.location.reload();
+      })
       .catch((err) => console.log("Error: " + err));
   }
   return (

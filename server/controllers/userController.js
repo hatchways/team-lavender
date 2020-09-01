@@ -54,9 +54,7 @@ exports.updateUserInfo = async function (req, res) {
 
 // Update name, avaterUrl and timeZone
 exports.signUpUser = async function (req, res) {
-  const name = req.body.name;
-  const email = req.body.email;
-  const avatarUrl = req.body.avatarUrl;
+  const { name, email, avatarUrl } = req.body;
   let userId = "";
   let calendarUrl = "";
 
@@ -77,9 +75,9 @@ exports.signUpUser = async function (req, res) {
   try {
     // Create new User
     const user = new Users({
-      name: name,
-      email: email,
-      avatarUrl: avatarUrl,
+      name,
+      email,
+      avatarUrl,
       timeZone: "America/Toronto", // Default
       calendarUrl: "",
     });
@@ -114,10 +112,9 @@ exports.signUpUser = async function (req, res) {
   });
 };
 
-
 //for client side, calendar page fetching user data
-exports.findByUrl = function (req,res) {
-   Users.findOne(req.query)
-   .then((dbModel) => res.json(dbModel))
+exports.findByUrl = function (req, res) {
+  Users.findOne(req.query)
+    .then((dbModel) => res.json(dbModel))
     .catch((err) => res.status(422).json(err));
-}
+};

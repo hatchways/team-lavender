@@ -32,7 +32,11 @@ function SubcribeBtn(props) {
     };
     axios
       .post("http://localhost:3001/upgrade/payment", body)
-      .then((response) => console.log("Response", response))
+      .then((response) => {
+        console.log("Response", response);
+        alert(response.data);
+        window.location.reload();
+      })
       .catch((err) => console.log("Error: " + err));
   };
 

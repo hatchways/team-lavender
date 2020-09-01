@@ -7,7 +7,6 @@ exports.payment = async function (req, res) {
   const customer = createCustomer(token);
   const response = customer
     .then((customer) => {
-      console.log("customer", customer);
       return createSubscription(customer, product);
     })
     .catch((err) => {
@@ -15,7 +14,6 @@ exports.payment = async function (req, res) {
     });
   const message = response
     .then((response) => {
-      console.log("response", response);
       return addSubcriptinIdToDb(response, product);
     })
     .catch((err) => {
@@ -54,7 +52,6 @@ exports.delete = async function (req, res) {
 };
 
 exports.retrieve = async function (req, res) {
-  console.log(req.query.calendarUrl);
   try {
     const user = await Users.find(
       { calendarUrl: req.query.calendarUrl },
@@ -97,7 +94,6 @@ async function createSubscription(customer, product) {
 }
 
 async function addSubcriptinIdToDb(response, product) {
-  console.log("response", response, product);
   try {
     Users.collection.updateOne(
       {
@@ -112,6 +108,6 @@ async function addSubcriptinIdToDb(response, product) {
     return "Customer and subscription created";
   } catch (err) {
     stripe.subscriptions.del(response.id);
-    return "Customer created,subscription added and cancelled contact customer service for refund";
+    return "Customer created, subscription added and cancelled contact customer service for refund";
   }
 }
