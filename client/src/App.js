@@ -28,11 +28,11 @@ function App() {
           component={Timezone}
         />
         <Route
-          exact path="/:calendarUrl/schedule"
+          exact path="/:calendarUrl/:eventUrl"
           component={Schedule}
         />
         <Route
-          path="/:calendarUrl/schedule/:info"
+          exact path="/:calendarUrl/:eventURL/confirm"
           component={AppointmentConfirm}
         />
         <Route
@@ -43,7 +43,7 @@ function App() {
           path="/:calendarUrl/profile_setting/availability"
           component={Availability}
         />
-        <Route exact path="/:calendarUrl/welcome" component={Dashboard} />
+        <Route exact path="/:calendarUrl/" component={Dashboard} />
 
         <Route path="/test" component={Test} />
       </BrowserRouter>

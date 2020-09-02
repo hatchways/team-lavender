@@ -22,16 +22,16 @@ function sendConfirmEmail (emailType, emailInfo) {
             return {isValid, err}
     }
     template = EmailTemplates.templateEmail(EMAIL_TYPE.WELCOME_EMAIL)
-    let emailsToSend = new Array()
-    emailInfo.forEach((value) => {
-      emailsToSend.push(value.sendTo);
-    });
+    // let emailsToSend = new Array()
+    // emailInfo.forEach((value) => {
+    //   emailsToSend.push(value.sendTo);
+    // });
     const sgMail = require('@sendgrid/mail');
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
-      to: emailsToSend,
+      to: emailInfo,
       from: 'team.lavender.hatchway@gmail.com', // Use the email address or domain you verified by sendgrid
-      subject: 'Sending with Twilio SendGrid is Fun',
+      subject: 'TEST SUBJECT',
       text: 'TEST EMAIL',
       html: template,
     };

@@ -1,13 +1,21 @@
+import axios from "axios";
+
 export default {
     // create a event with current user ID
-    authenticateUser: function (code) {
-      return fetch(`/api/google/authentication?code=${code}`)
-        .then((res) => {
-          if (res.status === 200) return res.json({});
-          else throw Error("Couldn't authenticate user with Google");
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+    createMeeting: async function (data) {
+        const url = 'http://localhost:3001/meeting'
+        
+        let options = {
+                method: 'POST',
+                url: url,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                data: data
+            }
+        let response = await axios(options);
+
+        return response;
     },
 };

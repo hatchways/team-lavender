@@ -15,20 +15,7 @@ export default {
                 data: data
             }
         let response = await axios(options);
-        // const response = await fetch(url, {
-        //     method: 'POST',
-        //     headers: {
-        //     'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(data)
-        // })
-        // .then((res) => {
-        //     if (res.status === 200) return res.json({});
-        //     else throw Error("Can't create an appointment");
-        // })
-        // .catch((err) => {
-        //     console.log(err.message);
-        // });
+        
 
         return response;
     },

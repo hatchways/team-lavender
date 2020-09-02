@@ -8,5 +8,9 @@ router.get("/", meetingController.getLoggedInUserMeetings);
 
 router.post("/confirmemail", meetingController.sendConfirmEmail);
 
+router.post("/meetingcheck", meetingController.meetingCheck);
+
+router.post("/getHostAvailableDay", meetingController.getHostAvailableDay);
+
 
 module.exports = router;

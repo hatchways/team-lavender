@@ -3,16 +3,23 @@ import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button } from "@material-ui/core"
 
 const MeetingConfirm = (props) => {
+    let pathArray = window.location.pathname.split('/');
+
     const classes = useStyles();
-    
+    const [name, setName] = React.useState('')
+    const [email, setEmail] = React.useState('')
+    const [calendarURL, setCalendarURL] = React.useState(pathArray[1])
+    function scheduleAppointment() {
+        props.confirmAppointment(name,email,calendarURL);
+    }
 
     return (
       <div className={classes.container}>
         <div>Enter Details</div>
         <form className={classes.root} autoComplete="off">
-            <TextField className={classes.textField} fullWidth id="outlined-basic" label="Name" variant="outlined" />
-            <TextField className={classes.textField} fullWidth id="outlined-basic" label="Email" variant="outlined" />
-            <Button className={classes.confirmButton}>Schedule Meeting</Button>
+            <TextField className={classes.textField} fullWidth id="outlined-basic" label="Name" name="name" variant="outlined" onChange={(event) => {setName(event.target.value)}} />
+            <TextField className={classes.textField} fullWidth id="outlined-basic" label="Email" name="email" variant="outlined" onChange={(event) => {setEmail(event.target.value)}}/>
+            <Button className={classes.confirmButton} type="submit" onClick={scheduleAppointment}>Schedule Meeting</Button>
         </form>
       </div>
     );

@@ -12,7 +12,6 @@ const TimePicker = (props) => {
   const classes = useStyles();
   const [clickedTime, setClickedTime] = React.useState("");
   const [clickedTimeIndex, setClickedTimeIndex] = React.useState();
-  const [showTab, setShowTab] = React.useState(false);
 
   function onChoose(index, time) {
     setClickedTimeIndex(index);
@@ -27,13 +26,13 @@ const TimePicker = (props) => {
     const index = i;
     const time = props.availability[i];
     if (clickedTimeIndex === index) {
-      items.push(<DivInTabs onClick={() => setShowTab(true)}  key={i}>
+      items.push(<DivInTabs  key={i}>
                   <Tab className={classes.tabClicked} onClick={() => onChoose(index)} key={i} label={props.availability[i]} />
-                  <Button key={i + 100} className={classes.confirmButtonActive} onClick={()=> props.confirmAppointment(clickedTime)}>Confirm
+                  <Button key={i + 100} className={classes.confirmButtonActive} onClick={()=> props.toConfirmAppointmentPage(clickedTime)}>Confirm
                   </Button>
                 </DivInTabs>);
     } else {
-      items.push(<DivInTabs onClick={() => setShowTab(true)}  key={i}>
+      items.push(<DivInTabs  key={i}>
                   <Tab className={classes.tabNotClicked} onClick={() => onChoose(index, time)} key={i} label={props.availability[i]} />
                   <Button key={i + 100} className={classes.confirmButtonNotActive}>
                   </Button>

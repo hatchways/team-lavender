@@ -44,7 +44,7 @@ function TimezonePage(props) {
       })
       .catch((err) => {
         e.preventDefault();
-        if (err.response.data.message == "this url is not unique") {
+        if (err.response.data.message === "this url is not unique") {
           console.log(err.response.data.message);
           alert("This url is taken, try a new one");
           window.location.reload();
