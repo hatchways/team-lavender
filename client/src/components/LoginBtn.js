@@ -21,6 +21,9 @@ function LoginBtn(props) {
         email: response.userInfo.email,
         avatarUrl: response.userInfo.picture,
         timeZone: "America/Toronto",
+        accessToken: response.tokens.access_token,
+        expiryDate: response.tokens.expiry_date,
+        refreshToken: response.tokens.refresh_token,
       };
       axios
         .post("/user/signup", user)
@@ -35,7 +38,7 @@ function LoginBtn(props) {
         .catch((err) => console.log("Error: " + err));
     } else {
       //if user is already signed in, will return GoogleUser automatically
-      console.log(res)
+      console.log(res);
     }
   }
 
@@ -61,7 +64,7 @@ function LoginBtn(props) {
       responseType="code"
       accessType="offline"
       redirectUri="http://localhost:3000"
-      //automatically return GoogleUser if user is signed in 
+      //automatically return GoogleUser if user is signed in
       isSignedIn={true}
       className={props.className}
     />
