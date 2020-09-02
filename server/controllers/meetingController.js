@@ -19,14 +19,14 @@ exports.createMeeting = async function (req, res) {
   }
   
   
-  const userId = req.body.id;
+  const userId = req.body.userId;
   const eventURL = req.body.eventURL;
   const duration = req.body.duration;
   const meeting = await Meetings.find({eventURL : eventURL})
   if (meeting.length > 0) {
     return res.status(200).json({ message: "event url already exist", eventURLExist: true});
   }
-
+  
   // Create new meeting for logged in user
   const newMeeting = new Meetings({
     userId : userId,
@@ -34,6 +34,7 @@ exports.createMeeting = async function (req, res) {
     eventURL: eventURL,
     appointment : new Array(),
   });
+
 
   try {
     newMeeting.save()
@@ -90,6 +91,12 @@ exports.meetingCheck = async function (req, res) {
   }
   duration = meeting[0].duration
   
+  // // this comment will be uncommented after FE pass the proper userID when creating a meeintg
+  // if (user[0]._id != meeting[0].userId) {
+  //   console.log("eventURL and calendarURL don't match")
+  //   return res.status(200).json({message : "eventURL and calendarURL don't match", isExist : false})
+  // }
+
 
   return res.status(200).json({message : "eventURL doesn't exist", isExist : true, duration : duration, hostName : hostName}) 
 }

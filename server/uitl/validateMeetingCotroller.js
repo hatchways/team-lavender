@@ -5,14 +5,15 @@ exports.validateCreateNewMeetingReq = async function (req) {
   // init
   let isValid = false;
   let message = "Valid";
-  let userId = req.body.id;
+  let userId = req.body.userId;
   const eventURL = req.body.eventURL;
   const duration = req.body.duration;
+
 
   // Check that id is valid
   const idIsValid = await mongoose.isValidObjectId(userId);
 
-  if (!idIsValid) {
+  if (!idIsValid || !userId) {
     isValid = false;
     message = "userId is invalid";
 
