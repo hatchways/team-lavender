@@ -4,7 +4,6 @@ import { TextField, Button } from "@material-ui/core"
 
 const MeetingConfirm = (props) => {
     let pathArray = window.location.pathname.split('/');
-
     const classes = useStyles();
     const [name, setName] = React.useState('')
     const [email, setEmail] = React.useState('')

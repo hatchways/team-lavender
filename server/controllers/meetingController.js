@@ -64,7 +64,7 @@ exports.meetingCheck = async function (req, res) {
   let isValid = true;
   let message = "";
   let duration = 0;
-  let hostName = 0; 
+  let hostName = ""; 
 
   const calendarURL = req.body.calendarURL;
   const eventURL = req.body.eventURL;
@@ -74,7 +74,6 @@ exports.meetingCheck = async function (req, res) {
   if (!isValid) {
     return res.status(200).json({message : "not valid url", isExist : false})
   }
-  
   
   const user = await Users.find({calendarUrl : calendarURL});
   if (user.length < 1) {

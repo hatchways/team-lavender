@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Divider } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles";
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
@@ -9,6 +9,12 @@ import Create from "../utils/createAppointment"
 function AppointmentConfirm(props) {
     const classes = useStyles();
     const urlParams = new URLSearchParams(window.location.search);
+    const [hostName, setHostName] = React.useState("");
+    const [time, setTime] = React.useState("");
+
+    useEffect(() => {
+        setTime(urlParams.get('time'));
+    }, [])
 
     function confirmAppointment(name, email, calendarURL) {
         const time = `${urlParams.get('date')}T${urlParams.get('time')}`
@@ -31,18 +37,16 @@ function AppointmentConfirm(props) {
             </div>
             <div className={classes.scheduleCalendarContainer}>
                 <div className={classes.onTheLeftOfDivider}>
-                    <div>Benjamin Lee</div>
-                    <div>Online Interview</div>
                     <div className={classes.duration}>
                         <AccessTimeIcon />
                         <div>30 min</div>
                     </div>
-                    <div>--time info--</div>
+                    <div>Start at {time}</div>
                     <div>--timezone info--</div>
                 </div>
                 <Divider orientation="vertical" flexItem />
                 <div className={classes.onTheRightOfDivider}>
-                    <MeetingConfirm confirmAppointment={confirmAppointment}></MeetingConfirm>
+                    <MeetingConfirm confirmAppointment={confirmAppointment} setHostName={setHostName}></MeetingConfirm>
                 </div>
             </div>
         </div>
