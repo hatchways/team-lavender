@@ -60,6 +60,7 @@ exports.getLoggedInUserMeetings = async function (req, res) {
   }
 };
 
+//check meeting invitation url
 exports.meetingCheck = async function (req, res) {
   let isValid = true;
   let message = "";
