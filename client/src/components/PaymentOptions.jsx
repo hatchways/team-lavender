@@ -28,7 +28,7 @@ const PaymentOptions = () => {
         if (response.data.plan.amount == 1999) {
           setCurrentPlan("professional plan");
         }
-        if (response.data.plan.amount == 999) {
+        else if (response.data.plan.amount == 999) {
           setCurrentPlan("premium plan");
         }
       })
