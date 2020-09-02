@@ -17,9 +17,9 @@ function AvailabilityPage(props) {
 
   const [url] = React.useState({
     prev: window.location.pathname.replace("availability", "timezone"),
-    calendarUrl:
-      window.location.origin +
-      window.location.pathname.replace("/profile_setting/availability", ""),
+    calendarUrl: window.location.pathname
+      .replace("/profile_setting/availability", "")
+      .replace("/", ""),
   });
   console.log(url.calendarUrl);
   if (typeof props.location.users === "undefined") {
@@ -27,13 +27,10 @@ function AvailabilityPage(props) {
     window.location = url.prev;
   }
   const [users, setUsers] = React.useState({
-    name: "test",
-    email: "test@gmail.com",
-    avatarUrl: "test.com",
     timeZone: props.location.users.timezone,
     availableHoursFrom: "",
     availableHoursTo: "",
-    availableDays: ["Monday", "Tuesday", "Wednesday"],
+    availableDays: [],
     calendarUrl: props.location.users.calendarUrl,
   });
 
@@ -43,9 +40,6 @@ function AvailabilityPage(props) {
   function onChangeAvailableHoursFrom(e) {
     console.log("Users", users.timeZone);
     setUsers({
-      name: users.name,
-      email: users.email,
-      avatarUrl: users.avatarUrl,
       timeZone: users.timeZone,
       availableHoursFrom: e.target.value,
       availableHoursTo: users.availableHoursTo,
@@ -56,9 +50,6 @@ function AvailabilityPage(props) {
   }
   function onChangeAvailableHoursTo(e) {
     setUsers({
-      name: users.name,
-      email: users.email,
-      avatarUrl: users.avatarUrl,
       timeZone: users.timeZone,
       availableHoursFrom: users.availableHoursFrom,
       availableHoursTo: e.target.value,
@@ -70,16 +61,24 @@ function AvailabilityPage(props) {
   function onChangeAvailableDays(e) {
     console.log(e.target.value);
     setUsers({
-      name: users.name,
-      email: users.email,
-      avatarUrl: users.avatarUrl,
       timeZone: users.timeZone,
       availableHoursFrom: users.availableHoursFrom,
       availableHoursTo: users.availableHoursTo,
-      availableDays: users.availableDays.push(e.target.value),
+      availableDays: addDays(e.target.value),
       calendarUrl: users.calendarUrl,
     });
     console.log("Users", users);
+  }
+
+  function addDays(value) {
+    if (users.availableDays.includes(value)) {
+      const index = users.availableDays.indexOf(value);
+      users.availableDays.splice(index, 1);
+    } else {
+      users.availableDays.push(value);
+    }
+    console.log(users.availableDays);
+    return users.availableDays;
   }
 
   function getCurrentUserId() {
