@@ -53,6 +53,7 @@ exports.updateUserInfo = async function (req, res) {
 
 // Update name, avaterUrl and timeZone
 exports.signUpUser = async function (req, res) {
+  
   const {
     name,
     email,
@@ -61,6 +62,7 @@ exports.signUpUser = async function (req, res) {
     refreshToken,
     expiryDate,
   } = req.body;
+
   let userId = "";
   let calendarUrl = "";
 
