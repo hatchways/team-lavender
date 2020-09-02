@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -8,6 +8,9 @@ import Avatar from "@material-ui/core/Avatar";
 
 const NavBar = () => {
   const classes = useStyles();
+  const [url, setUrl] = useState(
+    window.location.pathname.replace("/welcome", "")
+  );
   return (
     <React.Fragment>
       <AppBar position="static">
@@ -37,7 +40,7 @@ const NavBar = () => {
               Integration
             </NavLink>
             <NavLink
-              to="/updateaccount"
+              to={url + "/upgrade"}
               activeClassName="selected"
               activeStyle={{ color: "#F78104" }}
               className={classes.link}
