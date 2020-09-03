@@ -32,7 +32,7 @@ function LoginBtn(props) {
             window.location = `${res.data.calendarUrl}/profile_setting/timezone`;
           }
           if (res.data.message === "Already Exist User Account") {
-            window.location = `${res.data.calendarUrl}/welcome`;
+            window.location = `${res.data.calendarUrl}`;
           }
         })
         .catch((err) => console.log("Error: " + err));

@@ -8,9 +8,7 @@ import Avatar from "@material-ui/core/Avatar";
 
 const NavBar = () => {
   const classes = useStyles();
-  const [url, setUrl] = useState(
-    window.location.pathname.replace("/welcome", "")
-  );
+  const [url, setUrl] = useState(window.location.pathname);
   return (
     <React.Fragment>
       <AppBar position="static">
