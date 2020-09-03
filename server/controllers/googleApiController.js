@@ -172,18 +172,14 @@ function getAvailability(req, res) {
 }
 
 function addAppointment(req, res) {
-  const {
-    name,
-    email,
-    timeZone,
-    calendarUrl,
-  } = req.body;
-  findUserByUrl("sharmadityaa")
+  const { name, email, startTime, endTime, timeZone, calendarUrl } = req.body;
+  findUserByUrl(calendarUrl)
     .then(async (dbModel) => {
       //if user doesn't exist, break the chain, return response
       if (!dbModel) return res.status(404).json("User doesn't exist");
       else {
         user = dbModel;
+        //check is access_token is expired and refresh if it is
         const isExpired = moment(parseInt(user.expiryDate)) < moment();
         if (isExpired) user = await refreshUserToken(oAuth2Client, user);
 
@@ -196,18 +192,14 @@ function addAppointment(req, res) {
           location: "Online",
           description: "calendapp appointment",
           start: {
-            dateTime: "2020-12-28T09:00:00-07:00",
-            timeZone: "America/Los_Angeles",
+            dateTime: Date.parse(startTime),
+            timeZone: timeZone,
           },
           end: {
-            dateTime: "2020-12-28T17:00:00-07:00",
-            timeZone: "America/Los_Angeles",
+            dateTime: Date.parse(endTime),
+            timeZone: timeZone,
           },
-          //recurrence: ["RRULE:FREQ=DAILY;COUNT=2"],
-          attendees: [
-            { email: "lpage@example.com" },
-            { email: "sbrin@example.com" },
-          ],
+          attendees: [{ email: email }],
           reminders: {
             useDefault: false,
             overrides: [
@@ -217,20 +209,17 @@ function addAppointment(req, res) {
           },
         };
         var request = calendar.events.insert({
-          calendarId: "sharmadityaa@gmail.com",
+          calendarId: user.email,
           resource: event,
           //sendNotifications: true,
         });
         request.then(() => {
           return res.status(200).json("event added");
         });
-        //request.execute(function (event) {
-        //appendPre("Event created: " + event.htmlLink);
-        //});
       }
     })
     .catch((err) => {
-      console.log("API request failed: ", err);
+      console.log("Event not added: ", err);
       return res.status(422).json(err);
     });
 }

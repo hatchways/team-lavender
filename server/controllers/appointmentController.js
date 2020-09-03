@@ -53,18 +53,12 @@ exports.createAppointment = async function (req, res) {
       endTime: Date.parse(endTime),
       timezone,
     });
-    var query = { meetingId: meetingId };
-    const appointmentList = await Appointments.find(query);
-    //Checks if meeting id is unique
-    if (appointmentList.length < 1) {
-      try {
-        newAppointment.save();
-        return res.json("Appointment added");
-      } catch (err) {
-        return res.status(400).json({ massage: err });
-      }
+    try {
+      newAppointment.save();
+      return res.json("Appointment added");
+    } catch (err) {
+      return res.status(400).json({ massage: err });
     }
-    return res.status(400).json({ massage: "meetingId should be unique" });
   }
   // Only runs if a field is empty and returns message `${fieldName} shouldn't be empty, Please make sure all field have a value.`
   return res.status(400).json({ massage: message });

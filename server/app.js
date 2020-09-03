@@ -9,6 +9,7 @@ const appointmentRouter = require("./routes/appointments");
 const meetingsRouter = require("./routes/meetings");
 const usersRouter = require("./routes/users");
 const googleAPI = require("./routes/googleAPI");
+const upgradeRouter = require("./routes/upgrade");
 
 // DB connection
 const connectDB = require("./middleware/database");
@@ -33,6 +34,7 @@ app.use("/appointments", appointmentRouter);
 app.use("/meeting", meetingsRouter);
 app.use("/user", usersRouter);
 app.use("/api/google", googleAPI);
+app.use("/upgrade", upgradeRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
