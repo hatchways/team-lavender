@@ -37,7 +37,7 @@ function App() {
       });
     }
   }, []);
-
+console.log("app",user.isAuthenticated)
 
   return (
     <MuiThemeProvider theme={theme}>
@@ -46,9 +46,7 @@ function App() {
         <Route exact path="/" component={Signup} />
         <Route path="/login" component={Login} />
 
-        {/* only available after login  */}
-        {user.isAuthenticated && (
-          <>
+     
             <Route
               path="/:calendarUrl/profile_setting/timezone"
               component={Timezone}
@@ -62,8 +60,7 @@ function App() {
               component={Availability}
             />
             <Route exact path="/:calendarUrl/welcome" component={Dashboard} />
-          </>
-        ) }
+       
 
         <Route path="/test" component={Test} />
       </BrowserRouter>

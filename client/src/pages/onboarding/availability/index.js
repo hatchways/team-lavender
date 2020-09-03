@@ -16,8 +16,9 @@ import UserContext from "../../../utils/userContext"
 
 function AvailabilityPage(props) {
   const {isAuthenticated} = useContext(UserContext)
+  const jwtToken=localStorage.getItem("jwtToken")
   //if user is not authenticated, redirect to login page
-  if(!isAuthenticated){
+  if(!jwtToken && !isAuthenticated){
      window.location="/"
   }
 
