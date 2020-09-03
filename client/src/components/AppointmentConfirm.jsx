@@ -68,8 +68,8 @@ const useStyles = makeStyles((theme) => ({
         display : "flex",
         fontSize : "20px",
         fontWeight : "bold",
-        "justify-content" : "center",
-        "margin" : "50px"
+        justifyContent : "center",
+        margin : "50px"
     },
     onTheLeftOfDivider : {
         position : "relative",
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     },
     duration : {
         display : "flex",
-        "justify-content" : "center"
+        justifyContent : "center"
     },
 }));
 

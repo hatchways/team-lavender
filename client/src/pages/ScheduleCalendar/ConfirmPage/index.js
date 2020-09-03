@@ -9,7 +9,7 @@ function AppointmentConfirmPage(props) {
    
     return(
         <div>
-            <AppointmentConfirm></AppointmentConfirm>
+            <AppointmentConfirm/>
         </div>
     );
 }

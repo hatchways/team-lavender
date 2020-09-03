@@ -3,8 +3,8 @@ const TimezonePageStyle = (theme) => ({
         display : "flex",
         fontSize : "20px",
         fontWeight : "bold",
-        "justify-content" : "center",
-        "margin" : "50px"
+        justifyContent : "center",
+        margin : "50px"
       },
       timezoneContainer : {
         margin  :   "auto",
@@ -32,7 +32,7 @@ const TimezonePageStyle = (theme) => ({
         position : "relative",
         width : "50%",
         display : "flex",
-        "justify-content" : "flex-start",
+        justifyContent : "flex-start",
       },
       aboveDivider_firstDiv_p : {
         position : "relative",
@@ -59,7 +59,7 @@ const TimezonePageStyle = (theme) => ({
         position : "relative",
         height : "25%",
         display : "flex",
-        "justify-content" : "center",
+        justifyContent : "center",
 
       },
       belowDivider_firstDiv_firstDiv : {
@@ -71,7 +71,7 @@ const TimezonePageStyle = (theme) => ({
         position : "relative",
         width : "60%",
         display : "flex",
-        "justify-content" : "start",
+        justifyContent : "start",
         "padding-top" : "20px",
       },
       belowDivider_firstDiv_secondDiv_textFieldWrapper : {
@@ -95,7 +95,7 @@ const TimezonePageStyle = (theme) => ({
         position : "relative",
         height : "25%",
         display : "flex",
-        "justify-content" : "center",
+        justifyContent : "center",
       },
       belowDivider_secondDiv_firstDiv : {
         position : "relative",
@@ -106,7 +106,7 @@ const TimezonePageStyle = (theme) => ({
         position : "relative",
         width : "60%",
         display : "flex",
-        "justify-content" : "start",
+        justifyContent : "start",
         "padding-top" : "20px",
       },
       belowDivider_secondDiv_secondDiv_FormControl : {

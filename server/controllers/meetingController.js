@@ -146,7 +146,7 @@ exports.getHostAvailableDay = async function (req, res) {
 
 exports.sendConfirmEmail = function (req,res) {
   ///////////// test code //////////////
-  ///// Use email in this way below ////
+  ///// Use email in this way below ////x`
   const emailType = sendEmail.EMAIL_TYPE.CONFIRM_EMAIL // set email type between "CONFIRM_EMAIL" and "WELCOME_EMAIL"
   const emailInfo = [{
     sendTo : "benjaminlee.kr@gmail.com", // Who you are sending to

@@ -4,8 +4,8 @@ const LoginPageStyle = (theme) => ({
         display : "flex",
         fontSize : "20px",
         fontWeight : "bold",
-        "justify-content" : "center",
-        "margin" : "50px"
+        justifyContent : "center",
+        margin : "50px"
       },
       signupContainer: {
         margin  :   "auto",

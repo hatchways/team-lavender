@@ -12,27 +12,26 @@ import ScheduleCalendarStyle from "./style";
 function ScheduleCalendarPage(props) {
     const { classes } = props;
     let pathArray = window.location.pathname.split('/');
-    const [userURL] = React.useState(pathArray[1]);
-    const [eventURL] = React.useState(pathArray[2]);
+    const userURL = pathArray[1];
+    const eventURL = pathArray[2];
     const [hostName, setHostName] = React.useState("");
     const [duration, setDuration] = React.useState("");
     const [isExist, setIsExist] = React.useState(1);
-    const [data] = React.useState({
+    const data = {
         calendarURL : userURL,
         eventURL : eventURL
-    })
-    // const [hostAvailableDay, setHostAvailableDay] = React.useState(Array);
+    }
+    
     useEffect(() => {
         // check if calendarURL and eventURL is right
         const check = async function() {
             const res = await linkChecker.checkLink(data)
-            if (!res.data.isExist) {
-                setIsExist(false);
-            } else {
-                setIsExist(true);
+            setIsExist(res.data.isExist);
+            if (res.data.isExist) {
                 setHostName(res.data.hostName);
                 setDuration(res.data.duration);
             }
+            
         }
         check();
     }, [])

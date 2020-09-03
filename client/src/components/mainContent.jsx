@@ -39,8 +39,9 @@ const MainContent = () => {
       eventURL : eventURL
     }
     const response = await Meeting.createMeeting(data)
-    if (response.data.eventURLExist) {
-      alert(response.data.message)
+    const {eventUrlExist, message} = response.data;
+    if (eventUrlExist) {
+      alert(message)
     } else {
       setOpen(false);
     }

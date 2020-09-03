@@ -3,8 +3,8 @@ const AvailabilityPageStyle = (theme) => ({
       display : "flex",
       fontSize : "20px",
       fontWeight : "bold",
-      "justify-content" : "center",
-      "margin" : "50px"
+      justifyContent : "center",
+      margin : "50px"
     },
     timezoneContainer : {
       margin  :   "auto",
@@ -32,7 +32,7 @@ const AvailabilityPageStyle = (theme) => ({
       position : "relative",
       width : "50%",
       display : "flex",
-      "justify-content" : "flex-start",
+      justifyContent : "flex-start",
     },
     aboveDivider_firstDiv_p : {
       position : "relative",

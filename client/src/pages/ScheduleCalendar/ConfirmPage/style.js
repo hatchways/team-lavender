@@ -13,8 +13,8 @@ const AppointmentConfirmStyle = () => ({
         display : "flex",
         fontSize : "20px",
         fontWeight : "bold",
-        "justify-content" : "center",
-        "margin" : "50px"
+        justifyContent : "center",
+        margin : "50px"
     },
     onTheLeftOfDivider : {
         position : "relative",
@@ -32,7 +32,7 @@ const AppointmentConfirmStyle = () => ({
     },
     duration : {
         display : "flex",
-        "justify-content" : "center"
+        justifyContent : "center"
     },
 });
 
