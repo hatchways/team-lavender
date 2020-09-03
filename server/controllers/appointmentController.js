@@ -21,29 +21,38 @@ exports.getLoggedInUserAppointments = async function (req, res) {
 exports.createAppointment = async function (req, res) {
   let isValid = true;
   let message = "";
-  const { meetingId, name, email, startTime, endTime, timezone } = req.body;
+  let name = req.body.name;
+  let email = req.body.email;
+  let calendarURL = req.body.calendarURL;
+  let time = req.body.time;
+  let eventURL = req.body.eventURL;
+  let timezone;
 
   //Check if all fields are not empty
   let result = checkFieldNotEmpty(isValid, "name", name, message);
   result = checkFieldNotEmpty(result.isValid, "email", email, result.message);
   result = checkFieldNotEmpty(
     result.isValid,
-    "startTime",
-    startTime,
+    "calendarURL",
+    calendarURL,
     result.message
   );
+  result = checkFieldNotEmpty(result.isValid, "time", time, result.message);
   result = checkFieldNotEmpty(
     result.isValid,
-    "endTime",
-    endTime,
+    "eventURL",
+    eventURL,
     result.message
   );
-  result = checkFieldNotEmpty(
-    result.isValid,
-    "timezone",
-    timezone,
-    result.message
-  );
+
+  let user = await Users.find({ calendarUrl: calendarURL });
+  if (user.length < 1) {
+    return res
+      .status(400)
+      .json({ message: "creator's timezone doesn't exist" });
+  }
+  timezone = user[0].timeZone;
+
   isValid = result.isValid;
   message = result.message;
 
@@ -61,12 +70,12 @@ exports.createAppointment = async function (req, res) {
 
     // create an appointment
     const newAppointment = new Appointments({
-      meetingId,
-      name,
-      email,
-      startTime: Date.parse(startTime),
-      endTime: Date.parse(endTime),
-      timezone,
+      meetingId: meetingId,
+      name: name,
+      email: email,
+      startAt: moment(time).toDate(),
+      endAt: moment(time).add(30, "m").toDate(),
+      timezone: timezone,
     });
     query = { meetingId: meetingId };
     //Checks if meeting id is unique
