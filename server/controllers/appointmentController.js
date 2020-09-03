@@ -3,6 +3,7 @@ const Meetings = require("../models/Meetings");
 const Users = require("../models/User");
 const Email = require("../uitl/email/sendEmail");
 const mongoose = require("mongoose");
+const moment = require("moment");
 
 exports.getLoggedInUserAppointments = async function (req, res) {
   try {
@@ -35,11 +36,11 @@ exports.createAppointment = async function (req, res) {
   result = checkFieldNotEmpty(result.isValid, "eventURL", eventURL, result.message);
   
 
-  let creatorTimezone = await Users.find({calendarUrl : calendarURL});
-  if ( creatorTimezone.length < 1) {
+  let user = await Users.find({calendarUrl : calendarURL});
+  if ( user.length < 1) {
     return res.status(400).json({message : "creator's timezone doesn't exist"})
   } 
-  timezone = creatorTimezone[0].timeZone
+  timezone = user[0].timeZone
 
   isValid = result.isValid;
   message = result.message;
@@ -61,7 +62,8 @@ exports.createAppointment = async function (req, res) {
       meetingId: meetingId,
       name: name,
       email: email,
-      time: Date.parse(time),
+      startAt: moment(time).toDate(),
+      endAt : moment(time).add(30, 'm').toDate(),
       timezone: timezone,
     });
     query = { meetingId: meetingId };
@@ -79,8 +81,8 @@ exports.createAppointment = async function (req, res) {
       });
 
       // send email to both users (meeting creator, appointment conformer)
-      // const emailTo = [email, user[0].email]
-      // Email.sendConfirmEmail('confirm', emailTo)
+      const emailTo = [email, user[0].email]
+      Email.sendConfirmEmail('confirm', emailTo)
       console.log("appointment added")
     } catch (err) {
       return res.status(400).json({ massage: err });

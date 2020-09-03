@@ -6,19 +6,20 @@ import MeetingConfirm from "./MeetingConfirm";
 import Create from "../utils/createAppointment"
 
 
+
 function AppointmentConfirm(props) {
     const classes = useStyles();
     const urlParams = new URLSearchParams(window.location.search);
     const [hostName, setHostName] = React.useState("");
     const [time, setTime] = React.useState("");
-
+    const [timeZone, setTimeZone] = React.useState();
     useEffect(() => {
         setTime(urlParams.get('time'));
     }, [])
 
     function confirmAppointment(name, email, calendarURL) {
         const time = `${urlParams.get('date')}T${urlParams.get('time')}`
-        
+        console.log(timeZone)
         const data = {
           name : name,
           email : email,
@@ -42,7 +43,6 @@ function AppointmentConfirm(props) {
                         <div>30 min</div>
                     </div>
                     <div>Start at {time}</div>
-                    <div>--timezone info--</div>
                 </div>
                 <Divider orientation="vertical" flexItem />
                 <div className={classes.onTheRightOfDivider}>

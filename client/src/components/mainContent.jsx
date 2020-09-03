@@ -32,12 +32,13 @@ const MainContent = () => {
   };
   const CreateMeeting = async (duration, name, type, eventURL) => {
 
-    // test data
+    
     const data = {
       duration : duration,
       userId : "5f440cfa30ccaf1d18114165",
       eventURL : eventURL
     }
+    
     const response = await Meeting.createMeeting(data)
     const {eventUrlExist, message} = response.data;
     if (eventUrlExist) {

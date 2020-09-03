@@ -62,6 +62,7 @@ const Calendar = (props) => {
     }
 
     function toConfirmAppointmentPage(clickedTime) {
+      
       history.push(`/${props.userURL}/${props.eventURL}/confirm?date=${year}-${month}-${date}&time=${clickedTime}&eventURL=${props.eventURL}`)
     }
 
