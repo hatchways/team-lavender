@@ -19,7 +19,6 @@ function AppointmentConfirm(props) {
 
     function confirmAppointment(name, email, calendarURL) {
         const time = `${urlParams.get('date')}T${urlParams.get('time')}`
-        console.log(timeZone)
         const data = {
           name : name,
           email : email,
@@ -28,7 +27,12 @@ function AppointmentConfirm(props) {
           eventURL : urlParams.get('eventURL')
         };
         
-        Create.createAppointment(data)
+        const res = Create.createAppointment(data)
+        if (res.status == 200) {
+            alert("Appointment is confirmed ")
+        } else {
+            alert("Error, Retry it")
+        }
     }
 
     return(

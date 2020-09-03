@@ -24,6 +24,7 @@ const Calendar = (props) => {
           calendarURL : props.userURL
         }
         const res = await LinkChecker.getHostAvailableDay(data);
+        console.log(res.data.hostAvailableDay)
         if (res.data.hostAvailableDay) {
           setHostAvailableDay(res.data.hostAvailableDay)
         } else {
@@ -62,7 +63,7 @@ const Calendar = (props) => {
     }
 
     function toConfirmAppointmentPage(clickedTime) {
-      
+
       history.push(`/${props.userURL}/${props.eventURL}/confirm?date=${year}-${month}-${date}&time=${clickedTime}&eventURL=${props.eventURL}`)
     }
 
