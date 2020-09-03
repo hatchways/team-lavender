@@ -1,5 +1,7 @@
 import React from "react";
 import LogoutBtn from "../components/LogoutBtn";
+import { GoogleLogout } from "react-google-login";
+
 import API from "../utils/googleAPI";
 
 function Test() {
@@ -13,7 +15,7 @@ function Test() {
       calendarUrl:"mila-windsor",
       year:"2020", // collected from the date user clicked on 
       month:"08",
-      date:"20",
+      date:"23",
       meetingLength: "30mins", //from the calendar type
       timeZone: "America/Toronto", // use moment to get time zone
     };
@@ -25,6 +27,7 @@ function Test() {
     <>
       <button onClick={handleClick}> here</button>
       <LogoutBtn />
+      <GoogleLogout/>
     </>
   );
 }
