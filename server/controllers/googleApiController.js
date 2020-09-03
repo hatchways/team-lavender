@@ -7,7 +7,7 @@ const Users = require("../models/User");
 const mongoose = require("mongoose");
 
 //======================================
-//helper methods 
+//helper methods
 //======================================
 function createConnection() {
   return new google.auth.OAuth2(
@@ -93,7 +93,7 @@ function filterUnavailableSlot(events, timeSlot) {
 }
 
 //======================================
-//exportable methods 
+//exportable methods
 //======================================
 let oAuth2Client = createConnection();
 function authenticateUser(req, res) {
@@ -125,8 +125,13 @@ function getAvailability(req, res) {
         user = dbModel;
 
         //check if the date is user's available day of a week
-        const isAvailableDay = user.availableDays.includes(`${moment(date).format("dddd")}s`);
-        if (!isAvailableDay) return res.status(404).json("The date is not available for scheduling ");
+        const isAvailableDay = user.availableDays.includes(
+          `${moment(date).format("dddd")}s`
+        );
+        if (!isAvailableDay)
+          return res
+            .status(404)
+            .json("The date is not available for scheduling ");
         else {
           //check is access_token is expired and refresh if it is
           const isExpired = moment(parseInt(user.expiryDate)) < moment();
@@ -150,8 +155,11 @@ function getAvailability(req, res) {
                 meetingLength
               );
 
-              if (events.length) timeSlot = filterUnavailableSlot(events, timeSlot);
-              return res.status(200).json(timeSlot.map((t) => t.format("HH:mm")));
+              if (events.length)
+                timeSlot = filterUnavailableSlot(events, timeSlot);
+              return res
+                .status(200)
+                .json(timeSlot.map((t) => t.format("HH:mm")));
             }
           );
         }
@@ -163,4 +171,68 @@ function getAvailability(req, res) {
     });
 }
 
-module.exports = { authenticateUser, getAvailability };
+function addAppointment(req, res) {
+  const {
+    name,
+    email,
+    timeZone,
+    calendarUrl,
+  } = req.body;
+  findUserByUrl("sharmadityaa")
+    .then(async (dbModel) => {
+      //if user doesn't exist, break the chain, return response
+      if (!dbModel) return res.status(404).json("User doesn't exist");
+      else {
+        user = dbModel;
+        const isExpired = moment(parseInt(user.expiryDate)) < moment();
+        if (isExpired) user = await refreshUserToken(oAuth2Client, user);
+
+        //load google calendar library with valid access_token
+        let calendar = getGoogleCalendarApi(oAuth2Client, {
+          access_token: user.accessToken,
+        });
+        var event = {
+          summary: "calendapp appointment",
+          location: "Online",
+          description: "calendapp appointment",
+          start: {
+            dateTime: "2020-12-28T09:00:00-07:00",
+            timeZone: "America/Los_Angeles",
+          },
+          end: {
+            dateTime: "2020-12-28T17:00:00-07:00",
+            timeZone: "America/Los_Angeles",
+          },
+          //recurrence: ["RRULE:FREQ=DAILY;COUNT=2"],
+          attendees: [
+            { email: "lpage@example.com" },
+            { email: "sbrin@example.com" },
+          ],
+          reminders: {
+            useDefault: false,
+            overrides: [
+              { method: "email", minutes: 24 * 60 },
+              { method: "popup", minutes: 10 },
+            ],
+          },
+        };
+        var request = calendar.events.insert({
+          calendarId: "sharmadityaa@gmail.com",
+          resource: event,
+          //sendNotifications: true,
+        });
+        request.then(() => {
+          return res.status(200).json("event added");
+        });
+        //request.execute(function (event) {
+        //appendPre("Event created: " + event.htmlLink);
+        //});
+      }
+    })
+    .catch((err) => {
+      console.log("API request failed: ", err);
+      return res.status(422).json(err);
+    });
+}
+
+module.exports = { authenticateUser, getAvailability, addAppointment };

@@ -17,17 +17,24 @@ exports.getLoggedInUserAppointments = async function (req, res) {
 exports.createAppointment = async function (req, res) {
   let isValid = true;
   let message = "";
-  let meetingId = req.body.meetingId;
-  let name = req.body.name;
-  let email = req.body.email;
-  let time = req.body.time;
-  let timezone = req.body.timezone;
+  const { meetingId, name, email, startTime, endTime, timezone } = req.body;
 
   //Check if all fields are not empty
   let result = checkFieldNotEmpty(isValid, "meetingId", meetingId, message);
   result = checkFieldNotEmpty(result.isValid, "name", name, result.message);
   result = checkFieldNotEmpty(result.isValid, "email", email, result.message);
-  result = checkFieldNotEmpty(result.isValid, "time", time, result.message);
+  result = checkFieldNotEmpty(
+    result.isValid,
+    "startTime",
+    startTime,
+    result.message
+  );
+  result = checkFieldNotEmpty(
+    result.isValid,
+    "endTime",
+    endTime,
+    result.message
+  );
   result = checkFieldNotEmpty(
     result.isValid,
     "timezone",
@@ -39,11 +46,12 @@ exports.createAppointment = async function (req, res) {
   // runs only when all fields are not empty
   if (isValid) {
     const newAppointment = new Appointments({
-      meetingId: meetingId,
-      name: name,
-      email: email,
-      time: Date.parse(time),
-      timezone: timezone,
+      meetingId,
+      name,
+      email,
+      startTime: Date.parse(startTime),
+      endTime: Date.parse(endTime),
+      timezone,
     });
     var query = { meetingId: meetingId };
     const appointmentList = await Appointments.find(query);

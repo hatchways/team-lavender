@@ -15,12 +15,10 @@ const connectDB = require("./middleware/database");
 // Start the DB
 connectDB;
 
-
 const { json, urlencoded } = express;
 
 var app = express();
 app.use(cors());
-
 
 app.use(logger("dev"));
 app.use(json());
@@ -28,22 +26,18 @@ app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
-
-app.use(cors())
+app.use(cors());
 
 //api routes
 app.use("/appointments", appointmentRouter);
 app.use("/meeting", meetingsRouter);
 app.use("/user", usersRouter);
-app.use("/api/google/", googleAPI);
-
-
+app.use("/api/google", googleAPI);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
 
 // error handler
 app.use(function (err, req, res, next) {
