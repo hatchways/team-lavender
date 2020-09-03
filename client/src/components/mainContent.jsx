@@ -9,15 +9,13 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import Divider from "@material-ui/core/Divider"
-import CreateNewEventDialog from "../components/CreateNewEventDialog"
-
-
+import Divider from "@material-ui/core/Divider";
+import CreateNewEventDialog from "../components/CreateNewEventDialog";
 
 const meetings = [
-  { title: "15min", description: "15 minutes meeting"},
-  { title: "30min", description: "30 minutes meeting"},
-  { title: "60min", description: "60 minutes meeting"},
+  { title: "15min", description: "15 minutes meeting" },
+  { title: "30min", description: "30 minutes meeting" },
+  { title: "60min", description: "60 minutes meeting" },
 ];
 
 const MainContent = () => {
@@ -25,7 +23,7 @@ const MainContent = () => {
 
   const [open, setOpen] = React.useState(false);
   const OpenCreateMeetingDialog = async (type) => {
-      setOpen(true);
+    setOpen(true);
   };
   const CloseCreateMeetingDialog = () => {
     setOpen(false);
@@ -36,7 +34,7 @@ const MainContent = () => {
     console.log(type);
     console.log(url);
 
-    console.log("An event is created")
+    console.log("An event is created");
     setOpen(false);
   };
 
@@ -112,13 +110,10 @@ const MainContent = () => {
                         {meeting.description}
                       </Typography>
                     </div>
-                    <Divider className={classes.dividerInCardContent}/>
+                    <Divider className={classes.dividerInCardContent} />
                     <div className={classes.belowDividerinCardContent}>
                       <CardHeader title={meeting.title} />
-                      <Button
-                        variant="outlined"
-                        className={classes.button}
-                      >
+                      <Button variant="outlined" className={classes.button}>
                         CREATE LINK
                       </Button>
                     </div>
@@ -129,9 +124,12 @@ const MainContent = () => {
           </Grid>
         </Container>
         {open === true && (
-          <CreateNewEventDialog open={open} close={CloseCreateMeetingDialog} create={CreateMeeting}/>
-          )
-        }
+          <CreateNewEventDialog
+            open={open}
+            close={CloseCreateMeetingDialog}
+            create={CreateMeeting}
+          />
+        )}
       </div>
     </React.Fragment>
   );
@@ -155,7 +153,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#F78104",
     borderColor: "#F78104",
     "&:hover": {
-      color: "#F78104",
+      background: "#F78104",
+      color: "white",
     },
   },
   title: {
@@ -187,10 +186,10 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
   },
   dividerInCardContent: {
-    margin : "30px auto"
+    margin: "30px auto",
   },
   BelowDividerinCardContent: {
-    display : "flex",
+    display: "flex",
   },
 }));
 

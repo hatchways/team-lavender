@@ -20,9 +20,10 @@ function LoginBtn(props) {
       } else {
         window.location = `${response.calendarUrl}/welcome`;
       }
+
     } else {
       //if user is already signed in, will return GoogleUser automatically
-      console.log(res)
+      console.log(res);
     }
   }
 
@@ -48,7 +49,7 @@ function LoginBtn(props) {
       responseType="code"
       accessType="offline"
       redirectUri="http://localhost:3000"
-      //automatically return GoogleUser if user is signed in 
+      //automatically return GoogleUser if user is signed in
       isSignedIn={true}
       className={props.className}
     />

@@ -7,28 +7,30 @@ const EMAIL_TYPE = {
 }
 
 function sendConfirmEmail (emailType, emailInfo) {
+    console.log("passing two")
     let isValid = true;
     let template
-    switch (emailType) {
-        case EMAIL_TYPE.WELCOME_EMAIL:
-            template = EmailTemplates.templateEmail(EMAIL_TYPE.WELCOME_EMAIL)
-            break;
-        case EMAIL_TYPE.CONFIRM_EMAIL:
-            template = EmailTemplates.templateEmail(EMAIL_TYPE.CONFIRM_EMAIL)
-            break;
-        default:
-            const err = new Error('email type is wrong');
-            isValid = false;
-            return {isValid, err}
-    }
-    let emailsToSend = new Array()
-    emailInfo.forEach((value) => {
-      emailsToSend.push(value.sendTo);
-    });
+    // switch (emailType) {
+    //     case EMAIL_TYPE.WELCOME_EMAIL:
+    //         template = EmailTemplates.templateEmail(EMAIL_TYPE.WELCOME_EMAIL)
+    //         break;
+    //     case EMAIL_TYPE.CONFIRM_EMAIL:
+    //         template = EmailTemplates.templateEmail(EMAIL_TYPE.CONFIRM_EMAIL)
+    //         break;
+    //     default:
+    //         const err = new Error('email type is wrong');
+    //         isValid = false;
+    //         return {isValid, err}
+    // }
+    template = EmailTemplates.templateEmail(EMAIL_TYPE.WELCOME_EMAIL)
+    // let emailsToSend = new Array()
+    // emailInfo.forEach((value) => {
+    //   emailsToSend.push(value.sendTo);
+    // });
     const sgMail = require('@sendgrid/mail');
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
-      to: emailsToSend,
+      to: 'benjaminlee.kr@gmail.com',
       from: 'team.lavender.hatchway@gmail.com', // Use the email address or domain you verified by sendgrid
       subject: 'Sending with Twilio SendGrid is Fun',
       text: 'TEST EMAIL',
