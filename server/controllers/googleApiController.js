@@ -2,12 +2,14 @@ const { google } = require("googleapis");
 const Moment = require("moment");
 const MomentRange = require("moment-range");
 const moment = MomentRange.extendMoment(Moment);
+const jwt = require("jsonwebtoken");
 
 const Users = require("../models/User");
 const mongoose = require("mongoose");
+const { db } = require("../models/User");
 
 //======================================
-//helper methods 
+//helper methods
 //======================================
 function createConnection() {
   return new google.auth.OAuth2(
@@ -43,6 +45,23 @@ function getEvents(calendar, availabilityStart, availabilityEnd) {
 
 function findUserByUrl(calendarUrl) {
   return Users.findOne({ calendarUrl: calendarUrl });
+}
+function findUserByEmail(email) {
+  return Users.findOne({ email: email });
+}
+function adjustResponseNameToDBPreference(user) {
+  const { tokens, userInfo } = user;
+  let data = {};
+
+  data.name = userInfo.name;
+  data.email = userInfo.email;
+  data.avatarUrl = userInfo.picture;
+  data.calendarUrl = userInfo.email.split("@")[0].replace(".", "-");
+  data.accessToken = tokens.access_token;
+  data.expiryDate = tokens.expiry_date;
+  if (tokens.refresh_token) data.refreshToken = tokens.refresh_token;
+
+  return data;
 }
 
 function refreshUserToken(oAuth2Client, user) {
@@ -93,19 +112,53 @@ function filterUnavailableSlot(events, timeSlot) {
 }
 
 //======================================
-//exportable methods 
+//exportable methods
 //======================================
 let oAuth2Client = createConnection();
+let user = {};
 function authenticateUser(req, res) {
-  let user = {};
   getTokenFromCode(oAuth2Client, req.query.code)
     .then(({ tokens }) => {
       user.tokens = tokens;
       return getGoogleUserInfo(tokens.access_token);
     })
-    .then((userInfo) => {
-      user.userInfo = userInfo.data;
-      res.status(200).json(user);
+    .then((response) => {
+      user.userInfo = response.data;
+      //check if user exists in database
+      return findUserByEmail(user.userInfo.email);
+    })
+    .then((dbModel) => {
+      //get data for database
+      let data = adjustResponseNameToDBPreference(user);
+      //get jwt token
+      data.jwtToken = jwt.sign(user.userInfo, "teamLavender");
+      const { name, email, avatarUrl, calendarUrl, jwtToken } = data;
+
+      if (dbModel) {
+        Users.findByIdAndUpdate({ _id: dbModel._id }, user).then(() => {
+          const isNewUser = false;
+          return res.status(200).json({
+            name,
+            email,
+            avatarUrl,
+            calendarUrl,
+            jwtToken,
+            isNewUser,
+          });
+        });
+      } else {
+        Users.create(user).then(() => {
+          const isNewUser = true;
+          return res.status(200).json({
+            name,
+            email,
+            avatarUrl,
+            calendarUrl,
+            jwtToken,
+            isNewUser,
+          });
+        });
+      }
     })
     .catch((err) => res.status(422).json(err));
 }
@@ -125,8 +178,13 @@ function getAvailability(req, res) {
         user = dbModel;
 
         //check if the date is user's available day of a week
-        const isAvailableDay = user.availableDays.includes(`${moment(date).format("dddd")}s`);
-        if (!isAvailableDay) return res.status(404).json("The date is not available for scheduling ");
+        const isAvailableDay = user.availableDays.includes(
+          `${moment(date).format("dddd")}s`
+        );
+        if (!isAvailableDay)
+          return res
+            .status(404)
+            .json("The date is not available for scheduling ");
         else {
           //check is access_token is expired and refresh if it is
           const isExpired = moment(parseInt(user.expiryDate)) < moment();
@@ -150,8 +208,11 @@ function getAvailability(req, res) {
                 meetingLength
               );
 
-              if (events.length) timeSlot = filterUnavailableSlot(events, timeSlot);
-              return res.status(200).json(timeSlot.map((t) => t.format("HH:mm")));
+              if (events.length)
+                timeSlot = filterUnavailableSlot(events, timeSlot);
+              return res
+                .status(200)
+                .json(timeSlot.map((t) => t.format("HH:mm")));
             }
           );
         }

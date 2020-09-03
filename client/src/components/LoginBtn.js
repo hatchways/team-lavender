@@ -10,29 +10,16 @@ function LoginBtn(props) {
       const response = await API.authenticateUser(res.code);
 
       //save user info into local storage for future use
-      localStorage.setItem("googleAvatarUrl", response.userInfo.picture);
-      localStorage.setItem("googleName", response.userInfo.name);
-      localStorage.setItem("googleEmail", response.userInfo.email);
-      localStorage.setItem("accessToken", response.tokens.access_token);
-      localStorage.setItem("expireAt", response.tokens.expires_at);
+      localStorage.setItem("googleAvatarUrl", response.avatarUrl);
+      localStorage.setItem("googleName", response.name);
+      localStorage.setItem("googleEmail", response.email);
+      localStorage.setItem("jwtToken", response.jwtToken);
 
-      let user = {
-        name: response.userInfo.name,
-        email: response.userInfo.email,
-        avatarUrl: response.userInfo.picture,
-        timeZone: "America/Toronto",
-      };
-      axios
-        .post("/user/signup", user)
-        .then((res) => {
-          if (res.data.message == "Created new user") {
-            window.location = `${res.data.calendarUrl}/profile_setting/timezone`;
-          }
-          if (res.data.message == "Already Exist User Account") {
-            window.location = `${res.data.calendarUrl}/welcome`;
-          }
-        })
-        .catch((err) => console.log("Error: " + err));
+      if (response.isNewUser) {
+        window.location = `${response.calendarUrl}/profile_setting/timezone`;
+      } else {
+        window.location = `${response.calendarUrl}/welcome`;
+      }
     } else {
       //if user is already signed in, will return GoogleUser automatically
       console.log(res)
