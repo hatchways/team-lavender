@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 
 const Users = require("../models/User");
 const mongoose = require("mongoose");
-const { db } = require("../models/User");
 
 //======================================
 //helper methods
@@ -141,8 +140,8 @@ function filterUnavailableSlot(events, timeSlot) {
 //exportable methods
 //======================================
 let oAuth2Client = createConnection();
-let user = {};
 function authenticateUser(req, res) {
+  let user = {};
   getTokenFromCode(oAuth2Client, req.query.code)
     .then(({ tokens }) => {
       user.tokens = tokens;
@@ -244,7 +243,7 @@ function getAvailability(req, res) {
     .catch((err) => {
       console.log("API request failed: ", err);
       return res.status(422).json(err);
-    });s
+    });
 }
 
 function verifyToken(req, res) {
