@@ -65,6 +65,9 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
+  subscriptionId: {
+    type: String,
+  },
 });
 
 userSchema.methods.createUrl = function () {

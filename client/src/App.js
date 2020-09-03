@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import Schedule from "./pages/ScheduleCalendar/CalendarPage"
 import AppointmentConfirm from "./pages/ScheduleCalendar/ConfirmPage"
 import Test from "./pages/Test";
+import Upgrade from "./pages/Upgrade";
 
 import "./App.css";
 
@@ -44,6 +45,7 @@ function App() {
           component={Availability}
         />
         <Route exact path="/:calendarUrl/" component={Dashboard} />
+        <Route path="/:calendarUrl/upgrade" component={Upgrade} />
 
         <Route path="/test" component={Test} />
       </BrowserRouter>

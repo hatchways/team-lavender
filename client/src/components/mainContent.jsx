@@ -15,9 +15,9 @@ import Meeting from "../utils/createMeeting"
 
 
 const meetings = [
-  { title: "15min", description: "15 minutes meeting"},
-  { title: "30min", description: "30 minutes meeting"},
-  { title: "60min", description: "60 minutes meeting"},
+  { title: "15min", description: "15 minutes meeting" },
+  { title: "30min", description: "30 minutes meeting" },
+  { title: "60min", description: "60 minutes meeting" },
 ];
 
 const MainContent = () => {
@@ -119,13 +119,10 @@ const MainContent = () => {
                         {meeting.description}
                       </Typography>
                     </div>
-                    <Divider className={classes.dividerInCardContent}/>
+                    <Divider className={classes.dividerInCardContent} />
                     <div className={classes.belowDividerinCardContent}>
                       <CardHeader title={meeting.title} />
-                      <Button
-                        variant="outlined"
-                        className={classes.button}
-                      >
+                      <Button variant="outlined" className={classes.button}>
                         CREATE LINK
                       </Button>
                     </div>
@@ -136,9 +133,12 @@ const MainContent = () => {
           </Grid>
         </Container>
         {open === true && (
-          <CreateNewEventDialog open={open} close={CloseCreateMeetingDialog} create={CreateMeeting}/>
-          )
-        }
+          <CreateNewEventDialog
+            open={open}
+            close={CloseCreateMeetingDialog}
+            create={CreateMeeting}
+          />
+        )}
       </div>
     </React.Fragment>
   );
@@ -162,7 +162,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#F78104",
     borderColor: "#F78104",
     "&:hover": {
-      color: "#F78104",
+      background: "#F78104",
+      color: "white",
     },
   },
   title: {
@@ -194,10 +195,10 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
   },
   dividerInCardContent: {
-    margin : "30px auto"
+    margin: "30px auto",
   },
   BelowDividerinCardContent: {
-    display : "flex",
+    display: "flex",
   },
 }));
 

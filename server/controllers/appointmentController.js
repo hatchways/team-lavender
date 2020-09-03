@@ -65,9 +65,7 @@ exports.createAppointment = async function (req, res) {
       timezone: timezone,
     });
     query = { meetingId: meetingId };
-    // const appointmentList = await Appointments.find(query); // need to be reviewed
     //Checks if meeting id is unique
-    // if (appointmentList.length < 1) { // need to be reviewed
     try {
       newAppointment.save(async function(err, appointment) {
         console.log("update meeting document")
@@ -79,24 +77,18 @@ exports.createAppointment = async function (req, res) {
           }
         });
       });
-      
 
       // send email to both users (meeting creator, appointment conformer)
       // const emailTo = [email, user[0].email]
       // Email.sendConfirmEmail('confirm', emailTo)
       console.log("appointment added")
-      return res.json("Appointment added");
     } catch (err) {
       return res.status(400).json({ massage: err });
     }
-
-    // }
-    // return res.status(400).json({ massage: "meetingId should be unique" });
+  
+  return res.status(200).json({ massage: message });
   }
-  // Only runs if a field is empty and returns message `${fieldName} shouldn't be empty, Please make sure all field have a value.`
-  return res.status(400).json({ massage: message });
-};
-
+}
 
 function checkFieldNotEmpty(isValid, fieldName, field, message) {
   if (!field) {
@@ -105,5 +97,6 @@ function checkFieldNotEmpty(isValid, fieldName, field, message) {
     console.log(message)
     return { isValid, message };
   }
+  
   return { isValid, message };
 }
