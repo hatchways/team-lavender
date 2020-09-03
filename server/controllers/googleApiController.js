@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 
 const Users = require("../models/User");
 const mongoose = require("mongoose");
-const { db } = require("../models/User");
 
 //======================================
 //helper methods
