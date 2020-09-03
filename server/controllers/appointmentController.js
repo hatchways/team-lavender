@@ -56,14 +56,15 @@ exports.createAppointment = async function (req, res) {
     }
     
     meetingId = meeting[0]._id
-
+    let duration = meeting[0].duration
     // create an appointment
     const newAppointment = new Appointments({
       meetingId: meetingId,
       name: name,
       email: email,
+      duration : duration,
       startAt: moment(time).toDate(),
-      endAt : moment(time).add(30, 'm').toDate(),
+      endAt : moment(time).add(duration, 'm').toDate(),
       timezone: timezone,
     });
     query = { meetingId: meetingId };
