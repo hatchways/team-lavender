@@ -9,8 +9,10 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import Divider from "@material-ui/core/Divider";
-import CreateNewEventDialog from "../components/CreateNewEventDialog";
+import Divider from "@material-ui/core/Divider"
+import CreateNewEventDialog from "../components/CreateNewEventDialog"
+import Meeting from "../utils/createMeeting"
+
 
 const meetings = [
   { title: "15min", description: "15 minutes meeting" },
@@ -22,20 +24,28 @@ const MainContent = () => {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
-  const OpenCreateMeetingDialog = async (type) => {
+  const OpenCreateMeetingDialog = () => {
     setOpen(true);
   };
   const CloseCreateMeetingDialog = () => {
     setOpen(false);
   };
-  const CreateMeeting = (duration, name, type, url) => {
-    console.log(duration);
-    console.log(name);
-    console.log(type);
-    console.log(url);
+  const CreateMeeting = async (duration, name, type, eventURL) => {
 
-    console.log("An event is created");
-    setOpen(false);
+    
+    const data = {
+      duration : duration,
+      userId : "5f440cfa30ccaf1d18114165",
+      eventURL : eventURL
+    }
+    
+    const response = await Meeting.createMeeting(data)
+    const {eventUrlExist, message} = response.data;
+    if (eventUrlExist) {
+      alert(message)
+    } else {
+      setOpen(false);
+    }
   };
 
   return (

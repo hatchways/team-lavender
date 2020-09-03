@@ -54,7 +54,7 @@ const SignupPageStyle = () => ({
         display : "flex",
         fontSize : "20px",
         fontWeight : "bold",
-        "justify-content" : "center",
+        justifyContent : "center",
         "margin" : "50px"
       },
     

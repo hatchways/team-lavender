@@ -10,7 +10,8 @@ import Timezone from "./pages/onboarding/timezone";
 import Confirm from "./pages/onboarding/confirm";
 import Availability from "./pages/onboarding/availability";
 import Dashboard from "./pages/Dashboard";
-import Schedule from "./pages/ScheduleCalendar"
+import Schedule from "./pages/ScheduleCalendar/CalendarPage"
+import AppointmentConfirm from "./pages/ScheduleCalendar/ConfirmPage"
 import Test from "./pages/Test";
 import Upgrade from "./pages/Upgrade";
 
@@ -28,8 +29,12 @@ function App() {
           component={Timezone}
         />
         <Route
-          path="/schedule"
+          exact path="/:calendarUrl/:eventUrl"
           component={Schedule}
+        />
+        <Route
+          exact path="/:calendarUrl/:eventURL/confirm"
+          component={AppointmentConfirm}
         />
         <Route
           path="/:calendarUrl/profile_setting/confirm"
@@ -39,7 +44,7 @@ function App() {
           path="/:calendarUrl/profile_setting/availability"
           component={Availability}
         />
-        <Route exact path="/:calendarUrl/welcome" component={Dashboard} />
+        <Route exact path="/:calendarUrl/" component={Dashboard} />
         <Route path="/:calendarUrl/upgrade" component={Upgrade} />
 
         <Route path="/test" component={Test} />
