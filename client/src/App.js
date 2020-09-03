@@ -10,6 +10,7 @@ import Timezone from "./pages/onboarding/timezone";
 import Confirm from "./pages/onboarding/confirm";
 import Availability from "./pages/onboarding/availability";
 import Dashboard from "./pages/Dashboard";
+import Schedule from "./pages/ScheduleCalendar"
 import Test from "./pages/Test";
 import API from "./utils/googleAPI";
 import UserContext from "./utils/userContext";

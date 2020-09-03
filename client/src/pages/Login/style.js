@@ -2,8 +2,8 @@ const LoginPageStyle = (theme) => ({
     //step 1
       title : {
         display : "flex",
-        "font-size" : "20px",
-        "font-weight" : "bold",
+        fontSize : "20px",
+        fontWeight : "bold",
         "justify-content" : "center",
         "margin" : "50px"
       },
@@ -13,7 +13,7 @@ const LoginPageStyle = (theme) => ({
         height : "480px",
         "-webkit-box-shadow" : "1px 1px 10px 3px rgba(196,196,196,1)",
         font : "Arial, Helvetica, sans-serif",
-        "font-weight" : "bold",     
+        fontWeight : "bold",     
         "text-align" : "center"
       },
       aboveDivider : {
@@ -25,7 +25,7 @@ const LoginPageStyle = (theme) => ({
         "top" : "40px",
       },
       firstDivAboveDivider : {
-        "font-size" : "20px",
+        fontSize : "20px",
         "position" : "relative",
         "top" : "40px"
       },
@@ -34,7 +34,7 @@ const LoginPageStyle = (theme) => ({
         "top" : "70px"
       },
       firstDivOfSecondDivAboveDivider : {
-        "font-size" : "12px",
+        fontSize : "12px",
         "margin-top" : "30px",
         "margin-bottom" : "10px"
       },
@@ -43,9 +43,9 @@ const LoginPageStyle = (theme) => ({
       },
       startButton : {
         "width" : "30%",
-        "font-size" : "13px",
+        fontSize : "13px",
         "position" : "relative",
-        "font-weight" : "bold",
+        fontWeight : "bold",
         "top" : "130px",
         "background-color" : "#F78104",
         "color" : "white",
@@ -59,9 +59,9 @@ const LoginPageStyle = (theme) => ({
     // step 2
       gmailSignup : {
         "width" : "50%",
-        "font-size" : "13px",
+        fontSize : "13px",
         "position" : "relative",
-        "font-weight" : "bold",
+        fontWeight : "bold",
         "top" : "130px",
         "background-color" : "#F78104",
         "color" : "white",

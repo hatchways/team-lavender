@@ -156,7 +156,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#F78104",
     borderColor: "#F78104",
     "&:hover": {
-      color: "#F78104",
+      background: "#F78104",
+      color: "white",
     },
   },
   title: {

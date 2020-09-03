@@ -11,6 +11,9 @@ const NavBar = () => {
   const { user } = useContext(UserContext);
 
   const classes = useStyles();
+  const [url, setUrl] = useState(
+    window.location.pathname.replace("/welcome", "")
+  );
   return (
     <React.Fragment>
       <AppBar position="static">
@@ -40,7 +43,7 @@ const NavBar = () => {
               Integration
             </NavLink>
             <NavLink
-              to="/updateaccount"
+              to={url + "/upgrade"}
               activeClassName="selected"
               activeStyle={{ color: "#F78104" }}
               className={classes.link}

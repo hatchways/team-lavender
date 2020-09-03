@@ -11,7 +11,6 @@ exports.checkUniqueUrl = async function (req, res) {
   // Task check url is unique in db
 
   const url = req.query.calendarUrl;
-  console.log(url);
 
   const { isValid, message, id } = await validateUniqueUrl(url);
   if (!isValid) {
@@ -38,8 +37,6 @@ exports.updateUserInfo = async function (req, res) {
       },
       {
         $set: {
-          name: req.body.name,
-          avatarUrl: req.body.avatarUrl,
           timeZone: req.body.timeZone,
           availableHoursFrom: req.body.availableHoursFrom,
           availableHoursTo: req.body.availableHoursTo,
@@ -56,9 +53,16 @@ exports.updateUserInfo = async function (req, res) {
 
 // Update name, avaterUrl and timeZone
 exports.signUpUser = async function (req, res) {
-  const name = req.body.name;
-  const email = req.body.email;
-  const avatarUrl = req.body.avatarUrl;
+  
+  const {
+    name,
+    email,
+    avatarUrl,
+    accessToken,
+    refreshToken,
+    expiryDate,
+  } = req.body;
+
   let userId = "";
   let calendarUrl = "";
 
@@ -69,27 +73,45 @@ exports.signUpUser = async function (req, res) {
   );
 
   if (existUser.length > 0) {
-    return res.status(200).json({
-      message: "Already Exist User Account",
-      _id: existUser[0]["_id"],
-      calendarUrl: existUser[0]["calendarUrl"],
-    });
+    try {
+      // update
+      Users.collection.updateOne(
+        {
+          email: email,
+        },
+        {
+          $set: {
+            accessToken,
+            expiryDate,
+          },
+        }
+      );
+      return res.status(200).json({
+        message: "Already Exist User Account",
+        _id: existUser[0]["_id"],
+        calendarUrl: existUser[0]["calendarUrl"],
+      });
+    } catch (err) {
+      return res.status(400).json({ massage: err });
+    }
   }
 
   try {
     // Create new User
     const user = new Users({
-      name: name,
-      email: email,
-      avatarUrl: avatarUrl,
+      name,
+      email,
+      avatarUrl,
       timeZone: "America/Toronto", // Default
       calendarUrl: "",
+      accessToken,
+      refreshToken,
+      expiryDate,
     });
 
     userId = user._id;
     user.calendarUrl = user.createUrl();
     calendarUrl = user.calendarUrl;
-    console.log(calendarUrl);
     user.save();
   } catch (err) {
     return res.status(400).json({ massage: err });
@@ -99,6 +121,7 @@ exports.signUpUser = async function (req, res) {
   try {
     const meeting = new Meetings({
       duration: {
+        user_id: userId,
         duration: 60, // Default
         appointment: [],
       },
@@ -115,10 +138,9 @@ exports.signUpUser = async function (req, res) {
   });
 };
 
-
 //for client side, calendar page fetching user data
-exports.findByUrl = function (req,res) {
-   Users.findOne(req.query)
-   .then((dbModel) => res.json(dbModel))
+exports.findByUrl = function (req, res) {
+  Users.findOne(req.query)
+    .then((dbModel) => res.json(dbModel))
     .catch((err) => res.status(422).json(err));
-}
+};

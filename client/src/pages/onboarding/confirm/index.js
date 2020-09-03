@@ -24,7 +24,6 @@ function ConfirmPage(props) {
     window.location = url.prev;
   }
   const [users] = React.useState(props.location.users);
-  console.log("Users", users);
 
   return (
     <div>
