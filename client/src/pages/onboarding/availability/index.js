@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext} from "react";
 import axios from "axios";
 
 import {
@@ -11,8 +11,16 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import AvailabilityPageStyle from "./style";
+import UserContext from "../../../utils/userContext"
+
 
 function AvailabilityPage(props) {
+  const {isAuthenticated} = useContext(UserContext)
+  //if user is not authenticated, redirect to login page
+  if(!isAuthenticated){
+     window.location="/"
+  }
+
   const { classes } = props;
 
   const [url, setUrl] = React.useState({

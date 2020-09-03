@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 
 const Users = require("../models/User");
 const mongoose = require("mongoose");
+const { db } = require("../models/User");
 
 //======================================
 //helper methods
@@ -61,6 +62,32 @@ function adjustResponseNameToDBPreference(user) {
   if (tokens.refresh_token) data.refreshToken = tokens.refresh_token;
 
   return data;
+}
+
+function createJWT(dbModel) {
+  const {
+    availableHoursFrom,
+    availableHoursTo,
+    availableDays,
+    _id,
+    name,
+    email,
+    avatarUrl,
+    calendarUrl,
+  } = dbModel;
+
+  let user = {
+    availableHoursFrom: availableHoursFrom,
+    availableHoursTo: availableHoursTo,
+    availableDays: availableDays,
+    _id: _id,
+    name: name,
+    email: email,
+    avatarUrl: avatarUrl,
+    calendarUrl: calendarUrl,
+  };
+
+  return jwt.sign(user, "teamLavender");
 }
 
 function refreshUserToken(oAuth2Client, user) {
@@ -130,28 +157,25 @@ function authenticateUser(req, res) {
       //get data for database
       let data = adjustResponseNameToDBPreference(user);
       //get jwt token
-      data.jwtToken = jwt.sign(user.userInfo, "teamLavender");
-      const { name, email, avatarUrl, calendarUrl, jwtToken } = data;
+      const { name, email, avatarUrl, calendarUrl } = data;
 
       if (dbModel) {
-        Users.findByIdAndUpdate({ _id: dbModel._id }, user).then(() => {
+        Users.findByIdAndUpdate({ _id: dbModel._id }, data).then((dbModel) => {
+          const jwtToken = createJWT(dbModel);
           const isNewUser = false;
           return res.status(200).json({
-            name,
             email,
-            avatarUrl,
             calendarUrl,
             jwtToken,
             isNewUser,
           });
         });
       } else {
-        Users.create(user).then(() => {
+        Users.create(data).then((dbModel) => {
+          const jwtToken = createJWT(dbModel);
           const isNewUser = true;
           return res.status(200).json({
-            name,
             email,
-            avatarUrl,
             calendarUrl,
             jwtToken,
             isNewUser,
@@ -220,7 +244,15 @@ function getAvailability(req, res) {
     .catch((err) => {
       console.log("API request failed: ", err);
       return res.status(422).json(err);
-    });
+    });s
 }
 
-module.exports = { authenticateUser, getAvailability };
+function verifyToken(req, res) {
+  const token = req.query.token;
+  jwt.verify(token, "teamLavender", function (err, decoded) {
+    if (err) return res.status(401).send("Token is invalid");
+    return res.status(200).send(decoded);
+  });
+}
+
+module.exports = { authenticateUser, getAvailability, verifyToken };

@@ -10,8 +10,6 @@ function LoginBtn(props) {
       const response = await API.authenticateUser(res.code);
 
       //save user info into local storage for future use
-      localStorage.setItem("googleAvatarUrl", response.avatarUrl);
-      localStorage.setItem("googleName", response.name);
       localStorage.setItem("googleEmail", response.email);
       localStorage.setItem("jwtToken", response.jwtToken);
 

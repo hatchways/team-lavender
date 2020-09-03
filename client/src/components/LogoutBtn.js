@@ -22,8 +22,7 @@ function LogoutBtn() {
       }
     }
     //removing for now, can keep it for future use
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("expireAt");
+    localStorage.removeItem("jwtToken");
   }
 
   
