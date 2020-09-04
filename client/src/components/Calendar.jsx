@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect,useContext} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TimePicker from "./TimePicker";
 import ReactCalendar from 'react-calendar';
@@ -6,6 +6,8 @@ import 'react-calendar/dist/Calendar.css';
 import API from "../utils/googleAPI";
 import { useHistory } from "react-router-dom"
 import LinkChecker from "../utils/linkChecker"
+import UserContext from "../utils/userContext"
+
 
 const Calendar = (props) => {
     const classes = useStyles();
@@ -17,6 +19,8 @@ const Calendar = (props) => {
     const [date, setDate] = React.useState();
     const [hostAvailableDay, setHostAvailableDay] = React.useState(Array);
     const [today, setToday] = React.useState(new Date())
+    const {user} = useContext(UserContext)
+
    
     useEffect(() => {
       const check = async function() {
@@ -51,11 +55,12 @@ const Calendar = (props) => {
         year:year, // collected from the date user clicked on 
         month:month,
         date:date,
-        availableFrom: "09:00",// from database 
-        availableTo: "17:00",
-        meetingLength: "30mins", //from the calendar type
+        availableFrom: user.availableHoursFrom,// from database 
+        availableTo: user.availableHoursTo,
+        meetingLength: `${props.duration}mins`, //from the calendar type
         timezone: "America/Toronto", // use moment to get time zone
       };
+      console.log(data)
       API.getAvailability(data).then((res) => {
         setAvailability(res)
       });
