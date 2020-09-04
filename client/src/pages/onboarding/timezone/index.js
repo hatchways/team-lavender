@@ -1,5 +1,7 @@
-import React from "react";
+import React,{useContext} from "react";
 import axios from "axios";
+import UserContext from "../../../utils/userContext"
+import moment from 'moment-timezone';
 
 import {
   Button,
@@ -15,8 +17,16 @@ import { Link } from "react-router-dom";
 import TimezonePageStyle from "./style";
 
 function TimezonePage(props) {
+  const {isAuthenticated,user} = useContext(UserContext)
+  const jwtToken=localStorage.getItem("jwtToken")
+  //if user is not authenticated, redirect to login page
+  if(!jwtToken && !isAuthenticated){
+     window.location="/"
+  }
+  const localTimeZone=moment.tz.guess(); 
+console.log(localTimeZone)
   const { classes } = props;
-  const [users, setUsers] = React.useState({ calendarUrl: "", timezone: "" });
+  const [users, setUsers] = React.useState({ calendarUrl: user.calendarUrl, timezone: localTimeZone });
   const [nextUrl, setUrl] = React.useState(
     window.location.pathname.replace("timezone", "confirm")
   );
@@ -90,6 +100,8 @@ function TimezonePage(props) {
                 <p>calendapp.com/</p>
                 <Divider orientation="vertical" flexItem />
                 <TextField
+                defaultValue={user.calendarUrl}
+                placeholder = {user.calendarUrl}
                   className={
                     classes.belowDivider_firstDiv_secondDiv_textFieldWrapper_TextField
                   }
@@ -117,7 +129,8 @@ function TimezonePage(props) {
                 className={classes.belowDivider_secondDiv_secondDiv_FormControl}
               >
                 <InputLabel>Time Zone</InputLabel>
-                <Select onChange={onChangeTimezone}>
+                <Select onChange={onChangeTimezone} value={localTimeZone} >
+                  <MenuItem value={localTimeZone}>{localTimeZone}</MenuItem>
                   <MenuItem value={"UTC-7 PDT"}>UTC-7 PDT</MenuItem>
                   <MenuItem value={"UTC-6 MDT"}>UTC-6 MDT</MenuItem>
                   <MenuItem value={"UTC-5 CDT"}>UTC-5 CDT</MenuItem>

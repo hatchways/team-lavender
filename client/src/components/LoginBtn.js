@@ -6,36 +6,20 @@ import API from "../utils/googleAPI";
 function LoginBtn(props) {
   async function login(res) {
     //if logged in for first time, will return a authorization code only
+    console.log(res.code);
     if (res.code) {
       const response = await API.authenticateUser(res.code);
+      console.log(response);
 
       //save user info into local storage for future use
-      localStorage.setItem("googleAvatarUrl", response.userInfo.picture);
-      localStorage.setItem("googleName", response.userInfo.name);
-      localStorage.setItem("googleEmail", response.userInfo.email);
-      localStorage.setItem("accessToken", response.tokens.access_token);
-      localStorage.setItem("expireAt", response.tokens.expires_at);
+      localStorage.setItem("googleEmail", response.email);
+      localStorage.setItem("jwtToken", response.jwtToken);
 
-      let user = {
-        name: response.userInfo.name,
-        email: response.userInfo.email,
-        avatarUrl: response.userInfo.picture,
-        timeZone: "America/Toronto",
-        accessToken: response.tokens.access_token,
-        expiryDate: response.tokens.expiry_date,
-        refreshToken: response.tokens.refresh_token,
-      };
-      axios
-        .post("/user/signup", user)
-        .then((res) => {
-          if (res.data.message === "Created new user") {
-            window.location = `${res.data.calendarUrl}/profile_setting/timezone`;
-          }
-          if (res.data.message === "Already Exist User Account") {
-            window.location = `${res.data.calendarUrl}`;
-          }
-        })
-        .catch((err) => console.log("Error: " + err));
+      if (response.isNewUser) {
+        window.location = `${response.calendarUrl}/profile_setting/timezone`;
+      } else {
+        window.location = `${response.calendarUrl}`;
+      }
     } else {
       //if user is already signed in, will return GoogleUser automatically
       console.log(res);
@@ -64,8 +48,6 @@ function LoginBtn(props) {
       responseType="code"
       accessType="offline"
       redirectUri="http://localhost:3000"
-      //automatically return GoogleUser if user is signed in
-      isSignedIn={true}
       className={props.className}
     />
   );

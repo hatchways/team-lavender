@@ -3,6 +3,8 @@ const Moment = require("moment");
 const MomentRange = require("moment-range");
 const moment = MomentRange.extendMoment(Moment);
 const Meetings = require("../models/Meetings");
+const jwt = require("jsonwebtoken");
+
 const Users = require("../models/User");
 const mongoose = require("mongoose");
 
@@ -43,6 +45,49 @@ function getEvents(calendar, availabilityStart, availabilityEnd) {
 
 function findUserByUrl(calendarUrl) {
   return Users.findOne({ calendarUrl: calendarUrl });
+}
+function findUserByEmail(email) {
+  return Users.findOne({ email: email });
+}
+function adjustResponseNameToDBPreference(user) {
+  const { tokens, userInfo } = user;
+  let data = {};
+
+  data.name = userInfo.name;
+  data.email = userInfo.email;
+  data.avatarUrl = userInfo.picture;
+  data.calendarUrl = userInfo.email.split("@")[0].replace(".", "-");
+  data.accessToken = tokens.access_token;
+  data.expiryDate = tokens.expiry_date;
+  if (tokens.refresh_token) data.refreshToken = tokens.refresh_token;
+
+  return data;
+}
+
+function createJWT(dbModel) {
+  const {
+    availableHoursFrom,
+    availableHoursTo,
+    availableDays,
+    _id,
+    name,
+    email,
+    avatarUrl,
+    calendarUrl,
+  } = dbModel;
+
+  let user = {
+    availableHoursFrom: availableHoursFrom,
+    availableHoursTo: availableHoursTo,
+    availableDays: availableDays,
+    _id: _id,
+    name: name,
+    email: email,
+    avatarUrl: avatarUrl,
+    calendarUrl: calendarUrl,
+  };
+
+  return jwt.sign(user, "teamLavender");
 }
 
 function refreshUserToken(oAuth2Client, user) {
@@ -103,9 +148,40 @@ function authenticateUser(req, res) {
       user.tokens = tokens;
       return getGoogleUserInfo(tokens.access_token);
     })
-    .then((userInfo) => {
-      user.userInfo = userInfo.data;
-      res.status(200).json(user);
+    .then((response) => {
+      user.userInfo = response.data;
+      //check if user exists in database
+      return findUserByEmail(user.userInfo.email);
+    })
+    .then((dbModel) => {
+      //get data for database
+      let data = adjustResponseNameToDBPreference(user);
+      //get jwt token
+      const { name, email, avatarUrl, calendarUrl } = data;
+
+      if (dbModel) {
+        Users.findByIdAndUpdate({ _id: dbModel._id }, data).then((dbModel) => {
+          const jwtToken = createJWT(dbModel);
+          const isNewUser = false;
+          return res.status(200).json({
+            email,
+            calendarUrl,
+            jwtToken,
+            isNewUser,
+          });
+        });
+      } else {
+        Users.create(data).then((dbModel) => {
+          const jwtToken = createJWT(dbModel);
+          const isNewUser = true;
+          return res.status(200).json({
+            email,
+            calendarUrl,
+            jwtToken,
+            isNewUser,
+          });
+        });
+      }
     })
     .catch((err) => res.status(422).json(err));
 }
@@ -235,4 +311,17 @@ function addAppointment(req, res) {
     });
 }
 
-module.exports = { authenticateUser, getAvailability, addAppointment };
+function verifyToken(req, res) {
+  const token = req.query.token;
+  jwt.verify(token, "teamLavender", function (err, decoded) {
+    if (err) return res.status(401).send("Token is invalid");
+    return res.status(200).send(decoded);
+  });
+}
+
+module.exports = {
+  authenticateUser,
+  getAvailability,
+  verifyToken,
+  addAppointment,
+};
