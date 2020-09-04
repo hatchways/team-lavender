@@ -2,7 +2,7 @@ import React,{useContext} from "react";
 
 import { Button, Divider } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ConfirmPageStyle from "./style";
 import UserContext from "../../../utils/userContext"
 

@@ -36,7 +36,7 @@ function CreateNewEventDialog(props) {
                     <Button className={duration === 60 ? classes.buttonClicked : null} onClick={() => durationButtonClicked(60)}>60 min</Button>
                 </ButtonGroup>
                 <TextField
-                    label="Event Name"
+                    label="Don't add name"
                     margin="dense"
                     id="name"
                     size="medium"
@@ -48,7 +48,7 @@ function CreateNewEventDialog(props) {
                     }}
                 />
                 <TextField
-                    label="Description"
+                    label="Don't add Description"
                     margin="dense"
                     id="description"
                     size="medium"

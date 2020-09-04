@@ -24,7 +24,7 @@ function AvailabilityPage(props) {
 
   const { classes } = props;
 
-  const [url, setUrl] = React.useState({
+  const [url] = React.useState({
     prev: window.location.pathname.replace("availability", "timezone"),
     calendarUrl: window.location.pathname
       .replace("/profile_setting/availability", "")

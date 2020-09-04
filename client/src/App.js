@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MuiThemeProvider } from "@material-ui/core";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import { theme } from "./themes/theme";
 // import LandingPage from "./pages/Landing";
@@ -10,11 +10,12 @@ import Timezone from "./pages/onboarding/timezone";
 import Confirm from "./pages/onboarding/confirm";
 import Availability from "./pages/onboarding/availability";
 import Dashboard from "./pages/Dashboard";
-import Schedule from "./pages/ScheduleCalendar"
+import Schedule from "./pages/ScheduleCalendar/CalendarPage";
+import Upgrade from "./pages/Upgrade";
+import AppointmentConfirm from "./pages/ScheduleCalendar/ConfirmPage";
 import Test from "./pages/Test";
 import API from "./utils/googleAPI";
 import UserContext from "./utils/userContext";
-
 
 import "./App.css";
 
@@ -37,16 +38,16 @@ function App() {
       });
     }
   }, []);
-console.log("app",user.isAuthenticated)
+  console.log("app", user.isAuthenticated);
 
   return (
     <MuiThemeProvider theme={theme}>
-      <UserContext.Provider value = {user} >
-      <BrowserRouter>
-        <Route exact path="/" component={Signup} />
-        <Route path="/login" component={Login} />
-
-     
+      <UserContext.Provider value={user}>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" component={Signup} />
+            <Route path="/login" component={Login} />
+            <Route path="/test" component={Test} />
             <Route
               path="/:calendarUrl/profile_setting/timezone"
               component={Timezone}
@@ -59,11 +60,16 @@ console.log("app",user.isAuthenticated)
               path="/:calendarUrl/profile_setting/availability"
               component={Availability}
             />
-            <Route exact path="/:calendarUrl/welcome" component={Dashboard} />
-       
-
-        <Route path="/test" component={Test} />
-      </BrowserRouter>
+            <Route path="/:calendarUrl/upgrade" component={Upgrade} />
+            <Route
+              exact
+              path="/:calendarUrl/:eventURL/confirm"
+              component={AppointmentConfirm}
+            />
+            <Route exact path="/:calendarUrl/:eventUrl" component={Schedule} />
+            <Route exact path="/:calendarUrl" component={Dashboard} />
+          </Switch>
+        </BrowserRouter>
       </UserContext.Provider>
     </MuiThemeProvider>
   );

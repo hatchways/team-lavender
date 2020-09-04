@@ -6,10 +6,10 @@ import API from "../utils/googleAPI";
 function LoginBtn(props) {
   async function login(res) {
     //if logged in for first time, will return a authorization code only
-    console.log(res.code)
+    console.log(res.code);
     if (res.code) {
       const response = await API.authenticateUser(res.code);
-      console.log(response)
+      console.log(response);
 
       //save user info into local storage for future use
       localStorage.setItem("googleEmail", response.email);
@@ -18,9 +18,8 @@ function LoginBtn(props) {
       if (response.isNewUser) {
         window.location = `${response.calendarUrl}/profile_setting/timezone`;
       } else {
-        window.location = `${response.calendarUrl}/welcome`;
+        window.location = `${response.calendarUrl}`;
       }
-
     } else {
       //if user is already signed in, will return GoogleUser automatically
       console.log(res);

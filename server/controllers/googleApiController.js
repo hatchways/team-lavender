@@ -2,6 +2,7 @@ const { google } = require("googleapis");
 const Moment = require("moment");
 const MomentRange = require("moment-range");
 const moment = MomentRange.extendMoment(Moment);
+const Meetings = require("../models/Meetings");
 const jwt = require("jsonwebtoken");
 
 const Users = require("../models/User");
@@ -246,6 +247,70 @@ function getAvailability(req, res) {
     });
 }
 
+function addAppointment(req, res) {
+  const { email, time, calendarURL, eventURL } = req.body;
+  console.log(email, time, calendarURL, eventURL);
+  findUserByUrl(calendarURL)
+    .then(async (dbModel) => {
+      //if user doesn't exist, break the chain, return response
+      if (!dbModel) return res.status(404).json("User doesn't exist");
+      else {
+        user = dbModel;
+        //check is access_token is expired and refresh if it is
+        const isExpired = moment(parseInt(user.expiryDate)) < moment();
+        if (isExpired) user = await refreshUserToken(oAuth2Client, user);
+        // get duartion from eventURL
+        let query = { eventURL: eventURL };
+        const meeting = await Meetings.find(query);
+        if (meeting.length < 1) {
+          console.log("url doesnt exist");
+          return res.status(400).json({ message: "eventURL doesn't exist" });
+        }
+        let duration = meeting[0].duration;
+        console.log(duration);
+
+        //load google calendar library with valid access_token
+        let calendar = getGoogleCalendarApi(oAuth2Client, {
+          access_token: user.accessToken,
+        });
+        var event = {
+          summary: "calendapp appointment",
+          location: "Online",
+          description: "calendapp appointment",
+          start: {
+            dateTime: moment(time).toDate(),
+            timeZone: user.timeZone,
+          },
+          end: {
+            dateTime: moment(time).add(duration, "m").toDate(),
+            timeZone: user.timeZone,
+          },
+          attendees: [{ email: email }],
+          reminders: {
+            useDefault: false,
+            overrides: [
+              { method: "email", minutes: 24 * 60 },
+              { method: "popup", minutes: 10 },
+            ],
+          },
+        };
+        console.log(user.email, event);
+        var request = calendar.events.insert({
+          calendarId: user.email,
+          resource: event,
+          //sendNotifications: true,
+        });
+        request.then(() => {
+          return res.status(200).json("event added");
+        });
+      }
+    })
+    .catch((err) => {
+      console.log("Event not added: ", err);
+      return res.status(422).json(err);
+    });
+}
+
 function verifyToken(req, res) {
   const token = req.query.token;
   jwt.verify(token, "teamLavender", function (err, decoded) {
@@ -254,4 +319,9 @@ function verifyToken(req, res) {
   });
 }
 
-module.exports = { authenticateUser, getAvailability, verifyToken };
+module.exports = {
+  authenticateUser,
+  getAvailability,
+  verifyToken,
+  addAppointment,
+};

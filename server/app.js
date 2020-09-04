@@ -33,7 +33,7 @@ app.use(cors());
 app.use("/appointments", appointmentRouter);
 app.use("/meeting", meetingsRouter);
 app.use("/user", usersRouter);
-app.use("/api/google/", googleAPI);
+app.use("/api/google", googleAPI);
 app.use("/upgrade", upgradeRouter);
 
 // catch 404 and forward to error handler
