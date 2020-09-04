@@ -55,7 +55,7 @@ function ScheduleCalendarPage(props) {
                     </div>
                     <Divider orientation="vertical" flexItem />
                     <div className={classes.onTheRightOfDivider}>
-                        <Calendar userURL={userURL} eventURL={eventURL}></Calendar>
+                        <Calendar userURL={userURL} eventURL={eventURL} duration={duration}></Calendar>
                     </div>
                 </div>
             </div>

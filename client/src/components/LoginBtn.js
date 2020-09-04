@@ -6,8 +6,10 @@ import API from "../utils/googleAPI";
 function LoginBtn(props) {
   async function login(res) {
     //if logged in for first time, will return a authorization code only
+    console.log(res.code)
     if (res.code) {
       const response = await API.authenticateUser(res.code);
+      console.log(response)
 
       //save user info into local storage for future use
       localStorage.setItem("googleEmail", response.email);
@@ -47,8 +49,6 @@ function LoginBtn(props) {
       responseType="code"
       accessType="offline"
       redirectUri="http://localhost:3000"
-      //automatically return GoogleUser if user is signed in
-      isSignedIn={true}
       className={props.className}
     />
   );

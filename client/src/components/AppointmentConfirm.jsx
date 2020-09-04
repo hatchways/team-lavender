@@ -28,7 +28,7 @@ function AppointmentConfirm(props) {
         };
         
         const res = Create.createAppointment(data)
-        if (res.status == 200) {
+        if (res.status != 400) {
             alert("Appointment is confirmed ")
         } else {
             alert("Error, Retry it")
@@ -44,7 +44,7 @@ function AppointmentConfirm(props) {
                 <div className={classes.onTheLeftOfDivider}>
                     <div className={classes.duration}>
                         <AccessTimeIcon />
-                        <div>30 min</div>
+                        <div>{urlParams.get('duration')} min</div>
                     </div>
                     <div>Start at {time}</div>
                 </div>

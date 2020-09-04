@@ -35,11 +35,9 @@ const MainContent = () => {
     setOpen(false);
   };
   const CreateMeeting = async (duration, name, type, eventURL) => {
-
-    
     const data = {
       duration : duration,
-      userId : "5f440cfa30ccaf1d18114165",
+      userId : user._id,
       eventURL : eventURL
     }
     

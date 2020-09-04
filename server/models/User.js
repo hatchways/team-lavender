@@ -39,7 +39,6 @@ const userSchema = new Schema({
   // =====================================
   timeZone: {
     type: String,
-    required: true,
   },
   availableHoursFrom: {
     type: String,
