@@ -32,8 +32,6 @@ exports.validateUserInfo = async function (req) {
     availableHoursTo,
     availableDays,
     calendarUrl,
-    accessToken,
-    expiryDate,
   } = req.body;
 
   // Check that timeZone is not null
@@ -64,18 +62,6 @@ exports.validateUserInfo = async function (req) {
   if (!calendarUrl) {
     isValid = false;
     message = "calendarUrl shouldn't be an empty";
-    return { isValid, message };
-  }
-  // Check that accessToken is not null
-  if (!accessToken) {
-    isValid = false;
-    message = "accessToken not recieved";
-    return { isValid, message };
-  }
-  // Check that expiryDate is not null
-  if (!expiryDate) {
-    isValid = false;
-    message = "expiryDate not recieved";
     return { isValid, message };
   }
   // Check that url is unique
