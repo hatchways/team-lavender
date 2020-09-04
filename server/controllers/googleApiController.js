@@ -118,15 +118,25 @@ function filterUnavailableSlot(events, timeSlot) {
   for (let event of events) {
     const startTime = moment(event.start.dateTime);
     const endTime = moment(event.end.dateTime);
+
     //number of slots that meeting will take up
     let n = 0;
     for (let i = 0; i < timeSlot.length; i++) {
+      //if event started before the available time
+      if (i == 0 && timeSlot[0].isAfter(startTime)) {
+        while (endTime.isAfter(timeSlot[i + n])) {
+          n++;
+        }
+        timeSlot.splice(i, n);
+        break;
+      }
+
       if (
         timeSlot[i].isSameOrBefore(startTime) &&
         timeSlot[i + 1].isAfter(startTime)
       ) {
         //check if the meeting lasts till the next slot, if yes,increase the number os slots to remove
-        while (endTime.isAfter(timeSlot[i + n])) {
+        while (timeSlot[i + n] && endTime.isAfter(timeSlot[i + n])) {
           n++;
         }
         timeSlot.splice(i, n);
@@ -140,10 +150,10 @@ function filterUnavailableSlot(events, timeSlot) {
 //======================================
 //exportable methods
 //======================================
-let oAuth2Client = createConnection();
+let oAuth2ClientCurrent = createConnection();
 function authenticateUser(req, res) {
   let user = {};
-  getTokenFromCode(oAuth2Client, req.query.code)
+  getTokenFromCode(oAuth2ClientCurrent, req.query.code)
     .then(({ tokens }) => {
       user.tokens = tokens;
       return getGoogleUserInfo(tokens.access_token);
@@ -187,6 +197,8 @@ function authenticateUser(req, res) {
 }
 
 function getAvailability(req, res) {
+  let oAuth2ClientRequested = createConnection();
+
   const { query } = req;
   const date = `${query.year}-${query.month}-${query.date}`; // 2020-08-20
   const meetingLength = parseInt(query.meetingLength); // "30min" => 30
@@ -211,10 +223,11 @@ function getAvailability(req, res) {
         else {
           //check is access_token is expired and refresh if it is
           const isExpired = moment(parseInt(user.expiryDate)) < moment();
-          if (isExpired) user = await refreshUserToken(oAuth2Client, user);
+          if (isExpired)
+            user = await refreshUserToken(oAuth2ClientRequested, user);
 
           //load google calendar library with valid access_token
-          let calendar = getGoogleCalendarApi(oAuth2Client, {
+          let calendar = getGoogleCalendarApi(oAuth2ClientRequested, {
             access_token: user.accessToken,
           });
 
@@ -230,7 +243,6 @@ function getAvailability(req, res) {
                 availabilityEnd,
                 meetingLength
               );
-
               if (events.length)
                 timeSlot = filterUnavailableSlot(events, timeSlot);
               return res
@@ -258,7 +270,7 @@ function addAppointment(req, res) {
         user = dbModel;
         //check is access_token is expired and refresh if it is
         const isExpired = moment(parseInt(user.expiryDate)) < moment();
-        if (isExpired) user = await refreshUserToken(oAuth2Client, user);
+        if (isExpired) user = await refreshUserToken(oAuth2ClientCurrent, user);
         // get duartion from eventURL
         let query = { eventURL: eventURL };
         const meeting = await Meetings.find(query);
@@ -270,7 +282,7 @@ function addAppointment(req, res) {
         console.log(duration);
 
         //load google calendar library with valid access_token
-        let calendar = getGoogleCalendarApi(oAuth2Client, {
+        let calendar = getGoogleCalendarApi(oAuth2ClientCurrent, {
           access_token: user.accessToken,
         });
         var event = {
