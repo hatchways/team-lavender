@@ -1,12 +1,15 @@
 import React from "react";
 import { useGoogleLogout } from "react-google-login";
+import {IconButton} from "@material-ui/core";
+
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 let clientID =
   "871373961261-rjej65g97dc3o6jiuflq6s2gp5v9ptut.apps.googleusercontent.com";
 
 function LogoutBtn() {
   // imported to load gapi
-  let { loaded} = useGoogleLogout({
+  let { loaded } = useGoogleLogout({
     clientId: clientID,
   });
 
@@ -23,11 +26,14 @@ function LogoutBtn() {
     }
     //removing for now, can keep it for future use
     localStorage.removeItem("jwtToken");
+    window.location = "/login"
   }
 
-  
-  return (<> 
-    <button onClick={logout} >Log out</button>
+  return (
+    <>
+      <IconButton onClick={logout}>
+        <ExitToAppIcon />
+      </IconButton>
     </>
   );
 }

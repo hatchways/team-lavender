@@ -6,6 +6,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import UserContext from "../utils/userContext";
+import LogoutBtn from "./LogoutBtn"
+
+
 
 const NavBar = () => {
   const { user } = useContext(UserContext);
@@ -57,6 +60,7 @@ const NavBar = () => {
             className={classes.avatar}
           />
           <Typography className={classes.userName}>{user.name}</Typography>
+         <LogoutBtn />
         </Toolbar>
       </AppBar>
     </React.Fragment>
