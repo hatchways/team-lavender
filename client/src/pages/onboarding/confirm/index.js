@@ -8,7 +8,7 @@ import UserContext from "../../../utils/userContext"
 
 
 function ConfirmPage(props) {
-  const {isAuthenticated} = useContext(UserContext)
+  const {isAuthenticated,user} = useContext(UserContext)
   const jwtToken=localStorage.getItem("jwtToken")
   //if user is not authenticated, redirect to login page
   if(!jwtToken && !isAuthenticated){
@@ -49,12 +49,12 @@ function ConfirmPage(props) {
         <Divider />
         <div className={classes.belowDivider}>
           <div className={classes.belowDivider_firstDiv}>
-            Here is how CalendApp will work with john-doe@gmail.com :{" "}
+            Here is how CalendApp will work with {user.email} :{" "}
           </div>
           <Divider />
           <div className={classes.belowDivider_secondDiv}>
             <div>
-              1. We will check "<b>john-doe@gmail.com</b>" for conflicts
+              1. We will check "<b>{user.email}</b>" for conflicts
             </div>
             <Button className={classes.belowDivider_secondDiv_button}>
               Edit
@@ -63,7 +63,7 @@ function ConfirmPage(props) {
           <Divider />
           <div className={classes.belowDivider_thirdDiv}>
             <div>
-              2. We will add event to "<b>john-doe@gmail.com</b>"
+              2. We will add event to "<b>{user.email}</b>"
             </div>
             <Button className={classes.belowDivider_secondDiv_button}>
               Edit
