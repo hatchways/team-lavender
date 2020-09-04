@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 
 import {
@@ -11,15 +11,14 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import AvailabilityPageStyle from "./style";
-import UserContext from "../../../utils/userContext"
-
+import UserContext from "../../../utils/userContext";
 
 function AvailabilityPage(props) {
-  const {isAuthenticated} = useContext(UserContext)
-  const jwtToken=localStorage.getItem("jwtToken")
+  const { isAuthenticated } = useContext(UserContext);
+  const jwtToken = localStorage.getItem("jwtToken");
   //if user is not authenticated, redirect to login page
-  if(!jwtToken && !isAuthenticated){
-     window.location="/"
+  if (!jwtToken && !isAuthenticated) {
+    window.location = "/";
   }
 
   const { classes } = props;
@@ -41,6 +40,7 @@ function AvailabilityPage(props) {
     availableDays: [],
     calendarUrl: props.location.users.calendarUrl,
   });
+  console.log(users, url.calendarUrl);
 
   function onChangeAvailableHoursFrom(e) {
     console.log("Users", users.timeZone);
@@ -111,6 +111,7 @@ function AvailabilityPage(props) {
   function onFinish(e) {
     getCurrentUserId().then((data) => {
       e.preventDefault();
+      console.log(data);
       if (users.availableHoursFrom === "" || users.availableHoursTo === "") {
         alert("Please make sure all fields have a value");
         window.location = url.prev;
@@ -120,7 +121,7 @@ function AvailabilityPage(props) {
         .then((res) => {
           console.log(res.data);
           console.log(url.calendarUrl, users.calendarUrl);
-          window.location = "/" + users.calendarUrl + "/welcome";
+          window.location = "/" + users.calendarUrl;
         })
         .catch((err) => console.log("Error: " + err));
     });
@@ -186,7 +187,7 @@ function AvailabilityPage(props) {
                   value="bottom"
                   control={
                     <Checkbox
-                      value="Sunday"
+                      value="Sundays"
                       onChange={onChangeAvailableDays}
                       color="#F78104"
                     />
@@ -205,7 +206,7 @@ function AvailabilityPage(props) {
                   value="bottom"
                   control={
                     <Checkbox
-                      value="Monday"
+                      value="Mondays"
                       onChange={onChangeAvailableDays}
                       color="#F78104"
                     />
@@ -224,7 +225,7 @@ function AvailabilityPage(props) {
                   value="bottom"
                   control={
                     <Checkbox
-                      value="Tuesday"
+                      value="Tuesdays"
                       onChange={onChangeAvailableDays}
                       color="#F78104"
                     />
@@ -243,7 +244,7 @@ function AvailabilityPage(props) {
                   value="bottom"
                   control={
                     <Checkbox
-                      value="Wednesday"
+                      value="Wednesdays"
                       onChange={onChangeAvailableDays}
                       color="#F78104"
                     />
@@ -262,7 +263,7 @@ function AvailabilityPage(props) {
                   value="bottom"
                   control={
                     <Checkbox
-                      value="Thursday"
+                      value="Thursdays"
                       onChange={onChangeAvailableDays}
                       color="#F78104"
                     />
@@ -281,7 +282,7 @@ function AvailabilityPage(props) {
                   value="bottom"
                   control={
                     <Checkbox
-                      value="Friday"
+                      value="Fridays"
                       onChange={onChangeAvailableDays}
                       color="#F78104"
                     />
@@ -300,7 +301,7 @@ function AvailabilityPage(props) {
                   value="Saturdays"
                   control={
                     <Checkbox
-                      value="Saturday"
+                      value="Saturdays"
                       onChange={onChangeAvailableDays}
                       color="#F78104"
                     />
