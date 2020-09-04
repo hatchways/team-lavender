@@ -38,7 +38,6 @@ function App() {
       });
     }
   }, []);
-  console.log("app", user.isAuthenticated);
 
   return (
     <MuiThemeProvider theme={theme}>
