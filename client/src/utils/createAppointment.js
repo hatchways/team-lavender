@@ -16,7 +16,7 @@ export default {
     };
     let response = await axios(options);
     // add a call to goggle calendar insert event
-    await axios
+    axios
       .post(`http://localhost:3001/api/google/addAppointment`, data)
       .then((res) => {
         console.log(res);
