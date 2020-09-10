@@ -17,6 +17,7 @@ import UserContext from "../utils/userContext";
 const meetings = [
   { title: "15min", description: "15 minutes meeting" },
   { title: "30min", description: "30 minutes meeting" },
+  { title: "45min", description: "45 minutes meeting" },
   { title: "60min", description: "60 minutes meeting" },
 ];
 
@@ -51,11 +52,11 @@ const MainContent = () => {
   return (
     <React.Fragment>
       <div style={{ background: "#EBF4FA" }}>
-        <Container maxWidth="md" component="main" className={classes.container}>
+        <div className={classes.container}>
           <Typography varient="title" className={classes.title}>
             My CalendApp
           </Typography>
-          <Typography>
+          <Typography style={{ marginLeft: 80, marginTop: 20 }}>
             <NavLink
               to="/eventtypes"
               activeClassName="selected"
@@ -73,7 +74,7 @@ const MainContent = () => {
               SCHEDULED EVENTS
             </NavLink>
           </Typography>
-        </Container>
+        </div>
         <Container
           maxWidth="md"
           component="main"
@@ -109,8 +110,9 @@ const MainContent = () => {
           <Grid container spacing={5} alignItems="flex-end">
             {meetings.map((meeting) => (
               <Grid item key={meeting.title} xs={12} sm={6} md={4}>
-                <Card>
+                <Card className={classes.card}>
                   <CardContent>
+                    <Divider className={classes.dividerTop} />
                     <div>
                       <Typography
                         component="h6"
@@ -147,7 +149,7 @@ const MainContent = () => {
 const useStyles = makeStyles((theme) => ({
   container: {
     background: "#ffffff",
-    marginLeft: 60,
+    flexGrow: 1,
     marginTop: 10,
   },
   container2: {
@@ -170,6 +172,8 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: 20,
     fontWeight: 500,
+    marginTop: 40,
+    marginLeft: 80,
     color: "black",
   },
   link: {
@@ -190,10 +194,21 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(3),
     height: theme.spacing(3),
   },
+  card: {
+    "-webkit-box-shadow": "1px 1px 10px 3px rgba(196,196,196,1)",
+    "&:hover": {
+      "-webkit-box-shadow": "5px 5px 10px 3px rgba(196,196,196,1)",
+    },
+  },
   userName: {
     fontSize: 15,
     fontWeight: 500,
     color: "black",
+  },
+  dividerTop: {
+    color: "red",
+    height: 4,
+    width: "100%",
   },
   dividerInCardContent: {
     margin: "30px auto",

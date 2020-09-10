@@ -27,8 +27,7 @@ const PaymentOptions = () => {
         console.log("Response", response.data.plan.amount);
         if (response.data.plan.amount == 1999) {
           setCurrentPlan("professional plan");
-        }
-        else if (response.data.plan.amount == 999) {
+        } else if (response.data.plan.amount == 999) {
           setCurrentPlan("premium plan");
         }
       })
@@ -53,7 +52,7 @@ const PaymentOptions = () => {
           </div>
           <Grid container spacing={5} alignItems="center" justify="center">
             <Grid item key="Premium" xs={12} sm={6} md={4}>
-              <Card>
+              <Card className={classes.card}>
                 <CardContent className={classes.cardContent}>
                   <Typography
                     className={classes.cardLineOne}
@@ -85,7 +84,7 @@ const PaymentOptions = () => {
               </Card>
             </Grid>
             <Grid item key="Professional" xs={12} sm={6} md={4}>
-              <Card>
+              <Card className={classes.card}>
                 <CardContent className={classes.cardContent}>
                   <Typography
                     className={classes.cardLineOne}
@@ -141,6 +140,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 50,
     fontWeight: 500,
     color: "black",
+  },
+  card: {
+    "-webkit-box-shadow": "1px 1px 10px 3px rgba(196,196,196,1)",
+    "&:hover": {
+      "-webkit-box-shadow": "5px 5px 10px 3px rgba(196,196,196,1)",
+    },
   },
   cardContent: {
     textAlign: "center",
