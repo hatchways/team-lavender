@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -13,18 +13,43 @@ import Divider from "@material-ui/core/Divider";
 import CreateNewEventDialog from "../components/CreateNewEventDialog";
 import Meeting from "../utils/createMeeting";
 import UserContext from "../utils/userContext";
-
-const meetings = [
-  { title: "15min", description: "15 minutes meeting" },
-  { title: "30min", description: "30 minutes meeting" },
-  { title: "45min", description: "45 minutes meeting" },
-  { title: "60min", description: "60 minutes meeting" },
-];
+import axios from "axios";
 
 const MainContent = () => {
   const { user } = useContext(UserContext);
 
   const classes = useStyles();
+
+  const [url, setUrl] = useState(window.location.pathname.replace("/", ""));
+  const [userId, setUserId] = useState("");
+  const [meetings, setMeetings] = useState([]);
+  console.log(user);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/user/findUser", {
+        params: {
+          calendarUrl: url,
+        },
+      })
+      .then((response) => {
+        console.log(response.data._id);
+        setUserId(response.data._id);
+      })
+      .catch((err) => console.log("Error: " + err));
+
+    axios
+      .get("http://localhost:3001/meeting/", {
+        params: {
+          id: userId,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setMeetings(response.data.meetingList);
+      })
+      .catch((err) => console.log("Error: " + err));
+  }, [userId]);
 
   const [open, setOpen] = React.useState(false);
   const OpenCreateMeetingDialog = () => {
@@ -36,7 +61,7 @@ const MainContent = () => {
   const CreateMeeting = async (duration, name, type, eventURL) => {
     const data = {
       duration: duration,
-      userId: "5f440cfa30ccaf1d18114165",
+      userId: userId,
       eventURL: eventURL,
     };
 
@@ -109,7 +134,7 @@ const MainContent = () => {
         <Container maxWidth="md" component="main">
           <Grid container spacing={5} alignItems="flex-end">
             {meetings.map((meeting) => (
-              <Grid item key={meeting.title} xs={12} sm={6} md={4}>
+              <Grid item key={meeting.eventURL} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardContent>
                     <Divider className={classes.dividerTop} />
@@ -119,12 +144,12 @@ const MainContent = () => {
                         variant="h5"
                         color="textPrimary"
                       >
-                        {meeting.description}
+                        {meeting.eventURL}
                       </Typography>
                     </div>
                     <Divider className={classes.dividerInCardContent} />
                     <div className={classes.belowDividerinCardContent}>
-                      <CardHeader title={meeting.title} />
+                      <CardHeader title={meeting.duration} />
                       <Button variant="outlined" className={classes.button}>
                         CREATE LINK
                       </Button>
@@ -156,6 +181,7 @@ const useStyles = makeStyles((theme) => ({
     background: "transparent",
     marginLeft: 60,
     marginTop: 30,
+    marginBottom: 30,
   },
   button: {
     background: "#ffffff",

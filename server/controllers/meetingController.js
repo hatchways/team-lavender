@@ -50,7 +50,7 @@ exports.getLoggedInUserMeetings = async function (req, res) {
 
   // Get list of meetings
   try {
-    const meetingList = await Meetings.findById(req.body.id);
+    const meetingList = await Meetings.find({ userId: req.query.id });
     return res.status(200).json({ meetingList: meetingList });
   } catch (err) {
     return res.status(400).json({ massage: err });
@@ -102,14 +102,12 @@ exports.meetingCheck = async function (req, res) {
   //   return res.status(200).json({message : "eventURL and calendarURL don't match", isExist : false})
   // }
 
-  return res
-    .status(200)
-    .json({
-      message: "eventURL doesn't exist",
-      isExist: true,
-      duration: duration,
-      hostName: hostName,
-    });
+  return res.status(200).json({
+    message: "eventURL doesn't exist",
+    isExist: true,
+    duration: duration,
+    hostName: hostName,
+  });
 };
 
 exports.getHostAvailableDay = async function (req, res) {
@@ -152,12 +150,10 @@ exports.getHostAvailableDay = async function (req, res) {
         break;
     }
   });
-  return res
-    .status(200)
-    .json({
-      message: "eventURL doesn't exist",
-      hostAvailableDay: hostAvailableDayByNumber,
-    });
+  return res.status(200).json({
+    message: "eventURL doesn't exist",
+    hostAvailableDay: hostAvailableDayByNumber,
+  });
 };
 
 exports.sendConfirmEmail = function (req, res) {
