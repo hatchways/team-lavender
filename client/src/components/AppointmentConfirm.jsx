@@ -26,11 +26,8 @@ function AppointmentConfirm(props) {
     };
 
     const res = Create.createAppointment(data);
-    if (res.status == 200) {
-      alert("Appointment is confirmed ");
-    } else {
-      alert("Error, Retry it");
-    }
+    console.log(res);
+    alert("Appointment is confirmed ");
   }
   return (
     <div>

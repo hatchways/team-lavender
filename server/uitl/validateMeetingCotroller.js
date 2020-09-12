@@ -9,7 +9,6 @@ exports.validateCreateNewMeetingReq = async function (req) {
   const eventURL = req.body.eventURL;
   const duration = req.body.duration;
 
-
   // Check that id is valid
   const idIsValid = await mongoose.isValidObjectId(userId);
 
@@ -42,7 +41,7 @@ exports.validateLogedInUserId = async function (req) {
   // init
   let isValid = false;
   let message = "";
-  const userId = req.body.id;
+  const userId = req.query.id;
 
   // Check that id is valid
   const idIsValid = await mongoose.isValidObjectId(userId);
