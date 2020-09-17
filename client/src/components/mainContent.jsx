@@ -110,18 +110,19 @@ const MainContent = () => {
               alt="John Doe"
               src={user.avatarUrl}
               className={classes.avatar}
+              style={{ display: "inline-block", height: 35, width: 35 }}
             />
-            <Typography
-              varient="h2"
-              component="h1"
-              className={classes.userName}
-            >
-              {user.name}
-            </Typography>
-            <Typography component="h6">calendapp/{user.calendarUrl}</Typography>
+            <div style={{ display: "inline-block", marginLeft: 20 }}>
+              <Typography className={classes.userName}>{user.name}</Typography>
+              <Typography>calendapp/{user.calendarUrl}</Typography>
+            </div>
             <Button
+              style={{
+                display: "inline-block",
+                marginLeft: 30,
+                verticalAlign: "bottom",
+              }}
               variant="outlined"
-              align="right"
               className={classes.button}
               href="#"
               onClick={OpenCreateMeetingDialog}
@@ -136,21 +137,48 @@ const MainContent = () => {
             {meetings.map((meeting) => (
               <Grid item key={meeting.eventURL} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
-                  <CardContent>
-                    <Divider className={classes.dividerTop} />
-                    <div>
-                      <Typography
-                        component="h6"
-                        variant="h5"
-                        color="textPrimary"
-                      >
-                        {meeting.eventURL}
-                      </Typography>
-                    </div>
+                  <CardContent
+                    style={{
+                      margin: 0,
+                      padding: 0,
+                    }}
+                  >
+                    <div
+                      className={classes.dividerTop}
+                      style={{
+                        background:
+                          "#" +
+                          Math.floor(Math.random() * 16777215).toString(16),
+                      }}
+                    />
+
+                    <Typography
+                      component="h6"
+                      variant="h5"
+                      color="textPrimary"
+                      style={{
+                        textAlign: "center",
+                        paddingTop: 20,
+                      }}
+                    >
+                      {"calendapp/" + user.calendarUrl + "/" + meeting.eventURL}
+                    </Typography>
+
                     <Divider className={classes.dividerInCardContent} />
                     <div className={classes.belowDividerinCardContent}>
-                      <CardHeader title={meeting.duration} />
-                      <Button variant="outlined" className={classes.button}>
+                      <CardHeader
+                        style={{ display: "inline-block" }}
+                        title={meeting.duration + " min "}
+                      />
+                      <Button
+                        style={{
+                          display: "inline-block",
+                          right: 0,
+                          verticalAlign: "middle",
+                        }}
+                        variant="outlined"
+                        className={classes.button}
+                      >
                         CREATE LINK
                       </Button>
                     </div>
@@ -232,8 +260,7 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
   },
   dividerTop: {
-    color: "red",
-    height: 4,
+    height: 10,
     width: "100%",
   },
   dividerInCardContent: {
