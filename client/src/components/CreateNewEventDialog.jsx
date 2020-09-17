@@ -20,7 +20,7 @@ function CreateNewEventDialog(props) {
     function durationButtonClicked(duration) {
         setDuration(duration);
     }
-    
+
 
     return (
         <Dialog 
@@ -63,7 +63,7 @@ function CreateNewEventDialog(props) {
                 />
                 <div className={classes.meetingURL}>
                     <p>
-                        calendapp.com/benjaminlee-kr/
+                        calendapp.com {window.location.pathname}
                     </p>
                     <TextField
                         id="url"
