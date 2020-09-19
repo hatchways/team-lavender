@@ -10,6 +10,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import Divider from "@material-ui/core/Divider";
+import Box from "@material-ui/core/Box";
 import CreateNewEventDialog from "../components/CreateNewEventDialog";
 import Meeting from "../utils/createMeeting";
 import UserContext from "../utils/userContext";
@@ -73,6 +74,22 @@ const MainContent = () => {
       setOpen(false);
     }
   };
+  const RandomColor = () => {
+    const colors = [
+      "#90EE90",
+      "#FFA07A",
+      "#FFB6C1",
+      "#ff5050",
+      "#00cc99",
+      "#ffff66",
+      "red",
+      "black",
+      "green",
+      "blue",
+      "#cc0099",
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
 
   return (
     <React.Fragment>
@@ -85,7 +102,10 @@ const MainContent = () => {
             <NavLink
               to="/eventtypes"
               activeClassName="selected"
-              activeStyle={{ color: "#F78104" }}
+              activeStyle={{
+                color: "#F78104",
+                borderBottom: "5px solid #F78104",
+              }}
               className={classes.link}
             >
               EVENT TYPES
@@ -93,8 +113,11 @@ const MainContent = () => {
             <NavLink
               to="/scheduledevents"
               activeClassName="selected"
-              activeStyle={{ color: "#F78104" }}
               className={classes.link}
+              activeStyle={{
+                color: "#F78104",
+                borderBottom: "5px solid #F78104",
+              }}
             >
               SCHEDULED EVENTS
             </NavLink>
@@ -132,10 +155,16 @@ const MainContent = () => {
           </Grid>
           {/* cards */}
         </Container>
-        <Container maxWidth="md" component="main">
+        <hr
+          style={{
+            width: "90%",
+            marginBottom: 20,
+          }}
+        ></hr>
+        <Container component="main">
           <Grid container spacing={5} alignItems="flex-end">
             {meetings.map((meeting) => (
-              <Grid item key={meeting.eventURL} xs={12} sm={6} md={4}>
+              <Grid item key={meeting.eventURL} xs={12} sm={6} md={4} lg={3}>
                 <Card className={classes.card}>
                   <CardContent
                     style={{
@@ -146,9 +175,7 @@ const MainContent = () => {
                     <div
                       className={classes.dividerTop}
                       style={{
-                        background:
-                          "#" +
-                          Math.floor(Math.random() * 16777215).toString(16),
+                        background: RandomColor(),
                       }}
                     />
 
@@ -159,13 +186,14 @@ const MainContent = () => {
                       style={{
                         textAlign: "center",
                         paddingTop: 20,
+                        textTransform: "uppercase",
                       }}
                     >
-                      {"calendapp/" + user.calendarUrl + "/" + meeting.eventURL}
+                      {meeting.eventURL}
                     </Typography>
 
                     <Divider className={classes.dividerInCardContent} />
-                    <div className={classes.belowDividerinCardContent}>
+                    <div style={{ display: "block", position: "relative" }}>
                       <CardHeader
                         style={{ display: "inline-block" }}
                         title={meeting.duration + " min "}
@@ -173,13 +201,14 @@ const MainContent = () => {
                       <Button
                         style={{
                           display: "inline-block",
-                          right: 0,
-                          verticalAlign: "middle",
+                          position: "absolute",
+                          right: 5,
+                          marginTop: 15,
                         }}
                         variant="outlined"
                         className={classes.button}
                       >
-                        CREATE LINK
+                        COPY LINK
                       </Button>
                     </div>
                   </CardContent>
@@ -237,11 +266,10 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
     textTransform: "uppercase",
     textDecoration: "none",
+    paddingBottom: 3,
     "&:hover": {
       color: "#F78104",
-    },
-    "&:active": {
-      color: "#F78104",
+      borderBottom: "5px solid #808080",
     },
   },
   avatar: {
@@ -260,14 +288,11 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
   },
   dividerTop: {
-    height: 10,
+    height: 7,
     width: "100%",
   },
   dividerInCardContent: {
-    margin: "30px auto",
-  },
-  BelowDividerinCardContent: {
-    display: "flex",
+    margin: "30px 10px 10px 15px",
   },
 }));
 
