@@ -33,7 +33,7 @@ function App() {
         if (response) {
           setUser({
             user: response,
-            isAuthenticate: true,
+            isAuthenticated: true,
           });
         }
       });
