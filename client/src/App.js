@@ -16,6 +16,7 @@ import AppointmentConfirm from "./pages/ScheduleCalendar/ConfirmPage";
 import Test from "./pages/Test";
 import API from "./utils/googleAPI";
 import UserContext from "./utils/userContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import "./App.css";
 
@@ -32,7 +33,7 @@ function App() {
         if (response) {
           setUser({
             user: response,
-            isAuthenticated: true,
+            isAuthenticate: true,
           });
         }
       });
@@ -47,26 +48,26 @@ function App() {
             <Route exact path="/" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/test" component={Test} />
-            <Route
+            <ProtectedRoute
               path="/:calendarUrl/profile_setting/timezone"
               component={Timezone}
             />
-            <Route
+            <ProtectedRoute
               path="/:calendarUrl/profile_setting/confirm"
               component={Confirm}
             />
-            <Route
+            <ProtectedRoute
               path="/:calendarUrl/profile_setting/availability"
               component={Availability}
             />
-            <Route path="/:calendarUrl/upgrade" component={Upgrade} />
+            <ProtectedRoute path="/:calendarUrl/upgrade" component={Upgrade} />
             <Route
               exact
               path="/:calendarUrl/:eventURL/confirm"
               component={AppointmentConfirm}
             />
             <Route exact path="/:calendarUrl/:eventUrl" component={Schedule} />
-            <Route exact path="/:calendarUrl" component={Dashboard} />
+            <ProtectedRoute exact path="/:calendarUrl" component={Dashboard} />
           </Switch>
         </BrowserRouter>
       </UserContext.Provider>
