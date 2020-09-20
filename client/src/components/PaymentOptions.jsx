@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -9,8 +9,10 @@ import Divider from "@material-ui/core/Divider";
 import SubscribeBtn from "../components/subscriptionBtn";
 import SubscribeDeleteBtn from "../components/subscriptionDeleteBtn";
 import axios from "axios";
+import UserContext from "../utils/userContext";
 
 const PaymentOptions = () => {
+  const { user } = useContext(UserContext);
   const classes = useStyles();
   const [url, setUrl] = useState(
     window.location.pathname.replace("/upgrade", "").replace("/", "")
@@ -20,7 +22,7 @@ const PaymentOptions = () => {
     axios
       .get("http://localhost:3001/upgrade/checkSubscription", {
         params: {
-          calendarUrl: url,
+          calendarUrl: user.calendarUrl,
         },
       })
       .then((response) => {

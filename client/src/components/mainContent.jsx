@@ -42,7 +42,7 @@ const MainContent = () => {
     axios
       .get("http://localhost:3001/meeting/", {
         params: {
-          id: userId,
+          id: user._id,
         },
       })
       .then((response) => {
