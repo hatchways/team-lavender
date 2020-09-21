@@ -42,7 +42,7 @@ const MainContent = () => {
     axios
       .get("http://localhost:3001/meeting/", {
         params: {
-          id: userId,
+          id: user._id,
         },
       })
       .then((response) => {
@@ -233,6 +233,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#ffffff",
     flexGrow: 1,
     marginTop: 10,
+    "-webkit-box-shadow": "0px 5px 0px 0px rgba(196,196,196,0.5)",
   },
   container2: {
     background: "transparent",

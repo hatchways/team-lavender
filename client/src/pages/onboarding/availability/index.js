@@ -14,7 +14,7 @@ import AvailabilityPageStyle from "./style";
 import UserContext from "../../../utils/userContext";
 
 function AvailabilityPage(props) {
-  const { isAuthenticated } = useContext(UserContext);
+  const { user, isAuthenticated } = useContext(UserContext);
   const jwtToken = localStorage.getItem("jwtToken");
   //if user is not authenticated, redirect to login page
   if (!jwtToken && !isAuthenticated) {
@@ -83,48 +83,21 @@ function AvailabilityPage(props) {
     return users.availableDays;
   }
 
-  function getCurrentUserId() {
-    return axios
-      .get(`http://localhost:3001/user/is_unique`, {
-        params: {
-          calendarUrl: url.calendarUrl,
-        },
-      })
-      .then((res) => {
-        console.log(res.data, users.calendarUrl);
-      })
-      .catch((err) => {
-        if (err.response.data.message === "this url is not unique") {
-          console.log(
-            err.response.data.message,
-            err.response.data,
-            err.response.data.id
-          );
-          return err.response.data.id;
-        } else {
-          alert("Something went wrong");
-          window.location.reload();
-        }
-      });
-  }
-
   function onFinish(e) {
-    getCurrentUserId().then((data) => {
-      e.preventDefault();
-      console.log(data);
-      if (users.availableHoursFrom === "" || users.availableHoursTo === "") {
-        alert("Please make sure all fields have a value");
-        window.location = url.prev;
-      }
-      axios
-        .put(`http://localhost:3001/user/${data}`, users)
-        .then((res) => {
-          console.log(res.data);
-          console.log(url.calendarUrl, users.calendarUrl);
-          window.location = "/" + users.calendarUrl;
-        })
-        .catch((err) => console.log("Error: " + err));
-    });
+    e.preventDefault();
+    console.log(user._id);
+    if (users.availableHoursFrom === "" || users.availableHoursTo === "") {
+      alert("Please make sure all fields have a value");
+      window.location = url.prev;
+    }
+    axios
+      .put(`http://localhost:3001/user/${user._id}`, users)
+      .then((res) => {
+        console.log(res.data);
+        console.log(url.calendarUrl, users.calendarUrl);
+        window.location = "/" + users.calendarUrl;
+      })
+      .catch((err) => console.log("Error: " + err));
   }
 
   return (

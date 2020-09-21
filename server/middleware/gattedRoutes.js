@@ -1,12 +1,17 @@
-const jwt = require("jasonwebtoken");
-
 module.exports = (req, res, next) => {
   try {
     token = req.headers.authenticate;
-    const decoded = jwt.verify(token, process.env.JWT_KEY);
-    req.userData = decoded;
-    next();
-  } catch (error) {
-    return res.status(401).json("Invalid credentials");
+    fetch(`/api/google/jwtToken?token=${token}`)
+      .then((res) => {
+        if (res.status === 200) {
+          next();
+          return res.json({});
+        } else throw Error("Token is not authenticated");
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  } catch (err) {
+    console.log(err);
   }
 };
