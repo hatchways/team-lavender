@@ -3,7 +3,7 @@ import axios from "axios";
 export default {
   // create a event with current user ID
   createAppointment: async function (data) {
-    const url = "http://localhost:3001/appointments/add";
+    const url = "/appointments/add";
 
     let options = {
       method: "POST",
@@ -17,7 +17,7 @@ export default {
     let response = await axios(options);
     // add a call to goggle calendar insert event
     axios
-      .post(`http://localhost:3001/api/google/addAppointment`, data)
+      .post(`/api/google/addAppointment`, data)
       .then((res) => {
         console.log(res);
       })

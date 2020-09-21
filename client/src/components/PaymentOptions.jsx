@@ -20,7 +20,7 @@ const PaymentOptions = () => {
   const [currentPlan, setCurrentPlan] = useState("free basic plan");
   useEffect(() => {
     axios
-      .get("http://localhost:3001/upgrade/checkSubscription", {
+      .get("/upgrade/checkSubscription", {
         params: {
           calendarUrl: user.calendarUrl,
         },

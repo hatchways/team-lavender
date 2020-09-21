@@ -28,7 +28,7 @@ const MainContent = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/user/findUser", {
+      .get("/user/findUser", {
         params: {
           calendarUrl: url,
         },
@@ -40,7 +40,7 @@ const MainContent = () => {
       .catch((err) => console.log("Error: " + err));
 
     axios
-      .get("http://localhost:3001/meeting/", {
+      .get("/meeting/", {
         params: {
           id: user._id,
         },
