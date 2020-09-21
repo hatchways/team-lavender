@@ -19,4 +19,4 @@
 3. Team Member - Mila Mamat [GitHub](https://github.com/mila-mamat)
 4. Team Member - Younhee Lee [GitHub](https://github.com/ylee297)
 
-### [Video](https://share.vidyard.com/watch/6JF5GWzw9JCDcZNvAtw2jb?) Preliminary Demo
+### [Video](https://share.vidyard.com/watch/6JF5GWzw9JCDcZNvAtw2jb?) Preliminary Demo Video
