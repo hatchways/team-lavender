@@ -59,4 +59,6 @@ app.use(function (err, req, res, next) {
   res.json({ error: err });
 });
 
+app.listen(process.env.PORT || 3001);
+
 module.exports = app;
