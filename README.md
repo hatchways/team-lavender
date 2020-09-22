@@ -4,14 +4,14 @@
 - [Purpose](#purpose)
 - [Team](#team)
 - [Stack](#stack)
-- [Screenshots] (#screenshots)
+- [Screenshots](#screenshots)
 
 
 # Preview
 
 This project is currently live at https://ancient-hollows-14779.herokuapp.com/ still work in progress
 
-![Login Preview](/pics/login.png)
+![Login Preview](./pics/login.PNG)
 
 
 # Purpose
@@ -36,11 +36,11 @@ This project is currently live at https://ancient-hollows-14779.herokuapp.com/ s
 4. Team Member - Younhee Lee [GitHub](https://github.com/ylee297)
 
 # Screenshots
-![Dashboard](./pics/dashboard.png)
+![Dashboard](./pics/dashboard.PNG)
 
 Appointmnet booking
-![Booking](./pics/booking.png)
-![Attendees](./pics/attendees.png)
+![Booking](./pics/booking.PNG)
+![Attendees](./pics/attendees.PNG)
 
 
 # [Video](https://share.vidyard.com/watch/6JF5GWzw9JCDcZNvAtw2jb?) Preliminary Demo
