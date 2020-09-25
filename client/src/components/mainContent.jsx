@@ -15,6 +15,7 @@ import CreateNewEventDialog from "../components/CreateNewEventDialog";
 import Meeting from "../utils/createMeeting";
 import UserContext from "../utils/userContext";
 import axios from "axios";
+import copyTextToClipboard from "copy-text-to-clipboard";
 
 const MainContent = () => {
   const { user } = useContext(UserContext);
@@ -89,6 +90,10 @@ const MainContent = () => {
       "#cc0099",
     ];
     return colors[Math.floor(Math.random() * colors.length)];
+  };
+  const CopyUrl = (event) => {
+    copyTextToClipboard(window.location + "/" + event);
+    alert("Copied");
   };
 
   return (
@@ -199,6 +204,7 @@ const MainContent = () => {
                         title={meeting.duration + " min "}
                       />
                       <Button
+                        onClick={() => CopyUrl(meeting.eventURL)}
                         style={{
                           display: "inline-block",
                           position: "absolute",
