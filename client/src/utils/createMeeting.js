@@ -11,6 +11,7 @@ export default {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
+        authenticate: localStorage.getItem("jwtToken"),
       },
       data: data,
     };

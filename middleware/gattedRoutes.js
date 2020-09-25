@@ -1,16 +1,14 @@
+const jwt = require("jsonwebtoken");
+
 module.exports = (req, res, next) => {
   try {
     token = req.headers.authenticate;
-    fetch(`/api/google/jwtToken?token=${token}`)
-      .then((res) => {
-        if (res.status === 200) {
-          next();
-          return res.json({});
-        } else throw Error("Token is not authenticated");
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    jwt.verify(token, process.env.JWT_KEY, function (err, decoded) {
+      if (err) return res.status(401).send("Token is invalid");
+      else {
+        next();
+      }
+    });
   } catch (err) {
     console.log(err);
   }

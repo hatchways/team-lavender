@@ -87,7 +87,7 @@ function createJWT(dbModel) {
     calendarUrl: calendarUrl,
   };
 
-  return jwt.sign(user, "teamLavender");
+  return jwt.sign(user, process.env.JWT_KEY);
 }
 
 function refreshUserToken(oAuth2Client, user) {
@@ -199,7 +199,6 @@ function authenticateUser(req, res) {
 }
 
 function getAvailability(req, res) {
-
   const { query } = req;
   const date = `${query.year}-${query.month}-${query.date}`; // 2020-08-20
   const meetingLength = parseInt(query.meetingLength); // "30min" => 30
@@ -271,7 +270,8 @@ function addAppointment(req, res) {
         user = dbModel;
         //check is access_token is expired and refresh if it is
         const isExpired = moment(parseInt(user.expiryDate)) < moment();
-        if (isExpired) user = await refreshUserToken(oAuth2ClientRequested, user);
+        if (isExpired)
+          user = await refreshUserToken(oAuth2ClientRequested, user);
         // get duartion from eventURL
         let query = { eventURL: eventURL };
         const meeting = await Meetings.find(query);
@@ -326,7 +326,7 @@ function addAppointment(req, res) {
 
 function verifyToken(req, res) {
   const token = req.query.token;
-  jwt.verify(token, "teamLavender", function (err, decoded) {
+  jwt.verify(token, process.env.JWT_KEY, function (err, decoded) {
     if (err) return res.status(401).send("Token is invalid");
     return res.status(200).send(decoded);
   });

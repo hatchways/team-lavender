@@ -3,7 +3,7 @@ const router = express.Router();
 const meetingController = require("../controllers/meetingController");
 const gattedRoutes = require("../middleware/gattedRoutes");
 
-router.post("/", meetingController.createMeeting);
+router.post("/", gattedRoutes, meetingController.createMeeting);
 
 router.get("/", meetingController.getLoggedInUserMeetings);
 
