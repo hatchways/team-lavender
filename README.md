@@ -35,6 +35,7 @@ This project is currently live at https://ancient-hollows-14779.herokuapp.com/ s
 3. Team Member - Mila Mamat [GitHub](https://github.com/mila-mamat)
 4. Team Member - Younhee Lee [GitHub](https://github.com/ylee297)
 
+
 # Screenshots
 ![Dashboard](./pics/dashboard.PNG)
 
@@ -44,3 +45,4 @@ Appointmnet booking
 
 
 # [Video](https://share.vidyard.com/watch/6JF5GWzw9JCDcZNvAtw2jb?) Preliminary Demo
+

@@ -31,7 +31,7 @@ function SubcribeBtn(props) {
       product,
     };
     axios
-      .post("http://localhost:3001/upgrade/payment", body)
+      .post("/upgrade/payment", body)
       .then((response) => {
         console.log("Response", response);
         alert(response.data);
