@@ -47,7 +47,7 @@ function LoginBtn(props) {
       scope="https://www.googleapis.com/auth/calendar.events"
       responseType="code"
       accessType="offline"
-      redirectUri="http://localhost:3001"
+      redirectUri="http://localhost:3000"
       className={props.className}
     />
   );
