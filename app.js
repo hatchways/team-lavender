@@ -26,7 +26,10 @@ app.use(logger("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
+// for deployment
 app.use(express.static(path.join(__dirname, "client", "build")));
+
+//dont delete for running on local host
 //app.use(express.static(join(__dirname, "public")));
 
 app.use(cors());
