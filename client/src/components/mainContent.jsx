@@ -101,7 +101,7 @@ const MainContent = () => {
       <div style={{ background: "#EBF4FA" }}>
         <div className={classes.container}>
           <Typography varient="title" className={classes.title}>
-            My CalendApp
+            My calendapp
           </Typography>
           <Typography style={{ marginLeft: 80, marginTop: 20 }}>
             <NavLink
