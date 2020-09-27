@@ -1,7 +1,7 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import axios from "axios";
-import UserContext from "../../../utils/userContext"
-import moment from 'moment-timezone';
+import UserContext from "../../../utils/userContext";
+import moment from "moment-timezone";
 
 import {
   Button,
@@ -17,20 +17,16 @@ import { Link } from "react-router-dom";
 import TimezonePageStyle from "./style";
 
 function TimezonePage(props) {
-  const {isAuthenticated,user} = useContext(UserContext)
-  const jwtToken=localStorage.getItem("jwtToken")
-  //if user is not authenticated, redirect to login page
-  if(!jwtToken && !isAuthenticated){
-     window.location="/"
-  }
-  const localTimeZone=moment.tz.guess(); 
-console.log(localTimeZone)
-  const { classes } = props;
-  const [users, setUsers] = React.useState({ calendarUrl: user.calendarUrl, timezone: localTimeZone });
-  const [nextUrl, setUrl] = React.useState(
-    window.location.pathname.replace("timezone", "confirm")
-  );
+  const { isAuthenticated, user } = useContext(UserContext);
+  const jwtToken = localStorage.getItem("jwtToken");
 
+  const localTimeZone = moment.tz.guess();
+  console.log(localTimeZone);
+  const { classes } = props;
+  const [users, setUsers] = React.useState({
+    calendarUrl: user.calendarUrl,
+    timezone: localTimeZone,
+  });
   function onChangeUrl(e) {
     setUsers({ calendarUrl: e.target.value, timezone: users.timezone });
   }
@@ -44,17 +40,22 @@ console.log(localTimeZone)
       window.location.reload();
     }
     axios
-      .get(`http://localhost:3001/user/is_unique`, {
+      .get(`/user/is_unique`, {
         params: {
           calendarUrl: users.calendarUrl,
         },
       })
       .then((res) => {
+        e.preventDefault();
         console.log(res.data, users.calendarUrl);
+        window.location = "/" + user.calendarUrl + "/profile_setting/confirm";
       })
       .catch((err) => {
         e.preventDefault();
-        if (err.response.data.message === "this url is not unique") {
+        if (
+          typeof err.response !== "undefined" &&
+          err.response.data.message === "this url is not unique"
+        ) {
           console.log(err.response.data.message);
           alert("This url is taken, try a new one");
           window.location.reload();
@@ -100,8 +101,8 @@ console.log(localTimeZone)
                 <p>calendapp.com/</p>
                 <Divider orientation="vertical" flexItem />
                 <TextField
-                defaultValue={user.calendarUrl}
-                placeholder = {user.calendarUrl}
+                  defaultValue={user.calendarUrl}
+                  placeholder={user.calendarUrl}
                   className={
                     classes.belowDivider_firstDiv_secondDiv_textFieldWrapper_TextField
                   }
@@ -129,7 +130,7 @@ console.log(localTimeZone)
                 className={classes.belowDivider_secondDiv_secondDiv_FormControl}
               >
                 <InputLabel>Time Zone</InputLabel>
-                <Select onChange={onChangeTimezone} value={localTimeZone} >
+                <Select onChange={onChangeTimezone} value={localTimeZone}>
                   <MenuItem value={localTimeZone}>{localTimeZone}</MenuItem>
                   <MenuItem value={"UTC-7 PDT"}>UTC-7 PDT</MenuItem>
                   <MenuItem value={"UTC-6 MDT"}>UTC-6 MDT</MenuItem>
@@ -144,7 +145,7 @@ console.log(localTimeZone)
             <Link
               onClick={onContinue}
               to={{
-                pathname: nextUrl,
+                pathname: "/" + user.calendarUrl + "/profile_setting/confirm",
                 users: users,
               }}
               style={{ textDecoration: "none" }}

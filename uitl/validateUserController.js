@@ -8,18 +8,16 @@ exports.validateUniqueUrl = async function (req) {
 
   // Check that url is unique
   urls = await Users.find({ calendarUrl: req });
-  console.log(urls);
-  console.log(urls[0]["_id"]);
-  id = urls[0]["_id"];
 
   if (urls.length > 0) {
+    id = urls[0]["_id"];
     message = "this url is not unique";
     return { isValid, message, id };
   }
 
   isValid = true;
   message = "this url is unique";
-  return { isValid, message };
+  return { isValid, message, id };
 };
 
 exports.validateUserInfo = async function (req) {

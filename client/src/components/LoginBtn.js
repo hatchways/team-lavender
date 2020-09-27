@@ -18,7 +18,7 @@ function LoginBtn(props) {
       if (response.isNewUser) {
         window.location = `${response.calendarUrl}/profile_setting/timezone`;
       } else {
-        window.location = `${response.calendarUrl}`;
+        window.location = `/home`;
       }
     } else {
       //if user is already signed in, will return GoogleUser automatically

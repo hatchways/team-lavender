@@ -1,4 +1,4 @@
-import React, { useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -6,9 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import UserContext from "../utils/userContext";
-import LogoutBtn from "./LogoutBtn"
-
-
+import LogoutBtn from "./LogoutBtn";
 
 const NavBar = () => {
   const { user } = useContext(UserContext);
@@ -36,15 +34,15 @@ const NavBar = () => {
               Home
             </NavLink>
             <NavLink
-              to="/integration"
+              to={user.calendarUrl + "/profile_setting/timezone"}
               activeClassName="selected"
               activeStyle={{ color: "#F78104" }}
               className={classes.link}
             >
-              Integration
+              Settings
             </NavLink>
             <NavLink
-              to={url + "/upgrade"}
+              to="/upgrade"
               activeClassName="selected"
               activeStyle={{ color: "#F78104" }}
               className={classes.link}
@@ -58,7 +56,7 @@ const NavBar = () => {
             className={classes.avatar}
           />
           <Typography className={classes.userName}>{user.name}</Typography>
-         <LogoutBtn />
+          <LogoutBtn />
         </Toolbar>
       </AppBar>
     </React.Fragment>

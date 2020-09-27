@@ -22,7 +22,6 @@ const MainContent = () => {
 
   const classes = useStyles();
 
-  const [url, setUrl] = useState(window.location.pathname.replace("/", ""));
   const [userId, setUserId] = useState("");
   const [meetings, setMeetings] = useState([]);
   console.log(user);
@@ -31,7 +30,7 @@ const MainContent = () => {
     axios
       .get("/user/findUser", {
         params: {
-          calendarUrl: url,
+          calendarUrl: user.calendarUrl,
         },
       })
       .then((response) => {
@@ -105,7 +104,7 @@ const MainContent = () => {
           </Typography>
           <Typography style={{ marginLeft: 80, marginTop: 20 }}>
             <NavLink
-              to="/eventtypes"
+              to="/home"
               activeClassName="selected"
               activeStyle={{
                 color: "#F78104",

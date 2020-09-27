@@ -15,9 +15,9 @@ exports.checkUniqueUrl = async function (req, res) {
   const { isValid, message, id } = await validateUniqueUrl(url);
   if (!isValid) {
     return res.status(400).json({ message: message, id: id });
+  } else {
+    return res.status(200).json({ message: message });
   }
-
-  return res.status(200).json({ message: message });
 };
 
 // Update name, avaterUrl and timeZone

@@ -16,22 +16,12 @@ import UserContext from "../../../utils/userContext";
 function AvailabilityPage(props) {
   const { user, isAuthenticated } = useContext(UserContext);
   const jwtToken = localStorage.getItem("jwtToken");
-  //if user is not authenticated, redirect to login page
-  if (!jwtToken && !isAuthenticated) {
-    window.location = "/";
-  }
 
   const { classes } = props;
 
-  const [url] = React.useState({
-    prev: window.location.pathname.replace("availability", "timezone"),
-    calendarUrl: window.location.pathname
-      .replace("/profile_setting/availability", "")
-      .replace("/", ""),
-  });
   if (typeof props.location.users === "undefined") {
     alert("Missing information redirecting");
-    window.location = url.prev;
+    window.location = "/" + user.calendarUrl + "/profile_setting/timezone";
   }
   const [users, setUsers] = React.useState({
     timeZone: props.location.users.timezone,
@@ -40,10 +30,8 @@ function AvailabilityPage(props) {
     availableDays: [],
     calendarUrl: props.location.users.calendarUrl,
   });
-  console.log(users, url.calendarUrl);
 
   function onChangeAvailableHoursFrom(e) {
-    console.log("Users", users.timeZone);
     setUsers({
       timeZone: users.timeZone,
       availableHoursFrom: e.target.value,
@@ -51,7 +39,6 @@ function AvailabilityPage(props) {
       availableDays: users.availableDays,
       calendarUrl: users.calendarUrl,
     });
-    console.log("Users", users);
   }
   function onChangeAvailableHoursTo(e) {
     setUsers({
@@ -63,7 +50,6 @@ function AvailabilityPage(props) {
     });
   }
   function onChangeAvailableDays(e) {
-    console.log(e.target.value);
     setUsers({
       timeZone: users.timeZone,
       availableHoursFrom: users.availableHoursFrom,
@@ -85,17 +71,14 @@ function AvailabilityPage(props) {
 
   function onFinish(e) {
     e.preventDefault();
-    console.log(user._id);
     if (users.availableHoursFrom === "" || users.availableHoursTo === "") {
       alert("Please make sure all fields have a value");
-      window.location = url.prev;
+      window.location = "/" + user.calendarUrl + "/profile_setting/timezone";
     }
     axios
-      .put(`http://localhost:3001/user/${user._id}`, users)
+      .put(`/user/${user._id}`, users)
       .then((res) => {
-        console.log(res.data);
-        console.log(url.calendarUrl, users.calendarUrl);
-        window.location = "/" + users.calendarUrl;
+        window.location = "/home";
       })
       .catch((err) => console.log("Error: " + err));
   }

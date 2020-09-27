@@ -47,6 +47,8 @@ class App extends Component {
               <Route exact path="/" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/test" component={Test} />
+              <ProtectedRoute exact path="/home" component={Dashboard} />
+              <ProtectedRoute path="/upgrade" component={Upgrade} />
               <ProtectedRoute
                 path="/:calendarUrl/profile_setting/timezone"
                 component={Timezone}
@@ -59,10 +61,7 @@ class App extends Component {
                 path="/:calendarUrl/profile_setting/availability"
                 component={Availability}
               />
-              <ProtectedRoute
-                path="/:calendarUrl/upgrade"
-                component={Upgrade}
-              />
+
               <Route
                 exact
                 path="/:calendarUrl/:eventURL/confirm"
@@ -72,11 +71,6 @@ class App extends Component {
                 exact
                 path="/:calendarUrl/:eventUrl"
                 component={Schedule}
-              />
-              <ProtectedRoute
-                exact
-                path="/:calendarUrl"
-                component={Dashboard}
               />
             </Switch>
           </BrowserRouter>

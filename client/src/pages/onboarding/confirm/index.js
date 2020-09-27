@@ -1,28 +1,20 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 
 import { Button, Divider } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import ConfirmPageStyle from "./style";
-import UserContext from "../../../utils/userContext"
-
+import UserContext from "../../../utils/userContext";
 
 function ConfirmPage(props) {
-  const {isAuthenticated,user} = useContext(UserContext)
-  const jwtToken=localStorage.getItem("jwtToken")
-  //if user is not authenticated, redirect to login page
-  if(!jwtToken && !isAuthenticated){
-     window.location="/"
-  }
-  
+  const { isAuthenticated, user } = useContext(UserContext);
+  const jwtToken = localStorage.getItem("jwtToken");
+
   const { classes } = props;
-  const [url, setUrl] = React.useState({
-    next: window.location.pathname.replace("confirm", "availability"),
-    prev: window.location.pathname.replace("confirm", "timezone"),
-  });
+
   if (typeof props.location.users === "undefined") {
     alert("Missing information redirecting");
-    window.location = url.prev;
+    window.location = "/" + user.calendarUrl + "/profile_setting/timezone";
   }
   const [users] = React.useState(props.location.users);
 
@@ -72,7 +64,11 @@ function ConfirmPage(props) {
           <Divider />
           <div className={classes.belowDivider_fourthDiv}>
             <Link
-              to={{ pathname: url.next, users: users }}
+              to={{
+                pathname:
+                  "/" + user.calendarUrl + "/profile_setting/availability",
+                users: users,
+              }}
               style={{ textDecoration: "none" }}
             >
               <Button className={classes.belowDivider_fourthDiv_continueButton}>
