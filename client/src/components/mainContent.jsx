@@ -32,6 +32,11 @@ const MainContent = () => {
         params: {
           calendarUrl: user.calendarUrl,
         },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+          authenticate: localStorage.getItem("jwtToken"),
+        },
       })
       .then((response) => {
         console.log(response.data._id);
@@ -43,6 +48,11 @@ const MainContent = () => {
       .get("/meeting/", {
         params: {
           id: user._id,
+        },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+          authenticate: localStorage.getItem("jwtToken"),
         },
       })
       .then((response) => {

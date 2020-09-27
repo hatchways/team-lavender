@@ -76,7 +76,13 @@ function AvailabilityPage(props) {
       window.location = "/" + user.calendarUrl + "/profile_setting/timezone";
     }
     axios
-      .put(`/user/${user._id}`, users)
+      .put(`/user/${user._id}`, users, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+          authenticate: localStorage.getItem("jwtToken"),
+        },
+      })
       .then((res) => {
         window.location = "/home";
       })

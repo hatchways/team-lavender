@@ -14,15 +14,17 @@ import UserContext from "../utils/userContext";
 const PaymentOptions = () => {
   const { user } = useContext(UserContext);
   const classes = useStyles();
-  const [url, setUrl] = useState(
-    window.location.pathname.replace("/upgrade", "").replace("/", "")
-  );
   const [currentPlan, setCurrentPlan] = useState("free basic plan");
   useEffect(() => {
     axios
       .get("/upgrade/checkSubscription", {
         params: {
           calendarUrl: user.calendarUrl,
+        },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+          authenticate: localStorage.getItem("jwtToken"),
         },
       })
       .then((response) => {

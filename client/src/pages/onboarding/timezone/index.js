@@ -44,12 +44,13 @@ function TimezonePage(props) {
         params: {
           calendarUrl: users.calendarUrl,
         },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+          authenticate: localStorage.getItem("jwtToken"),
+        },
       })
-      .then((res) => {
-        e.preventDefault();
-        console.log(res.data, users.calendarUrl);
-        window.location = "/" + user.calendarUrl + "/profile_setting/confirm";
-      })
+      .then((res) => {})
       .catch((err) => {
         e.preventDefault();
         if (

@@ -23,7 +23,6 @@ exports.checkUniqueUrl = async function (req, res) {
 // Update name, avaterUrl and timeZone
 exports.updateUserInfo = async function (req, res) {
   userId = req.params.id;
-  console.log("usersId", userId, req.body);
   const { isValid, message } = await validateUserInfo(req);
 
   if (!isValid) {
@@ -31,7 +30,6 @@ exports.updateUserInfo = async function (req, res) {
   }
 
   try {
-    console.log("try");
     // update
     Users.collection.updateOne(
       {

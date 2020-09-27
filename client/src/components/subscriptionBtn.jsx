@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import UserContext from "../utils/userContext";
 
 function SubcribeBtn(props) {
+  const { user } = useContext(UserContext);
   const classes = useStyles();
 
   function setPrice() {
@@ -16,14 +18,10 @@ function SubcribeBtn(props) {
     }
   }
 
-  const [url, setUrl] = useState(
-    window.location.pathname.replace("/upgrade", "").replace("/", "")
-  );
-
   const [product, setProduct] = useState({
     name: props.type,
     price: setPrice(),
-    calendUrl: url,
+    calendUrl: user.calendarUrl,
   });
   const makePayment = (token) => {
     const body = {
@@ -31,7 +29,13 @@ function SubcribeBtn(props) {
       product,
     };
     axios
-      .post("/upgrade/payment", body)
+      .post("/upgrade/payment", body, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+          authenticate: localStorage.getItem("jwtToken"),
+        },
+      })
       .then((response) => {
         console.log("Response", response);
         alert(response.data);

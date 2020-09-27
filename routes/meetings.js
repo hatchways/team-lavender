@@ -5,7 +5,7 @@ const gattedRoutes = require("../middleware/gattedRoutes");
 
 router.post("/", gattedRoutes, meetingController.createMeeting);
 
-router.get("/", meetingController.getLoggedInUserMeetings);
+router.get("/", gattedRoutes, meetingController.getLoggedInUserMeetings);
 
 router.post("/confirmemail", meetingController.sendConfirmEmail);
 

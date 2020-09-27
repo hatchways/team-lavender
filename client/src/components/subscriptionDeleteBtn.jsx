@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import UserContext from "../utils/userContext";
 
 function SubcribeDeleteBtn() {
+  const { user } = useContext(UserContext);
   const classes = useStyles();
-  const [url, setUrl] = useState(
-    window.location.pathname.replace("/upgrade", "").replace("/", "")
-  );
   const body = {
-    url,
+    url: user.calendarUrl,
   };
   function handleCancelation() {
     axios
-      .post("/upgrade/delete", body)
+      .post("/upgrade/delete", body, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+          authenticate: localStorage.getItem("jwtToken"),
+        },
+      })
       .then((response) => {
         console.log("Response", response);
         alert(response.data);
