@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Component } from "react";
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
@@ -19,60 +19,71 @@ import UserContext from "./utils/userContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import "./App.css";
-
-function App() {
-  const [user, setUser] = useState({
-    user: "",
-    isAuthenticated: false,
-  });
-
-  useEffect(() => {
+class App extends Component {
+  constructor() {
+    super();
+    this.state = { user: "", isAuthenticated: false };
+  }
+  async componentWillMount() {
     let jwtToken = localStorage.getItem("jwtToken");
     if (jwtToken) {
-      API.isTokenAuthenticated(jwtToken).then((response) => {
+      await API.isTokenAuthenticated(jwtToken).then((response) => {
         if (response) {
-          setUser({
+          this.setState({
             user: response,
             isAuthenticated: true,
           });
         }
       });
     }
-  }, []);
+  }
 
-  return (
-    <MuiThemeProvider theme={theme}>
-      <UserContext.Provider value={user}>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/" component={Signup} />
-            <Route path="/login" component={Login} />
-            <Route path="/test" component={Test} />
-            <ProtectedRoute
-              path="/:calendarUrl/profile_setting/timezone"
-              component={Timezone}
-            />
-            <ProtectedRoute
-              path="/:calendarUrl/profile_setting/confirm"
-              component={Confirm}
-            />
-            <ProtectedRoute
-              path="/:calendarUrl/profile_setting/availability"
-              component={Availability}
-            />
-            <ProtectedRoute path="/:calendarUrl/upgrade" component={Upgrade} />
-            <Route
-              exact
-              path="/:calendarUrl/:eventURL/confirm"
-              component={AppointmentConfirm}
-            />
-            <Route exact path="/:calendarUrl/:eventUrl" component={Schedule} />
-            <ProtectedRoute exact path="/:calendarUrl" component={Dashboard} />
-          </Switch>
-        </BrowserRouter>
-      </UserContext.Provider>
-    </MuiThemeProvider>
-  );
+  render() {
+    return (
+      <MuiThemeProvider theme={theme}>
+        <UserContext.Provider value={this.state}>
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/" component={Signup} />
+              <Route path="/login" component={Login} />
+              <Route path="/test" component={Test} />
+              <ProtectedRoute
+                path="/:calendarUrl/profile_setting/timezone"
+                component={Timezone}
+              />
+              <ProtectedRoute
+                path="/:calendarUrl/profile_setting/confirm"
+                component={Confirm}
+              />
+              <ProtectedRoute
+                path="/:calendarUrl/profile_setting/availability"
+                component={Availability}
+              />
+              <ProtectedRoute
+                path="/:calendarUrl/upgrade"
+                component={Upgrade}
+              />
+              <Route
+                exact
+                path="/:calendarUrl/:eventURL/confirm"
+                component={AppointmentConfirm}
+              />
+              <Route
+                exact
+                path="/:calendarUrl/:eventUrl"
+                component={Schedule}
+              />
+              <ProtectedRoute
+                exact
+                path="/:calendarUrl"
+                component={Dashboard}
+              />
+            </Switch>
+          </BrowserRouter>
+        </UserContext.Provider>
+      </MuiThemeProvider>
+    );
+  }
 }
 
 export default App;

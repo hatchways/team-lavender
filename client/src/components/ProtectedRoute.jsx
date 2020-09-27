@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Route } from "react-router-dom";
 import UserContext from "../utils/userContext";
+import Login from "../pages/Login";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   const { user, isAuthenticated } = useContext(UserContext);
@@ -11,7 +12,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
         if (isAuthenticated) {
           return <Component {...props} />;
         } else {
-          return <div></div>;
+          return <Login />;
         }
       }}
     />
