@@ -101,7 +101,9 @@ const MainContent = () => {
     return colors[Math.floor(Math.random() * colors.length)];
   };
   const CopyUrl = (event) => {
-    copyTextToClipboard(window.location + "/" + event);
+    copyTextToClipboard(
+      window.location.origin + "/" + user.calendarUrl + "/" + event
+    );
     alert("Copied");
   };
 

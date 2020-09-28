@@ -5,7 +5,7 @@ const gatedRoute = require("../middleware/gattedRoutes");
 
 router.post("/add", appointmentController.createAppointment);
 
-//not sure where its used
+//TBD
 router.get(
   "/:meetingId",
   gatedRoute,
